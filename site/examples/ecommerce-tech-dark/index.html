@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-themes="tech-dark,blueprint,cyberpunk-neon" data-site-id="ecommerce-tech-dark">
+<head>
+  <meta charset="utf-8">
+  <title>电商系统总览</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/base.css">
+  <link rel="stylesheet" id="theme-link" href="../../../assets/themes/tech-dark.css">
+</head>
+<body data-mode="single">
+  <div id="report-container" class="container">
+    <header>
+      <h1>电商系统总览</h1>
+      <p class="subtitle">Reference multi-page site — drill into any ↗ component</p>
+    </header>
+
+    <div class="diagram-wrapper">
+      <svg viewBox="0 0 1000 700" style="width: 100%; height: auto;">
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="var(--grid)" stroke-width="0.5"/>
+          </pattern>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="var(--text-3)" />
+          </marker>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)"/>
+
+        <!-- ARROWS GO FIRST (so they render behind boxes) -->
+        <!-- Browser → API Gateway -->
+        <line x1="500" y1="90" x2="500" y2="148"
+              stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <!-- API Gateway → UserService -->
+        <line x1="420" y1="210" x2="240" y2="268"
+              stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <!-- API Gateway → OrderService -->
+        <line x1="500" y1="210" x2="500" y2="268"
+              stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <!-- API Gateway → PaymentService -->
+        <line x1="580" y1="210" x2="760" y2="268"
+              stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <!-- UserService → PostgreSQL -->
+        <line x1="200" y1="340" x2="340" y2="438"
+              stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <!-- OrderService → PostgreSQL -->
+        <line x1="460" y1="340" x2="390" y2="438"
+              stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <!-- PaymentService → PostgreSQL -->
+        <line x1="760" y1="340" x2="460" y2="490"
+              stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <!-- UserService → Redis -->
+        <line x1="220" y1="340" x2="580" y2="440"
+              stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <!-- OrderService → Kafka -->
+        <line x1="540" y1="340" x2="720" y2="440"
+              stroke="var(--sem-bus)" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowhead)"/>
+        <!-- PaymentService → Kafka -->
+        <line x1="800" y1="340" x2="780" y2="440"
+              stroke="var(--sem-bus)" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowhead)"/>
+
+        <!-- COMPONENTS -->
+
+        <!-- User Browser (Frontend) -->
+        <rect x="400" y="30" width="200" height="60" rx="6" fill="var(--bg-2)"/>
+        <rect x="400" y="30" width="200" height="60" rx="6"
+              fill="var(--sem-frontend)" fill-opacity="0.4"
+              stroke="var(--sem-frontend)" stroke-width="1.5"/>
+        <text x="500" y="52" fill="var(--text-1)"
+              font-size="12" font-weight="600" text-anchor="middle"
+              font-family="var(--font-display)">User Browser</text>
+        <text x="500" y="68" fill="var(--text-2)"
+              font-size="9" text-anchor="middle" font-family="var(--font-display)">SPA · React / Vue</text>
+
+        <!-- API Gateway (Generic) -->
+        <rect x="380" y="150" width="240" height="60" rx="6" fill="var(--bg-2)"/>
+        <rect x="380" y="150" width="240" height="60" rx="6"
+              fill="var(--sem-generic)" fill-opacity="0.4"
+              stroke="var(--sem-generic)" stroke-width="1.5"/>
+        <text x="500" y="172" fill="var(--text-1)"
+              font-size="12" font-weight="600" text-anchor="middle"
+              font-family="var(--font-display)">API Gateway</text>
+        <text x="500" y="188" fill="var(--text-2)"
+              font-size="9" text-anchor="middle" font-family="var(--font-display)">Nginx · Auth · Rate Limit</text>
+
+        <!-- UserService (Drillable) -->
+        <a xlink:href="pages/user-service.html">
+          <rect x="120" y="270" width="160" height="60" rx="6" fill="var(--bg-2)"/>
+          <rect x="120" y="270" width="160" height="60" rx="6"
+                fill="var(--sem-backend)" fill-opacity="0.4"
+                stroke="var(--sem-backend)" stroke-width="1.5"/>
+          <text x="200" y="292" fill="var(--text-1)"
+                font-size="12" font-weight="600" text-anchor="middle"
+                font-family="var(--font-display)">UserService</text>
+          <text x="200" y="308" fill="var(--text-2)"
+                font-size="9" text-anchor="middle" font-family="var(--font-display)">Spring Boot · Java 21</text>
+          <text x="270" y="286" fill="var(--accent)" font-size="14"
+                text-anchor="end" font-weight="700" style="cursor:pointer;">↗</text>
+        </a>
+
+        <!-- OrderService (Drillable) -->
+        <a xlink:href="pages/order-service.html">
+          <rect x="420" y="270" width="160" height="60" rx="6" fill="var(--bg-2)"/>
+          <rect x="420" y="270" width="160" height="60" rx="6"
+                fill="var(--sem-backend)" fill-opacity="0.4"
+                stroke="var(--sem-backend)" stroke-width="1.5"/>
+          <text x="500" y="292" fill="var(--text-1)"
+                font-size="12" font-weight="600" text-anchor="middle"
+                font-family="var(--font-display)">OrderService</text>
+          <text x="500" y="308" fill="var(--text-2)"
+                font-size="9" text-anchor="middle" font-family="var(--font-display)">Spring Boot · Java 21</text>
+          <text x="570" y="286" fill="var(--accent)" font-size="14"
+                text-anchor="end" font-weight="700" style="cursor:pointer;">↗</text>
+        </a>
+
+        <!-- PaymentService (Drillable) -->
+        <a xlink:href="pages/payment-service.html">
+          <rect x="720" y="270" width="160" height="60" rx="6" fill="var(--bg-2)"/>
+          <rect x="720" y="270" width="160" height="60" rx="6"
+                fill="var(--sem-backend)" fill-opacity="0.4"
+                stroke="var(--sem-backend)" stroke-width="1.5"/>
+          <text x="800" y="292" fill="var(--text-1)"
+                font-size="12" font-weight="600" text-anchor="middle"
+                font-family="var(--font-display)">PaymentService</text>
+          <text x="800" y="308" fill="var(--text-2)"
+                font-size="9" text-anchor="middle" font-family="var(--font-display)">Spring Boot · Java 21</text>
+          <text x="870" y="286" fill="var(--accent)" font-size="14"
+                text-anchor="end" font-weight="700" style="cursor:pointer;">↗</text>
+        </a>
+
+        <!-- PostgreSQL (DB) -->
+        <rect x="340" y="440" width="120" height="80" rx="6" fill="var(--bg-2)"/>
+        <rect x="340" y="440" width="120" height="80" rx="6"
+              fill="var(--sem-db)" fill-opacity="0.4"
+              stroke="var(--sem-db)" stroke-width="1.5"/>
+        <text x="400" y="466" fill="var(--text-1)"
+              font-size="12" font-weight="600" text-anchor="middle"
+              font-family="var(--font-display)">PostgreSQL</text>
+        <text x="400" y="482" fill="var(--text-2)"
+              font-size="9" text-anchor="middle" font-family="var(--font-display)">Shared DB</text>
+        <text x="400" y="498" fill="var(--text-2)"
+              font-size="9" text-anchor="middle" font-family="var(--font-display)">users / orders / pay</text>
+
+        <!-- Redis (DB/Cache) -->
+        <rect x="560" y="440" width="120" height="80" rx="6" fill="var(--bg-2)"/>
+        <rect x="560" y="440" width="120" height="80" rx="6"
+              fill="var(--sem-db)" fill-opacity="0.4"
+              stroke="var(--sem-db)" stroke-width="1.5"/>
+        <text x="620" y="466" fill="var(--text-1)"
+              font-size="12" font-weight="600" text-anchor="middle"
+              font-family="var(--font-display)">Redis</text>
+        <text x="620" y="482" fill="var(--text-2)"
+              font-size="9" text-anchor="middle" font-family="var(--font-display)">Session Cache</text>
+        <text x="620" y="498" fill="var(--text-2)"
+              font-size="9" text-anchor="middle" font-family="var(--font-display)">Cluster · 3 nodes</text>
+
+        <!-- Kafka (Bus) -->
+        <rect x="700" y="440" width="160" height="80" rx="6" fill="var(--bg-2)"/>
+        <rect x="700" y="440" width="160" height="80" rx="6"
+              fill="var(--sem-bus)" fill-opacity="0.4"
+              stroke="var(--sem-bus)" stroke-width="1.5"/>
+        <text x="780" y="466" fill="var(--text-1)"
+              font-size="12" font-weight="600" text-anchor="middle"
+              font-family="var(--font-display)">Kafka</text>
+        <text x="780" y="482" fill="var(--text-2)"
+              font-size="9" text-anchor="middle" font-family="var(--font-display)">order-events</text>
+        <text x="780" y="498" fill="var(--text-2)"
+              font-size="9" text-anchor="middle" font-family="var(--font-display)">payment-events</text>
+
+        <!-- LEGEND -->
+        <g transform="translate(40, 600)">
+          <rect width="540" height="72" rx="6" fill="var(--bg-2)" stroke="var(--border)"/>
+          <text x="14" y="18" fill="var(--text-2)" font-size="10" font-weight="600" font-family="var(--font-display)">LEGEND</text>
+          <!-- Frontend -->
+          <rect x="14" y="28" width="12" height="12" rx="2" fill="var(--sem-frontend)" fill-opacity="0.4" stroke="var(--sem-frontend)"/>
+          <text x="32" y="39" fill="var(--text-1)" font-size="10" font-family="var(--font-display)">Frontend</text>
+          <!-- Backend -->
+          <rect x="110" y="28" width="12" height="12" rx="2" fill="var(--sem-backend)" fill-opacity="0.4" stroke="var(--sem-backend)"/>
+          <text x="128" y="39" fill="var(--text-1)" font-size="10" font-family="var(--font-display)">Backend</text>
+          <!-- DB -->
+          <rect x="206" y="28" width="12" height="12" rx="2" fill="var(--sem-db)" fill-opacity="0.4" stroke="var(--sem-db)"/>
+          <text x="224" y="39" fill="var(--text-1)" font-size="10" font-family="var(--font-display)">Database / Cache</text>
+          <!-- Bus -->
+          <rect x="356" y="28" width="12" height="12" rx="2" fill="var(--sem-bus)" fill-opacity="0.4" stroke="var(--sem-bus)"/>
+          <text x="374" y="39" fill="var(--text-1)" font-size="10" font-family="var(--font-display)">Message Bus</text>
+          <!-- Drillable hint -->
+          <text x="14" y="60" fill="var(--accent)" font-size="10" font-family="var(--font-display)">↗ click any service box to drill into its internal architecture</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;">
+      <div class="card" style="background:var(--bg-2);border-radius:var(--radius-lg);padding:16px;border:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--sem-backend);"></div>
+          <h3 style="margin:0;font-size:13px;color:var(--text-1);">3 Backend Services</h3>
+        </div>
+        <ul style="margin:0;padding-left:18px;color:var(--text-2);font-size:12px;">
+          <li>UserService — auth + profile</li>
+          <li>OrderService — CRUD + events</li>
+          <li>PaymentService — 3 adapters</li>
+        </ul>
+      </div>
+      <div class="card" style="background:var(--bg-2);border-radius:var(--radius-lg);padding:16px;border:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--sem-db);"></div>
+          <h3 style="margin:0;font-size:13px;color:var(--text-1);">Shared Infrastructure</h3>
+        </div>
+        <ul style="margin:0;padding-left:18px;color:var(--text-2);font-size:12px;">
+          <li>PostgreSQL — primary store</li>
+          <li>Redis — session + L1 cache</li>
+          <li>Kafka — async event bus</li>
+        </ul>
+      </div>
+      <div class="card" style="background:var(--bg-2);border-radius:var(--radius-lg);padding:16px;border:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--accent);"></div>
+          <h3 style="margin:0;font-size:13px;color:var(--text-1);">Navigation</h3>
+        </div>
+        <ul style="margin:0;padding-left:18px;color:var(--text-2);font-size:12px;">
+          <li>↗ click any service to drill</li>
+          <li>T — cycle themes (synced)</li>
+          <li>F — fullscreen · ⋯ export</li>
+        </ul>
+      </div>
+    </div>
+
+    <footer style="margin-top:24px;color:var(--text-3);font-size:11px;text-align:center;">
+      Generated by <a href="https://github.com/stone-yu/ai-draw-skill" style="color:var(--text-2);">ai-draw</a>
+      · Press <kbd>T</kbd> to cycle theme · <kbd>F</kbd> fullscreen · <kbd>⋯</kbd> to export
+      · <span style="color:var(--accent);">↗</span> on a component to drill into its subpage
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"
+          integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"
+          integrity="sha384-en/ztfPSRkGfME4KIm05joYXynqzUgbsG5nMrj/xEFAHXkeZfO3yMK8QQ+mP7p1/" crossorigin="anonymous"></script>
+  <script src="../../../assets/runtime.js"></script>
+  <script src="../../../assets/exporter.js"></script>
+</body>
+</html>
