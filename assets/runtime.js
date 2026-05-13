@@ -30,8 +30,25 @@
   const isDeck         = document.body.dataset.mode === 'deck';
 
   // ---- Theme system ---------------------------------------------------------
+  // For site mode (multi-page): all pages share the same theme via localStorage.
+  // The <html> tag carries data-site-id="<slug>" when the page belongs to a site.
+  const siteId = docEl.dataset.siteId || null;
+  const siteStoreKey = siteId ? 'ai-draw-site-theme:' + siteId : null;
+
   let currentTheme = (document.getElementById('theme-link')?.href.match(/themes\/([^.]+)\.css/) || [])[1]
                   || recommended[0] || 'tech-dark';
+
+  // On load, if this page belongs to a site and another page already chose a theme,
+  // adopt that theme so the user's choice persists across navigation.
+  if (siteStoreKey) {
+    try {
+      const saved = localStorage.getItem(siteStoreKey);
+      if (saved && ALL_THEMES.includes(saved) && saved !== currentTheme) {
+        // Defer to next tick so the link swap happens after DOM is ready.
+        queueMicrotask(() => applyTheme(saved));
+      }
+    } catch (_) { /* localStorage may be unavailable in some sandboxes */ }
+  }
 
   function applyTheme(name) {
     if (!ALL_THEMES.includes(name)) return;
@@ -41,6 +58,10 @@
     link.href = base + name + '.css';
     currentTheme = name;
     docEl.dataset.theme = name;
+    // Site mode: broadcast theme to sibling pages via localStorage
+    if (siteStoreKey) {
+      try { localStorage.setItem(siteStoreKey, name); } catch (_) {}
+    }
     rerunMermaid();
     refreshMarkmap();
   }

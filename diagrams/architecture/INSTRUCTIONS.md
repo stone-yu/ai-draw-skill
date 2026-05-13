@@ -146,3 +146,40 @@ You do NOT need to know the user's theme — all colors come from CSS variables.
 ## 10. Reference examples
 
 See `examples/` for 2-3 worked architecture diagrams in this directory.
+
+## 11. Drillable components (site mode only)
+
+When generating a page that belongs to a site (`/ai-draw --mode site`), some components are **drillable** — clicking them navigates to a child page. Wrap those (and ONLY those) components in an SVG `<a xlink:href="...">` element, and add a small `↗` indicator in the upper-right corner.
+
+```html
+<!-- Regular (non-drillable) component: leave as-is -->
+<rect x="X" y="Y" width="W" height="H" rx="6" fill="var(--bg-2)"/>
+<rect x="X" y="Y" width="W" height="H" rx="6"
+      fill="var(--sem-backend)" fill-opacity="0.4"
+      stroke="var(--sem-backend)" stroke-width="1.5"/>
+<text x="CENTER_X" y="Y+22" ...>UserService</text>
+<text x="CENTER_X" y="Y+38" ...>spring-boot</text>
+
+<!-- Drillable component: wrap in <a>, add ↗ indicator -->
+<a xlink:href="pages/order-service.html">
+  <rect x="X" y="Y" width="W" height="H" rx="6" fill="var(--bg-2)"/>
+  <rect x="X" y="Y" width="W" height="H" rx="6"
+        fill="var(--sem-backend)" fill-opacity="0.4"
+        stroke="var(--sem-backend)" stroke-width="1.5"/>
+  <text x="CENTER_X" y="Y+22" ...>OrderService</text>
+  <text x="CENTER_X" y="Y+38" ...>spring-boot</text>
+  <!-- Drill indicator -->
+  <text x="X+W-10" y="Y+16" fill="var(--accent)" font-size="14"
+        text-anchor="end" font-weight="700" style="cursor:pointer;">↗</text>
+</a>
+```
+
+### Rules
+
+1. **Path resolution**: `xlink:href` is **relative to the current page's directory**.
+   - From `index.html`, children at depth 1 → `pages/<slug>.html`
+   - From `pages/user-service.html`, children at depth 2 → `user-service/<slug>.html`
+2. Only wrap components that **actually have a child page** in the site tree. Non-drillable components stay as-is.
+3. The `↗` indicator must use `var(--accent)` so it adapts to every theme.
+4. Do NOT add `onclick` JS — the SVG native `<a>` element handles navigation in all modern browsers.
+5. Hover state is automatic: browsers add `cursor: pointer` to `<a>` content.
