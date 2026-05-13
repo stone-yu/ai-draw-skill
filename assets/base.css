@@ -1,0 +1,84 @@
+/* assets/base.css — CSS token system. All visual properties resolve through these vars.
+   Theme files in assets/themes/ override these values; nothing else should. */
+
+:root {
+  /* Backgrounds */
+  --bg:           #0a0e1a;
+  --bg-2:         #131826;
+  --bg-3:         #1c2333;
+
+  /* Text */
+  --text-1:       #e2e8f0;
+  --text-2:       #94a3b8;
+  --text-3:       #64748b;
+
+  /* Accents and borders */
+  --accent:       #22d3ee;
+  --accent-2:     #a78bfa;
+  --border:       #334155;
+  --grid:         #1e293b;
+
+  /* Semantic colors (architecture/flowchart shared) */
+  --sem-frontend: #22d3ee;
+  --sem-backend:  #34d399;
+  --sem-db:       #a78bfa;
+  --sem-cloud:    #fbbf24;
+  --sem-security: #fb7185;
+  --sem-bus:      #fb923c;
+  --sem-generic:  #94a3b8;
+
+  /* Typography */
+  --font-display: 'JetBrains Mono', ui-monospace, monospace;
+  --font-body:    system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+  /* Shape */
+  --radius:       6px;
+  --radius-lg:    12px;
+  --stroke:       1.5px;
+  --shadow:       0 4px 24px rgba(0, 0, 0, 0.4);
+
+  /* Knowledge-graph specific */
+  --node-fill:    var(--bg-3);
+  --node-stroke:  var(--accent);
+  --edge-stroke:  var(--text-3);
+
+  /* Community palette (8 colors; v0.1 uses index 0 only since we are not auto-grouping) */
+  --community-0: #22d3ee;
+  --community-1: #34d399;
+  --community-2: #a78bfa;
+  --community-3: #fbbf24;
+  --community-4: #fb7185;
+  --community-5: #fb923c;
+  --community-6: #94a3b8;
+  --community-7: #f472b6;
+
+  /* Mermaid bridge — runtime.js reads this to decide built-in dark vs neutral */
+  --mermaid-flavor: 'dark';
+}
+
+/* Page primitives shared by every output */
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.container        { max-width: 1280px; margin: 0 auto; padding: 24px; }
+header h1         { font-family: var(--font-display); font-size: 22px; margin: 0 0 4px; }
+header .subtitle  { color: var(--text-2); font-size: 13px; }
+
+/* Slide chrome (deck mode) — runtime.js manages .is-active */
+.slide            { display: none; min-height: 100vh; padding: 48px; box-sizing: border-box; }
+.slide.is-active  { display: block; }
+body[data-mode="deck"] .deck-progress {
+  position: fixed; top: 0; left: 0; height: 3px; background: var(--accent);
+  width: var(--progress, 0%); transition: width .2s ease;
+}
+.notes            { display: none; }  /* speaker-only; presenter.js reads it */
+
+/* Diagram wrapper */
+.diagram-wrapper  { background: var(--bg-2); border-radius: var(--radius-lg);
+                    padding: 24px; box-shadow: var(--shadow); }
