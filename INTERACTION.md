@@ -57,12 +57,17 @@ Acceptable user inputs:
 4. Fill in placeholders with content derived from the user's request
 5. Write `index.html` and `README.md`
 6. Update `./ai-draw-out/.ai-draw-state.json`
+7. **Auto-open the generated file** (default behavior):
+   ```bash
+   ./scripts/open.sh <dir>/index.html
+   ```
+   Skip when `--no-open` flag is present OR environment var `AI_DRAW_NO_OPEN=1` is set.
 
 ### Step 6 — Confirm with helpful next steps
 
 ```
 ✓ ./ai-draw-out/<dir>/
-  ├ index.html       打开看：open ai-draw-out/<dir>/index.html
+  ├ index.html       已在浏览器中打开
   ├ README.md        含按键说明 + 改主题命令
   └ (无 assets，全走 CDN)
 
@@ -73,7 +78,10 @@ Acceptable user inputs:
 · 点击右上 ⋯ → 导出 PNG/PDF
 · 不喜欢？/ai-draw redo --style <theme-name>
 · 加一张？/ai-draw add <新图描述>
+· 下次不想自动打开？加 --no-open
 ```
+
+If `--no-open` was passed (or `AI_DRAW_NO_OPEN=1`), replace `已在浏览器中打开` with the explicit open command: `open ai-draw-out/<dir>/index.html`.
 
 ## Disambiguation flow
 
@@ -113,7 +121,9 @@ If they say "就这样" / "yes" / silence ≥ 1 turn → proceed. Don't repeat t
      - Insert before closing slide (or at end if no closing)
      - Update agenda <ol> if exists
      - Update state.slides[]
-     - Confirm: "✓ 已加为第 N 张，open <path> 查看"
+     - **Auto-open the deck at the new slide** (unless --no-open):
+         `./scripts/open.sh "<path>/index.html#/<new-slide-num>"`
+     - Confirm: "✓ 已加为第 N 张，已自动跳转打开"
 ```
 
 ## `redo` flow
@@ -126,7 +136,8 @@ If they say "就这样" / "yes" / silence ≥ 1 turn → proceed. Don't repeat t
 3. Find <link id="theme-link" href="...themes/<old>.css"> and replace with new theme
 4. Update data-themes attr on <html> if user passed all 3 (e.g. --themes tech-dark,minimal-light,blueprint)
 5. Save
-6. Confirm: "✓ <name> 主题已切换为 minimal-light，open 查看"
+6. **Auto-open** (unless --no-open): `./scripts/open.sh <path>/index.html`
+7. Confirm: "✓ <name> 主题已切换为 minimal-light，已重新打开"
 
 NEVER regenerate the diagram content — only the theme link is touched.
 ```
@@ -136,7 +147,8 @@ NEVER regenerate the diagram content — only the theme link is touched.
 ```
 1. Read .ai-draw-state.json → lastUpdated entry
 2. Run: ./scripts/render.sh <path-to-index.html> <slide-count>
-3. Show user the output dir
+3. Auto-open the PNG output dir (unless --no-open): ./scripts/open.sh <path>/png
+4. Show user the output dir
 ```
 
 ## `list` flow

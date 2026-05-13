@@ -28,6 +28,7 @@ trigger: /ai-draw
 | `--mode single` / `--mode deck` | auto | Skip mode confirmation |
 | `--no-chrome` | off | (deck only) skip Agenda + Closing slides |
 | `--no-notes` | off | Skip writing `<aside class="notes">` |
+| `--no-open` | off | Skip auto-opening the generated file in browser |
 | `--to <name>` | most-recent deck | (add only) target a specific deck |
 
 ## What you must do when invoked
@@ -68,10 +69,15 @@ Unless already derivable:
 4. Fill in template placeholders following INSTRUCTIONS.md
 5. Write `<dir>/index.html` and `<dir>/README.md` (use `ppt/README-template.md` as base, replace `{{...}}`)
 6. Update `./ai-draw-out/.ai-draw-state.json` (see schema below)
+7. **Auto-open the generated file in the user's default browser** (unless `--no-open` was given):
+   ```bash
+   ./scripts/open.sh <dir>/index.html
+   ```
+   The script handles macOS / Linux / WSL / Windows transparently. If `AI_DRAW_NO_OPEN=1` is set in the environment or `--no-open` was passed, skip this step.
 
 ### Step 6 — Confirm
 
-Tell the user the output path + 5 helpful tips per `INTERACTION.md` Step 6.
+Tell the user the output path + 5 helpful tips per `INTERACTION.md` Step 6. Mention that the file has already been opened (or note that it was skipped if `--no-open`).
 
 ## Compatibility warnings
 
@@ -109,16 +115,21 @@ The order of `decks[]` is **most-recent first**. `add` / `redo` / `export` opera
 
 ### `redo`
 
-Per `INTERACTION.md` "redo flow". Just `sed`-style replace on the `theme-link` href; never regenerate content.
+Per `INTERACTION.md` "redo flow". Just `sed`-style replace on the `theme-link` href; never regenerate content. **Auto-open the updated file** (`./scripts/open.sh <path>/index.html`) unless `--no-open`.
 
 ### `add`
 
-Per `INTERACTION.md` "add flow". Reads state, opens deck index.html, splices in new `<section class="slide">` before closing.
+Per `INTERACTION.md` "add flow". Reads state, opens deck index.html, splices in new `<section class="slide">` before closing. **Auto-open the deck at the newly-added slide** via the `#/N` hash: `./scripts/open.sh "<path>/index.html#/<new-slide-num>"` unless `--no-open`.
 
 ### `export png`
 
 ```bash
 ./scripts/render.sh <state.decks[0].path>/index.html <slide-count>
+```
+
+**Auto-open the PNG output directory** afterward (unless `--no-open`):
+```bash
+./scripts/open.sh <state.decks[0].path>/png
 ```
 
 ### `list`
@@ -136,7 +147,7 @@ Read state, format as table with name / type / theme / created / slides.
 - `diagrams/<type>/examples/*.html` — reference outputs
 - `ppt/{deck-template.html, INSTRUCTIONS.md, README-template.md}` — deck wrapper
 - `assets/{base.css, themes/, runtime.js, exporter.js, presenter.js}` — runtime served via jsdelivr
-- `scripts/{new.sh, render.sh, check-themes.sh, render-all.sh}` — bash helpers
+- `scripts/{new.sh, open.sh, render.sh, check-themes.sh, render-all.sh}` — bash helpers
 
 ## Asset URLs
 

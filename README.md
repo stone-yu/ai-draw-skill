@@ -57,6 +57,8 @@ Restart Claude Code. The `/ai-draw` command should now be available.
 | `/ai-draw export png` | Render most-recent output to PNG |
 | `/ai-draw list` | Show all outputs in `./ai-draw-out/` |
 
+**Auto-open by default.** Every generation, `add`, and `redo` opens the resulting file in your default browser via `scripts/open.sh` (macOS / Linux / WSL / Windows). To disable, pass `--no-open` per command, or set `AI_DRAW_NO_OPEN=1` in your environment globally.
+
 ## Output
 
 Generated under `<your-cwd>/ai-draw-out/<name>-<theme>/`:
@@ -64,7 +66,7 @@ Generated under `<your-cwd>/ai-draw-out/<name>-<theme>/`:
 ```
 ai-draw-out/
 ├── 三层电商架构-tech-dark/
-│   ├── index.html      # open this
+│   ├── index.html      # auto-opened in your browser
 │   └── README.md       # keyboard / theming / export instructions
 └── .ai-draw-state.json # tracks recent outputs for `add` / `redo` / `export`
 ```
