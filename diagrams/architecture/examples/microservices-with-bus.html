@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-themes="tech-dark,blueprint,cyberpunk-neon">
+<head>
+  <meta charset="utf-8">
+  <title>微服务事件总线架构</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/base.css">
+  <link rel="stylesheet" id="theme-link" href="../../../assets/themes/tech-dark.css">
+</head>
+<body data-mode="single">
+  <div id="report-container" class="container">
+    <header>
+      <h1>微服务事件总线架构</h1>
+      <p class="subtitle">5 producers · 1 bus · 1 consumer</p>
+    </header>
+
+    <div class="diagram-wrapper">
+      <svg viewBox="0 0 1000 480" style="width:100%;height:auto;">
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="var(--grid)" stroke-width="0.5"/>
+          </pattern>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="var(--text-3)"/>
+          </marker>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)"/>
+
+        <!-- Dashed bus connector lines first (arrows before components) -->
+        <line x1="150" y1="160" x2="150" y2="220" stroke="var(--sem-bus)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
+        <line x1="350" y1="160" x2="350" y2="220" stroke="var(--sem-bus)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
+        <line x1="550" y1="160" x2="550" y2="220" stroke="var(--sem-bus)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
+        <line x1="750" y1="160" x2="750" y2="220" stroke="var(--sem-bus)" stroke-width="1" stroke-dasharray="3,3" marker-end="url(#arrowhead)"/>
+        <line x1="850" y1="260" x2="850" y2="320" stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+        <!-- Top row: 4 producer services at y=100, each 140 wide -->
+
+        <!-- UserService at x=80 -->
+        <rect x="80" y="100" width="140" height="60" rx="6" fill="var(--bg-2)"/>
+        <rect x="80" y="100" width="140" height="60" rx="6" fill="var(--sem-backend)" fill-opacity="0.4" stroke="var(--sem-backend)" stroke-width="1.5"/>
+        <text x="150" y="124" fill="var(--text-1)" font-size="12" font-weight="600" text-anchor="middle" font-family="var(--font-display)">UserService</text>
+        <text x="150" y="140" fill="var(--text-2)" font-size="9" text-anchor="middle">Auth · Profile</text>
+
+        <!-- OrderService at x=280 -->
+        <rect x="280" y="100" width="140" height="60" rx="6" fill="var(--bg-2)"/>
+        <rect x="280" y="100" width="140" height="60" rx="6" fill="var(--sem-backend)" fill-opacity="0.4" stroke="var(--sem-backend)" stroke-width="1.5"/>
+        <text x="350" y="124" fill="var(--text-1)" font-size="12" font-weight="600" text-anchor="middle" font-family="var(--font-display)">OrderService</text>
+        <text x="350" y="140" fill="var(--text-2)" font-size="9" text-anchor="middle">Checkout · Fulfillment</text>
+
+        <!-- InventoryService at x=480 -->
+        <rect x="480" y="100" width="140" height="60" rx="6" fill="var(--bg-2)"/>
+        <rect x="480" y="100" width="140" height="60" rx="6" fill="var(--sem-backend)" fill-opacity="0.4" stroke="var(--sem-backend)" stroke-width="1.5"/>
+        <text x="550" y="124" fill="var(--text-1)" font-size="12" font-weight="600" text-anchor="middle" font-family="var(--font-display)">InventoryService</text>
+        <text x="550" y="140" fill="var(--text-2)" font-size="9" text-anchor="middle">Stock · Reservations</text>
+
+        <!-- PaymentService at x=680 -->
+        <rect x="680" y="100" width="140" height="60" rx="6" fill="var(--bg-2)"/>
+        <rect x="680" y="100" width="140" height="60" rx="6" fill="var(--sem-backend)" fill-opacity="0.4" stroke="var(--sem-backend)" stroke-width="1.5"/>
+        <text x="750" y="124" fill="var(--text-1)" font-size="12" font-weight="600" text-anchor="middle" font-family="var(--font-display)">PaymentService</text>
+        <text x="750" y="140" fill="var(--text-2)" font-size="9" text-anchor="middle">Stripe · Refunds</text>
+
+        <!-- Middle: Kafka bus at x=80, y=220, width=840, height=40 -->
+        <rect x="80" y="220" width="840" height="40" rx="4" fill="var(--bg-2)"/>
+        <rect x="80" y="220" width="840" height="40" rx="4" fill="var(--sem-bus)" fill-opacity="0.3" stroke="var(--sem-bus)" stroke-width="1.5"/>
+        <text x="500" y="246" fill="var(--text-1)" font-size="13" font-weight="600" text-anchor="middle" font-family="var(--font-display)">Kafka — order-events / inventory-events</text>
+
+        <!-- Bottom: Analytics Worker at x=780, y=320 -->
+        <rect x="780" y="320" width="160" height="60" rx="6" fill="var(--bg-2)"/>
+        <rect x="780" y="320" width="160" height="60" rx="6" fill="var(--sem-backend)" fill-opacity="0.4" stroke="var(--sem-backend)" stroke-width="1.5"/>
+        <text x="860" y="344" fill="var(--text-1)" font-size="12" font-weight="600" text-anchor="middle" font-family="var(--font-display)">Analytics Worker</text>
+        <text x="860" y="360" fill="var(--text-2)" font-size="9" text-anchor="middle">Flink · Realtime ETL</text>
+
+        <!-- Legend at y=420, width=720 -->
+        <g transform="translate(140, 420)">
+          <rect width="720" height="50" rx="6" fill="var(--bg-2)" stroke="var(--border)"/>
+          <text x="14" y="20" fill="var(--text-2)" font-size="10" font-weight="600">LEGEND</text>
+          <g transform="translate(14, 28)">
+            <rect width="14" height="14" rx="3" fill="var(--sem-backend)" fill-opacity="0.4" stroke="var(--sem-backend)"/>
+            <text x="22" y="11" fill="var(--text-1)" font-size="11">Backend</text>
+          </g>
+          <g transform="translate(120, 28)">
+            <rect width="14" height="14" rx="3" fill="var(--sem-bus)" fill-opacity="0.3" stroke="var(--sem-bus)"/>
+            <text x="22" y="11" fill="var(--text-1)" font-size="11">Bus</text>
+          </g>
+          <g transform="translate(220, 28)">
+            <rect width="14" height="14" rx="3" fill="var(--bg-3)" fill-opacity="0.4" stroke="var(--border)"/>
+            <text x="22" y="11" fill="var(--text-1)" font-size="11">Generic</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;">
+      <div class="card" style="background:var(--bg-2);border-radius:var(--radius-lg);padding:16px;border:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:8px;height:8px;border-radius:50%;background:var(--sem-backend);"></div><h3 style="margin:0;font-size:13px;color:var(--text-1);">Producer Services</h3></div>
+        <ul style="margin:0;padding-left:18px;color:var(--text-2);font-size:12px;"><li>UserService</li><li>OrderService</li><li>InventoryService</li><li>PaymentService</li></ul>
+      </div>
+      <div class="card" style="background:var(--bg-2);border-radius:var(--radius-lg);padding:16px;border:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:8px;height:8px;border-radius:50%;background:var(--sem-bus);"></div><h3 style="margin:0;font-size:13px;color:var(--text-1);">Event Bus</h3></div>
+        <ul style="margin:0;padding-left:18px;color:var(--text-2);font-size:12px;"><li>Kafka cluster</li><li>order-events topic</li><li>inventory-events topic</li></ul>
+      </div>
+      <div class="card" style="background:var(--bg-2);border-radius:var(--radius-lg);padding:16px;border:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:8px;height:8px;border-radius:50%;background:var(--sem-backend);"></div><h3 style="margin:0;font-size:13px;color:var(--text-1);">Consumer</h3></div>
+        <ul style="margin:0;padding-left:18px;color:var(--text-2);font-size:12px;"><li>Analytics Worker</li><li>Flink streaming</li><li>Realtime ETL pipeline</li></ul>
+      </div>
+    </div>
+
+    <footer style="margin-top:24px;color:var(--text-3);font-size:11px;text-align:center;">Generated by ai-draw · <kbd>T</kbd> theme · <kbd>F</kbd> fullscreen · <kbd>⋯</kbd> export</footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+  <script src="../../../assets/runtime.js"></script>
+  <script src="../../../assets/exporter.js"></script>
+</body>
+</html>

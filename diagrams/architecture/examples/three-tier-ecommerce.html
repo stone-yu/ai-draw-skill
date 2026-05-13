@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-themes="tech-dark,blueprint,cyberpunk-neon">
+<head>
+  <meta charset="utf-8">
+  <title>三层电商架构</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/base.css">
+  <link rel="stylesheet" id="theme-link" href="../../../assets/themes/tech-dark.css">
+</head>
+<body data-mode="single">
+  <div id="report-container" class="container">
+    <header>
+      <h1>三层电商架构</h1>
+      <p class="subtitle">Frontend → Service → Storage</p>
+    </header>
+
+    <div class="diagram-wrapper">
+      <svg viewBox="0 0 800 560" style="width:100%;height:auto;">
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="var(--grid)" stroke-width="0.5"/>
+          </pattern>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="var(--text-3)"/>
+          </marker>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)"/>
+
+        <!-- Arrows first -->
+        <line x1="400" y1="120" x2="400" y2="200" stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="400" y1="280" x2="200" y2="380" stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="400" y1="280" x2="400" y2="380" stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+        <line x1="400" y1="280" x2="600" y2="380" stroke="var(--text-3)" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+        <!-- Tier 1: Web -->
+        <rect x="320" y="60" width="160" height="60" rx="6" fill="var(--bg-2)"/>
+        <rect x="320" y="60" width="160" height="60" rx="6" fill="var(--sem-frontend)" fill-opacity="0.4" stroke="var(--sem-frontend)" stroke-width="1.5"/>
+        <text x="400" y="84" fill="var(--text-1)" font-size="12" font-weight="600" text-anchor="middle" font-family="var(--font-display)">Next.js Web</text>
+        <text x="400" y="100" fill="var(--text-2)" font-size="9" text-anchor="middle">SSR · CDN edge</text>
+
+        <!-- Tier 2: Service -->
+        <rect x="320" y="220" width="160" height="60" rx="6" fill="var(--bg-2)"/>
+        <rect x="320" y="220" width="160" height="60" rx="6" fill="var(--sem-backend)" fill-opacity="0.4" stroke="var(--sem-backend)" stroke-width="1.5"/>
+        <text x="400" y="244" fill="var(--text-1)" font-size="12" font-weight="600" text-anchor="middle" font-family="var(--font-display)">Order Service</text>
+        <text x="400" y="260" fill="var(--text-2)" font-size="9" text-anchor="middle">Spring Boot · Java 21</text>
+
+        <!-- Tier 3: Storage -->
+        <rect x="120" y="380" width="160" height="80" rx="6" fill="var(--bg-2)"/>
+        <rect x="120" y="380" width="160" height="80" rx="6" fill="var(--sem-db)" fill-opacity="0.4" stroke="var(--sem-db)" stroke-width="1.5"/>
+        <text x="200" y="412" fill="var(--text-1)" font-size="12" font-weight="600" text-anchor="middle" font-family="var(--font-display)">PostgreSQL</text>
+        <text x="200" y="428" fill="var(--text-2)" font-size="9" text-anchor="middle">primary · 主库</text>
+
+        <rect x="320" y="380" width="160" height="80" rx="6" fill="var(--bg-2)"/>
+        <rect x="320" y="380" width="160" height="80" rx="6" fill="var(--sem-db)" fill-opacity="0.4" stroke="var(--sem-db)" stroke-width="1.5"/>
+        <text x="400" y="412" fill="var(--text-1)" font-size="12" font-weight="600" text-anchor="middle" font-family="var(--font-display)">Redis</text>
+        <text x="400" y="428" fill="var(--text-2)" font-size="9" text-anchor="middle">L1 cache</text>
+
+        <rect x="520" y="380" width="160" height="80" rx="6" fill="var(--bg-2)"/>
+        <rect x="520" y="380" width="160" height="80" rx="6" fill="var(--sem-cloud)" fill-opacity="0.4" stroke="var(--sem-cloud)" stroke-width="1.5"/>
+        <text x="600" y="412" fill="var(--text-1)" font-size="12" font-weight="600" text-anchor="middle" font-family="var(--font-display)">S3</text>
+        <text x="600" y="428" fill="var(--text-2)" font-size="9" text-anchor="middle">媒体文件</text>
+
+        <!-- Legend -->
+        <g transform="translate(40, 490)">
+          <rect width="720" height="50" rx="6" fill="var(--bg-2)" stroke="var(--border)"/>
+          <text x="14" y="20" fill="var(--text-2)" font-size="10" font-weight="600">LEGEND</text>
+          <g transform="translate(14, 28)">
+            <rect width="14" height="14" rx="3" fill="var(--sem-frontend)" fill-opacity="0.4" stroke="var(--sem-frontend)"/>
+            <text x="22" y="11" fill="var(--text-1)" font-size="11">Frontend</text>
+          </g>
+          <g transform="translate(120, 28)">
+            <rect width="14" height="14" rx="3" fill="var(--sem-backend)" fill-opacity="0.4" stroke="var(--sem-backend)"/>
+            <text x="22" y="11" fill="var(--text-1)" font-size="11">Backend</text>
+          </g>
+          <g transform="translate(220, 28)">
+            <rect width="14" height="14" rx="3" fill="var(--sem-db)" fill-opacity="0.4" stroke="var(--sem-db)"/>
+            <text x="22" y="11" fill="var(--text-1)" font-size="11">Database</text>
+          </g>
+          <g transform="translate(330, 28)">
+            <rect width="14" height="14" rx="3" fill="var(--sem-cloud)" fill-opacity="0.4" stroke="var(--sem-cloud)"/>
+            <text x="22" y="11" fill="var(--text-1)" font-size="11">Cloud</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;">
+      <div class="card" style="background:var(--bg-2);border-radius:var(--radius-lg);padding:16px;border:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:8px;height:8px;border-radius:50%;background:var(--sem-frontend);"></div><h3 style="margin:0;font-size:13px;color:var(--text-1);">Frontend</h3></div>
+        <ul style="margin:0;padding-left:18px;color:var(--text-2);font-size:12px;"><li>Next.js 14</li><li>SSR + CDN</li></ul>
+      </div>
+      <div class="card" style="background:var(--bg-2);border-radius:var(--radius-lg);padding:16px;border:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:8px;height:8px;border-radius:50%;background:var(--sem-backend);"></div><h3 style="margin:0;font-size:13px;color:var(--text-1);">Service Layer</h3></div>
+        <ul style="margin:0;padding-left:18px;color:var(--text-2);font-size:12px;"><li>Spring Boot 3.x</li><li>10 instances behind LB</li></ul>
+      </div>
+      <div class="card" style="background:var(--bg-2);border-radius:var(--radius-lg);padding:16px;border:1px solid var(--border);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;"><div style="width:8px;height:8px;border-radius:50%;background:var(--sem-db);"></div><h3 style="margin:0;font-size:13px;color:var(--text-1);">Storage</h3></div>
+        <ul style="margin:0;padding-left:18px;color:var(--text-2);font-size:12px;"><li>Postgres primary</li><li>Redis hot cache</li><li>S3 cold storage</li></ul>
+      </div>
+    </div>
+
+    <footer style="margin-top:24px;color:var(--text-3);font-size:11px;text-align:center;">Generated by ai-draw · <kbd>T</kbd> theme · <kbd>F</kbd> fullscreen · <kbd>⋯</kbd> export</footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+  <script src="../../../assets/runtime.js"></script>
+  <script src="../../../assets/exporter.js"></script>
+</body>
+</html>
