@@ -13,6 +13,7 @@ Trigger it inside Claude Code, answer 1-2 questions about style and mode, and ge
 - **7 diagram types**: architecture / knowledge graph / flowchart / sequence / mindmap / class / ER
 - **8 curated themes**: tech-dark, blueprint, business-clean, xhs-soft, cyberpunk-neon, minimal-light, academic-paper, hand-drawn
 - **PPT deck mode**: multi-slide HTML with keyboard nav, presenter window (4-card layout: current preview / next preview / speaker script / timer), and PNG export
+- **Multi-page site mode** *(v0.2)*: feed a markdown doc, get a hyperlinked architecture site — main page + drill-down subpages, with click-through `↗` components, breadcrumbs, and cross-page theme sync
 
 Powered by:
 - **CSS variables** for the 8-theme system
@@ -47,14 +48,22 @@ Restart Claude Code. The `/ai-draw` command should now be available.
 
 → produces a 5-slide deck with title + agenda + 3 diagrams + closing, with speaker notes on each slide.
 
+```
+/ai-draw --mode site docs/system-overview.md
+```
+
+→ reads the markdown's heading tree, generates a main architecture page + one subpage per `## H2` (recursively for deeper headings). Drillable components are linked with `↗`; breadcrumb at top of every subpage; theme toggles sync across all pages via localStorage.
+
 ## Subcommands
 
 | Command | Action |
 |---|---|
 | `/ai-draw <需求>` | New diagram or deck |
-| `/ai-draw redo --style <theme>` | Swap theme on most-recent output |
+| `/ai-draw --mode site <md>` | New multi-page architecture site from a markdown doc |
+| `/ai-draw redo --style <theme>` | Swap theme on most-recent output (site mode applies to all pages) |
 | `/ai-draw add <需求>` | Append slide to most-recent deck |
-| `/ai-draw export png` | Render most-recent output to PNG |
+| `/ai-draw add --to <site> --under <parent> <component>` | Append a drill-down subpage to a site |
+| `/ai-draw export png` | Render most-recent output to PNG (per-page for sites) |
 | `/ai-draw list` | Show all outputs in `./ai-draw-out/` |
 
 **Auto-open by default.** Every generation, `add`, and `redo` opens the resulting file in your default browser via `scripts/open.sh` (macOS / Linux / WSL / Windows). To disable, pass `--no-open` per command, or set `AI_DRAW_NO_OPEN=1` in your environment globally.
