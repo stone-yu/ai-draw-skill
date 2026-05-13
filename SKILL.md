@@ -143,7 +143,7 @@ Read state, format as table with name / type / theme / created / slides.
 The Skill repo is `stone-yu/ai-draw-skill`. Generated HTML references assets via jsdelivr at the repo's current git tag:
 
 ```html
-https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@<TAG>/assets/...
+https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@v0.1.0/assets/...
 ```
 
 `scripts/new.sh` reads the current git tag (or falls back to `main`) and substitutes it into the template.
