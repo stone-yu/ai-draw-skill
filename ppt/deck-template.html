@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-themes="{{THEMES_CSV}}">
+<head>
+  <meta charset="utf-8">
+  <title>{{DECK_TITLE}}</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/base.css">
+  <link rel="stylesheet" id="theme-link" href="../../assets/themes/{{INITIAL_THEME}}.css">
+  <style>
+    /* Slide chrome */
+    .slide h1 { font-size: 48px; margin-bottom: 16px; font-family: var(--font-display); }
+    .slide h2 { font-size: 36px; margin-bottom: 12px; }
+    .slide h3 { font-size: 24px; color: var(--text-2); margin-bottom: 24px; }
+    .slide .subtitle { font-size: 18px; color: var(--text-2); }
+    .slide.layout-title       { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+    .slide.layout-agenda ol   { font-size: 22px; line-height: 1.8; max-width: 600px; margin: auto; }
+    .slide.layout-diagram svg { max-width: 100%; max-height: 70vh; display: block; margin: auto; }
+    .slide.layout-diagram pre.mermaid { display: flex; justify-content: center; }
+    .slide.layout-closing     { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+    .deck-page-num { position: fixed; bottom: 12px; right: 16px; color: var(--text-3); font-size: 11px; }
+  </style>
+</head>
+<body data-mode="deck">
+  <div class="deck">
+    {{SLIDES}}
+  </div>
+  <div class="deck-page-num"></div>
+
+  <!-- Diagram libs (loaded once for the whole deck — slide-level scripts can use them) -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.17/dist/browser/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/elkjs@0.9/lib/elk.bundled.js"></script>
+  <script>
+    // Mermaid init (theme selected by current theme)
+    const dark = ['tech-dark', 'blueprint', 'cyberpunk-neon'].some(n =>
+      document.getElementById('theme-link').href.includes('themes/' + n + '.'));
+    mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral' });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+  <script src="../../assets/runtime.js"></script>
+  <script src="../../assets/presenter.js"></script>
+  <script src="../../assets/exporter.js"></script>
+
+  <script>
+    // Update page number footer on slide change
+    function updatePage() {
+      document.querySelector('.deck-page-num').textContent =
+        (window.AiDraw.getActiveSlide() + 1) + ' / ' + window.AiDraw.getSlideCount();
+    }
+    updatePage();
+    new MutationObserver(updatePage).observe(document.querySelector('.deck'), { subtree: true, attributes: true, attributeFilter: ['class'] });
+  </script>
+</body>
+</html>
