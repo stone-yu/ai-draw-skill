@@ -1,15 +1,39 @@
 /* Pure white, black hairlines, no shadows, no accent color. */
 :root {
-  --bg: #ffffff; --bg-2: #ffffff; --bg-3: #fafafa;
-  --text-1: #000000; --text-2: #525252; --text-3: #a3a3a3;
-  --accent: #000000; --accent-2: #525252; --border: #e5e5e5; --grid: #f5f5f5;
-  --sem-frontend: #000000; --sem-backend: #404040; --sem-db: #525252;
-  --sem-cloud: #737373; --sem-security: #000000; --sem-bus: #525252; --sem-generic: #a3a3a3;
+  --bg: #ffffff;
+  --bg-2: #ffffff;
+  --bg-3: #fafafa;
+  --text-1: #000000;
+  --text-2: #525252;
+  --text-3: #a3a3a3;
+  --accent: #000000;
+  --accent-2: #525252;
+  --border: #e5e5e5;
+  --grid: #f5f5f5;
+  --sem-frontend: #000000;
+  --sem-backend: #404040;
+  --sem-db: #525252;
+  --sem-cloud: #737373;
+  --sem-security: #000000;
+  --sem-bus: #525252;
+  --sem-generic: #a3a3a3;
   --font-display: 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
-  --radius: 2px; --radius-lg: 4px; --stroke: 1px; --shadow: none;
-  --community-0:#000; --community-1:#404040; --community-2:#525252; --community-3:#737373;
-  --community-4:#a3a3a3; --community-5:#525252; --community-6:#404040; --community-7:#000;
+  --radius: 2px;
+  --radius-lg: 4px;
+  --stroke: 1px;
+  --shadow: none;
+  --node-fill: var(--bg-3);
+  --node-stroke: var(--accent);
+  --edge-stroke: var(--text-3);
+  --community-0: #000;
+  --community-1: #404040;
+  --community-2: #525252;
+  --community-3: #737373;
+  --community-4: #a3a3a3;
+  --community-5: #525252;
+  --community-6: #404040;
+  --community-7: #000;
   --mermaid-flavor: 'neutral';
 }

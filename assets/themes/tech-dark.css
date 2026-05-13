@@ -2,36 +2,33 @@
    Inspired by the original architecture-diagram skill palette. */
 
 :root {
-  --bg:           #020617;
-  --bg-2:         #0f172a;
-  --bg-3:         #1e293b;
-
-  --text-1:       #e2e8f0;
-  --text-2:       #94a3b8;
-  --text-3:       #64748b;
-
-  --accent:       #22d3ee;
-  --accent-2:     #a78bfa;
-  --border:       #334155;
-  --grid:         #1e293b;
-
+  --bg: #020617;
+  --bg-2: #0f172a;
+  --bg-3: #1e293b;
+  --text-1: #e2e8f0;
+  --text-2: #94a3b8;
+  --text-3: #64748b;
+  --accent: #22d3ee;
+  --accent-2: #a78bfa;
+  --border: #334155;
+  --grid: #1e293b;
   --sem-frontend: #22d3ee;
-  --sem-backend:  #34d399;
-  --sem-db:       #a78bfa;
-  --sem-cloud:    #fbbf24;
+  --sem-backend: #34d399;
+  --sem-db: #a78bfa;
+  --sem-cloud: #fbbf24;
   --sem-security: #fb7185;
-  --sem-bus:      #fb923c;
-  --sem-generic:  #94a3b8;
-
+  --sem-bus: #fb923c;
+  --sem-generic: #94a3b8;
   --font-display: 'JetBrains Mono', ui-monospace, monospace;
-  --font-body:    'JetBrains Mono', ui-monospace, monospace;
-  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
-
-  --radius:       6px;
-  --radius-lg:    12px;
-  --stroke:       1.5px;
-  --shadow:       0 4px 24px rgba(0, 0, 0, 0.6);
-
+  --font-body: 'JetBrains Mono', ui-monospace, monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --radius: 6px;
+  --radius-lg: 12px;
+  --stroke: 1.5px;
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+  --node-fill: var(--bg-3);
+  --node-stroke: var(--accent);
+  --edge-stroke: var(--text-3);
   --community-0: #22d3ee;
   --community-1: #34d399;
   --community-2: #a78bfa;
@@ -40,6 +37,5 @@
   --community-5: #fb923c;
   --community-6: #94a3b8;
   --community-7: #f472b6;
-
   --mermaid-flavor: 'dark';
 }
