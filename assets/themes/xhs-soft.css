@@ -1,0 +1,15 @@
+/* 小红书 soft-card look — cream + warm pinks/oranges, big rounding. */
+:root {
+  --bg: #fef9f3; --bg-2: #fff5e9; --bg-3: #fde6d2;
+  --text-1: #1a1a1a; --text-2: #5b5b5b; --text-3: #999;
+  --accent: #ff7e5f; --accent-2: #feb47b; --border: #f0e0d0; --grid: #f5e8d8;
+  --sem-frontend: #ff7e5f; --sem-backend: #f6a560; --sem-db: #c084fc;
+  --sem-cloud: #fbbf24; --sem-security: #f87171; --sem-bus: #fb923c; --sem-generic: #94a3b8;
+  --font-display: 'PingFang SC', 'Noto Sans CJK SC', system-ui, sans-serif;
+  --font-body: 'PingFang SC', 'Noto Sans CJK SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --radius: 16px; --radius-lg: 24px; --stroke: 2px; --shadow: 0 8px 24px rgba(255, 126, 95, 0.15);
+  --community-0:#ff7e5f; --community-1:#f6a560; --community-2:#c084fc; --community-3:#fbbf24;
+  --community-4:#f87171; --community-5:#fb923c; --community-6:#94a3b8; --community-7:#f472b6;
+  --mermaid-flavor: 'neutral';
+}

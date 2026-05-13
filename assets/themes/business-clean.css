@@ -1,0 +1,15 @@
+/* Off-white business / formal — sober blues and greys. */
+:root {
+  --bg: #ffffff; --bg-2: #f8fafc; --bg-3: #e2e8f0;
+  --text-1: #0f172a; --text-2: #475569; --text-3: #94a3b8;
+  --accent: #0284c7; --accent-2: #059669; --border: #cbd5e1; --grid: #e2e8f0;
+  --sem-frontend: #0284c7; --sem-backend: #059669; --sem-db: #7c3aed;
+  --sem-cloud: #d97706; --sem-security: #dc2626; --sem-bus: #ea580c; --sem-generic: #64748b;
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --radius: 6px; --radius-lg: 12px; --stroke: 1.5px; --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --community-0:#0284c7; --community-1:#059669; --community-2:#7c3aed; --community-3:#d97706;
+  --community-4:#dc2626; --community-5:#ea580c; --community-6:#64748b; --community-7:#db2777;
+  --mermaid-flavor: 'neutral';
+}

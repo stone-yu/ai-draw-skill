@@ -1,0 +1,15 @@
+/* Deep blue technical-blueprint look. Dense grid, white hairlines. */
+:root {
+  --bg: #0c1e3a; --bg-2: #102746; --bg-3: #163358;
+  --text-1: #dbeafe; --text-2: #93c5fd; --text-3: #64748b;
+  --accent: #60a5fa; --accent-2: #38bdf8; --border: #1e3a5f; --grid: #1e3a5f;
+  --sem-frontend: #60a5fa; --sem-backend: #34d399; --sem-db: #c4b5fd;
+  --sem-cloud: #fde68a; --sem-security: #fda4af; --sem-bus: #fdba74; --sem-generic: #cbd5e1;
+  --font-display: 'JetBrains Mono', ui-monospace, monospace;
+  --font-body: system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --radius: 4px; --radius-lg: 8px; --stroke: 1px; --shadow: 0 2px 12px rgba(0,0,0,0.5);
+  --community-0:#60a5fa; --community-1:#34d399; --community-2:#c4b5fd; --community-3:#fde68a;
+  --community-4:#fda4af; --community-5:#fdba74; --community-6:#cbd5e1; --community-7:#f0abfc;
+  --mermaid-flavor: 'dark';
+}

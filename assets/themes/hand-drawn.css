@@ -1,0 +1,16 @@
+/* Sketch / whiteboard look — cream paper + handwriting font. Used with rough.js
+   in templates that opt in (see diagrams/architecture/INSTRUCTIONS.md). */
+:root {
+  --bg: #fef6e4; --bg-2: #fdebc4; --bg-3: #f9d8a3;
+  --text-1: #1a1a1a; --text-2: #4a4a4a; --text-3: #777;
+  --accent: #e07a5f; --accent-2: #81b29a; --border: #c4a57b; --grid: #e8d5a8;
+  --sem-frontend: #e07a5f; --sem-backend: #81b29a; --sem-db: #8b5cf6;
+  --sem-cloud: #f4a261; --sem-security: #e63946; --sem-bus: #f6bd60; --sem-generic: #6b705c;
+  --font-display: 'Caveat', 'Kalam', cursive;
+  --font-body: 'Caveat', 'Kalam', cursive;
+  --font-mono: 'Caveat', 'Kalam', cursive;
+  --radius: 8px; --radius-lg: 16px; --stroke: 2px; --shadow: 2px 4px 0 rgba(0,0,0,0.1);
+  --community-0:#e07a5f; --community-1:#81b29a; --community-2:#8b5cf6; --community-3:#f4a261;
+  --community-4:#e63946; --community-5:#f6bd60; --community-6:#6b705c; --community-7:#d4a373;
+  --mermaid-flavor: 'neutral';
+}

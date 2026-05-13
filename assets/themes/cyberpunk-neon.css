@@ -1,0 +1,16 @@
+/* Pitch black + magenta/cyan/yellow neon — glow shadows. */
+:root {
+  --bg: #000000; --bg-2: #0a0a0f; --bg-3: #14141f;
+  --text-1: #f0f6ff; --text-2: #b3c5e0; --text-3: #6b7d99;
+  --accent: #f72585; --accent-2: #4cc9f0; --border: #2a1a3a; --grid: #1a0d2a;
+  --sem-frontend: #4cc9f0; --sem-backend: #f72585; --sem-db: #b5179e;
+  --sem-cloud: #ffd60a; --sem-security: #ff006e; --sem-bus: #ffb700; --sem-generic: #8d99ae;
+  --font-display: 'Orbitron', 'JetBrains Mono', ui-monospace, monospace;
+  --font-body: 'JetBrains Mono', ui-monospace, monospace;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --radius: 4px; --radius-lg: 8px; --stroke: 2px;
+  --shadow: 0 0 20px rgba(247, 37, 133, 0.4), 0 0 40px rgba(76, 201, 240, 0.2);
+  --community-0:#4cc9f0; --community-1:#f72585; --community-2:#b5179e; --community-3:#ffd60a;
+  --community-4:#ff006e; --community-5:#ffb700; --community-6:#8d99ae; --community-7:#7209b7;
+  --mermaid-flavor: 'dark';
+}
