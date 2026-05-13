@@ -1,3 +1,6 @@
 
 # Brainstorming companion session data
 .superpowers/
+
+# Render verification output
+test-output/
