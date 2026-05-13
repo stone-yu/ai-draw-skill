@@ -155,5 +155,76 @@ NEVER regenerate the diagram content — only the theme link is touched.
 
 Read `./ai-draw-out/.ai-draw-state.json`, list each entry as:
 ```
-<name>     <type>    <theme>    <created-date>    <slide-count>
+<name>     <type>    <theme>    <created-date>    <slide-count or pages-count>
 ```
+
+For `type:"single"` show 1 page; for `type:"deck"` show slide count; for `type:"site"` show `<N> pages` derived from `tree.length`.
+
+---
+
+## `site` flow (v0.2)
+
+When the user runs `/ai-draw --mode site <markdown.md>` OR mentions a `.md` path with words like "多页 / drill down / 多页架构":
+
+**Don't follow the standard new-diagram flow** — site mode has its own controller algorithm.
+
+### Step 1 — Validate input
+
+- Check the markdown file exists. If not, list `.md` files in cwd and ask which one
+- If the file is empty or has no headings at all, fall back to single mode: tell the user "文档没有标题层级，已退化为单图" and continue as a normal single architecture diagram
+
+### Step 2 — Theme recommendation (same as standard flow)
+
+Use `references/themes.md` to recommend 3 themes based on the markdown's tone (read the first paragraph and any "## Overview" section). Skip if `--style <theme>` is given.
+
+### Step 3 — Hand off to `site/INSTRUCTIONS.md`
+
+Read `site/INSTRUCTIONS.md` and follow its 9-step controller algorithm. The hand-off is total — the standard "fill template → write file → done" flow does NOT apply to site mode.
+
+### Step 4 — Confirm
+
+After the controller finishes, report:
+
+```
+✓ ./ai-draw-out/<name>-<theme>/
+  ├ index.html                  已在浏览器中打开
+  ├ pages/<N>.html              N 个子页
+  ├ pages/<...>/<...>.html      （如果有深度 ≥ 2 的页）
+  └ README.md
+
+小贴士：
+· 点 ↗ 角标的组件 → 下钻到子页
+· 顶部面包屑 → 回溯
+· T 键 主题切换会跨页同步
+· 加一页？/ai-draw add --to <name> --under <parent-slug> <component>
+· 全部导 PNG？/ai-draw export png
+```
+
+## `site add` flow
+
+```
+👤 /ai-draw add --to 电商系统总览-tech-dark --under user-service AuthModule
+
+1. Read state, find target site by name
+2. Find <parent-slug> in tree (here: "user-service")
+3. Compute new slug: "user-service/auth-module" (kebab-case)
+4. Compute output path: pages/user-service/auth-module.html
+5. Dispatch a single subagent (using site/subagent-prompt.md) to generate that page
+6. Update parent page's index.html or pages/user-service.html — add a drillable
+   component pointing to the new subpage (using §11 of architecture INSTRUCTIONS)
+7. Update parent's children[] and add new entry to tree[]
+8. Auto-open the new page (unless --no-open):
+   ./scripts/open.sh "<path>/pages/user-service/auth-module.html"
+9. Confirm: "✓ 已加为 user-service/auth-module，已自动打开"
+```
+
+## `site redo` flow
+
+`/ai-draw redo --style <theme>` against a site:
+
+1. Read state.decks[0]; confirm type === "site"
+2. For each entry in tree[], sed its `<link id="theme-link" href="...">` to the new theme
+3. Update `data-themes` attribute if user provided `--themes` triple
+4. Update state's `theme` field
+5. Auto-open `index.html` (theme is also persisted in localStorage so subsequent navigation keeps it)
+6. Confirm: "✓ N pages 已切换为 <theme>"

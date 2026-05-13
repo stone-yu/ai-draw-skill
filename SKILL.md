@@ -13,10 +13,12 @@ trigger: /ai-draw
 | Command | Action |
 |---|---|
 | `/ai-draw <需求>` | 新建：单图或 deck |
-| `/ai-draw redo --style <theme>` | 仅修改最近产出的 theme-link |
+| `/ai-draw --mode site <markdown.md>` | 从 markdown 文档生成多页架构站（主页 + 下钻子页） |
+| `/ai-draw redo --style <theme>` | 仅修改最近产出的 theme-link（单图 / deck / site 都支持） |
 | `/ai-draw add <需求>` | 追加新 slide 到最近的 deck |
 | `/ai-draw add <需求> --to <name>` | 显式指定 deck |
-| `/ai-draw export png` | 调用 scripts/render.sh 生成 PNG |
+| `/ai-draw add --to <site> --under <parent-slug> <component>` | 在已有 site 的指定父页下加一个新子页 |
+| `/ai-draw export png` | 调用 scripts/render.sh 生成 PNG（site 模式下逐页渲染） |
 | `/ai-draw list` | 列出 `./ai-draw-out/` 下所有产出 |
 
 ### Flags
@@ -25,11 +27,14 @@ trigger: /ai-draw
 |---|---|---|
 | `--style <theme>` | auto-recommend | Lock theme, skip recommendation |
 | `--type <kind>` | auto-detect | Lock diagram type, skip disambiguation |
-| `--mode single` / `--mode deck` | auto | Skip mode confirmation |
+| `--mode single` / `--mode deck` / `--mode site` | auto | Skip mode confirmation |
 | `--no-chrome` | off | (deck only) skip Agenda + Closing slides |
 | `--no-notes` | off | Skip writing `<aside class="notes">` |
 | `--no-open` | off | Skip auto-opening the generated file in browser |
-| `--to <name>` | most-recent deck | (add only) target a specific deck |
+| `--max-depth <N>` | 3 | (site only) max markdown heading depth to split into pages |
+| `--slug-style <kebab\|pinyin>` | kebab | (site only) slug generation strategy for filenames |
+| `--to <name>` | most-recent deck/site | (add only) target a specific deck or site |
+| `--under <parent-slug>` | — | (site add only) which parent page to drill under |
 
 ## What you must do when invoked
 
@@ -40,6 +45,7 @@ Read it for:
 - **Number of diagrams** (1 vs many → influences single vs deck)
 - **Explicit theme keyword** (`references/themes.md` "Explicit override keywords" section)
 - **Explicit deck keyword** ("PPT", "deck", "分享稿", "演讲")
+- **Site mode trigger**: `--mode site` flag, OR a `.md` file path mentioned + words like "多页 / drill down / 多页架构 / 多页文档站". When site mode is detected, **stop the normal flow and read `site/INSTRUCTIONS.md` instead** — site mode has its own algorithm (markdown parsing → subagent fan-out per page).
 - **Subcommand** (add / redo / export / list — see table above)
 
 ### Step 2 — If multiple diagram types match → disambiguate
@@ -85,31 +91,45 @@ If chosen theme × type lands in ⚠️ of `references/themes.md` matrix, mentio
 
 ## State schema (`./ai-draw-out/.ai-draw-state.json`)
 
-```json
+```jsonc
 {
   "lastUpdated": "ISO-8601",
   "decks": [
-    {
-      "name": "技术分享-blueprint",
-      "path": "./ai-draw-out/技术分享-blueprint",
-      "type": "deck",
-      "theme": "blueprint",
-      "themeRecommendations": ["blueprint", "tech-dark", "cyberpunk-neon"],
-      "diagramType": "architecture",     // for type:"single"; omitted for type:"deck"
-      "slides": [                         // for type:"deck"
+    // type: "single"
+    { "name": "...", "path": "...", "type": "single", "theme": "...",
+      "themeRecommendations": ["...","...","..."],
+      "diagramType": "architecture",
+      "createdAt": "...", "createdFrom": "..." },
+
+    // type: "deck"
+    { "name": "...", "path": "...", "type": "deck", "theme": "...",
+      "themeRecommendations": ["...","...","..."],
+      "slides": [
         { "layout": "title", "id": "title" },
         { "layout": "agenda", "id": "agenda" },
         { "layout": "diagram", "diagramType": "architecture", "id": "arch-1" },
         { "layout": "closing", "id": "closing" }
       ],
-      "createdAt": "ISO-8601",
-      "createdFrom": "<original /ai-draw command>"
-    }
+      "createdAt": "...", "createdFrom": "..." },
+
+    // type: "site" — new in v0.2
+    { "name": "...", "path": "...", "type": "site", "theme": "...",
+      "themeRecommendations": ["...","...","..."],
+      "sourceMarkdown": "docs/system.md",
+      "tree": [
+        { "slug": "index", "title": "...", "path": "index.html",
+          "children": ["user-service", "order-service"] },
+        { "slug": "user-service", "title": "...", "path": "pages/user-service.html",
+          "parent": "index", "children": ["user-service/auth-module"] },
+        { "slug": "user-service/auth-module", "title": "...", "path": "pages/user-service/auth-module.html",
+          "parent": "user-service", "children": [] }
+      ],
+      "createdAt": "...", "createdFrom": "..." }
   ]
 }
 ```
 
-The order of `decks[]` is **most-recent first**. `add` / `redo` / `export` operations look at `decks[0]` unless `--to <name>` is given.
+The `decks[]` array stores all output kinds (single / deck / site) — kept as one list for simplicity. Order is **most-recent first**. `add` / `redo` / `export` operations look at `decks[0]` unless `--to <name>` is given.
 
 ## Subcommand details
 
@@ -127,10 +147,24 @@ Per `INTERACTION.md` "add flow". Reads state, opens deck index.html, splices in 
 ./scripts/render.sh <state.decks[0].path>/index.html <slide-count>
 ```
 
+For **site mode**, loop over every entry in `state.decks[0].tree[]` and render each page individually:
+
+```bash
+for page in state.decks[0].tree[]:
+  ./scripts/render.sh <site>/<page.path> 1 <site>/png
+  mv <site>/png/single.png <site>/png/<flatten-slash(page.slug)>.png
+```
+
 **Auto-open the PNG output directory** afterward (unless `--no-open`):
 ```bash
 ./scripts/open.sh <state.decks[0].path>/png
 ```
+
+### `--mode site` (new in v0.2)
+
+When the user passes `--mode site <markdown.md>` OR uses one of the site trigger keywords above, **stop following these steps and read `site/INSTRUCTIONS.md`** — site mode has its own multi-step controller flow (parse markdown → build page tree → generate index.html → dispatch up to 8 parallel subagents for subpages → write state → open).
+
+The `add --to <site> --under <parent-slug>` subcommand also dispatches to `site/INSTRUCTIONS.md`.
 
 ### `list`
 
@@ -146,6 +180,7 @@ Read state, format as table with name / type / theme / created / slides.
 - `diagrams/<type>/template.html` — per-type starting template
 - `diagrams/<type>/examples/*.html` — reference outputs
 - `ppt/{deck-template.html, INSTRUCTIONS.md, README-template.md}` — deck wrapper
+- `site/{INSTRUCTIONS.md, subagent-prompt.md, index-template.html, subpage-template.html}` — multi-page site mode (v0.2)
 - `assets/{base.css, themes/, runtime.js, exporter.js, presenter.js}` — runtime served via jsdelivr
 - `scripts/{new.sh, open.sh, render.sh, check-themes.sh, render-all.sh}` — bash helpers
 
