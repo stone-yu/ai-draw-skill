@@ -1,0 +1,40 @@
+/* Neo-brutalism — thick black borders, hard offset shadows, primary colors, bold type.
+   For startup pitch / "敢说敢做" launch / loud visual. */
+:root {
+  --bg: #fef9c3;
+  --bg-2: #ffffff;
+  --bg-3: #fde68a;
+  --text-1: #000000;
+  --text-2: #1f2937;
+  --text-3: #4b5563;
+  --accent: #facc15;
+  --accent-2: #2563eb;
+  --border: #000000;
+  --grid: rgba(0, 0, 0, 0.05);
+  --sem-frontend: #2563eb;
+  --sem-backend: #16a34a;
+  --sem-db: #db2777;
+  --sem-cloud: #facc15;
+  --sem-security: #dc2626;
+  --sem-bus: #ea580c;
+  --sem-generic: #6b7280;
+  --font-display: 'Archivo Black', 'Space Grotesk', 'PingFang SC', sans-serif;
+  --font-body: 'Inter', 'PingFang SC', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --radius: 0px;
+  --radius-lg: 4px;
+  --stroke: 3px;
+  --shadow: 4px 4px 0 #000000;
+  --node-fill: var(--bg-2);
+  --node-stroke: #000000;
+  --edge-stroke: #000000;
+  --community-0: #facc15;
+  --community-1: #2563eb;
+  --community-2: #16a34a;
+  --community-3: #db2777;
+  --community-4: #dc2626;
+  --community-5: #ea580c;
+  --community-6: #7c3aed;
+  --community-7: #0891b2;
+  --mermaid-flavor: 'neutral';
+}

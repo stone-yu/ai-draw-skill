@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
-# scripts/check-themes.sh — confirm every theme overrides every base.css token.
+# scripts/check-themes.sh — confirm every diagram theme overrides every base.css token.
 # Exits non-zero if any theme is missing any token (CI gating).
+#
+# Scope: themes-diagram/ only. themes-ppt/ is intentionally not checked here —
+# PPT themes are allowed to inherit tokens from base-ppt.css and override only
+# what they want to restyle. Diagram themes are stricter because the diagram
+# render layer relies on a complete token set.
 
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 BASE="$ROOT/assets/base.css"
-THEMES_DIR="$ROOT/assets/themes"
+THEMES_DIR="$ROOT/assets/themes-diagram"
 
 [ -f "$BASE" ] || { echo "❌ $BASE not found"; exit 1; }
 [ -d "$THEMES_DIR" ] || { echo "❌ $THEMES_DIR not found"; exit 1; }

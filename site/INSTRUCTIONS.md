@@ -288,7 +288,7 @@ open index.html
 | Key | Action |
 |---|---|
 | `T` | Cycle 3 recommended themes (<THEMES_CSV>) |
-| `Shift+T` | Cycle all 8 themes |
+| `Shift+T` | Cycle all 12 themes |
 | `F` | Fullscreen |
 | Click `⋯` | Export current page to PNG |
 

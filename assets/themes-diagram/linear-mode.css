@@ -1,0 +1,40 @@
+/* Linear app aesthetic — near-black bg, electric indigo accent, Inter typography.
+   For modern product / system architecture / docs. Cold + professional. */
+:root {
+  --bg: #08090a;
+  --bg-2: #0f0f10;
+  --bg-3: #18181a;
+  --text-1: #ffffff;
+  --text-2: #9ea3ad;
+  --text-3: #6c727f;
+  --accent: #5e6ad2;
+  --accent-2: #4ea7fc;
+  --border: #26262a;
+  --grid: #18181a;
+  --sem-frontend: #5e6ad2;
+  --sem-backend: #4ea7fc;
+  --sem-db: #f2c94c;
+  --sem-cloud: #00b8d9;
+  --sem-security: #eb5757;
+  --sem-bus: #f2994a;
+  --sem-generic: #9ea3ad;
+  --font-display: 'Inter', 'SF Pro Display', 'PingFang SC', system-ui, sans-serif;
+  --font-body: 'Inter', 'SF Pro Text', 'PingFang SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --stroke: 1px;
+  --shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  --node-fill: var(--bg-3);
+  --node-stroke: var(--accent);
+  --edge-stroke: var(--text-3);
+  --community-0: #5e6ad2;
+  --community-1: #4ea7fc;
+  --community-2: #f2c94c;
+  --community-3: #00b8d9;
+  --community-4: #eb5757;
+  --community-5: #f2994a;
+  --community-6: #6fcf97;
+  --community-7: #bb86fc;
+  --mermaid-flavor: 'dark';
+}

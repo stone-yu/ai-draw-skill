@@ -1,24 +1,28 @@
 # references/themes.md — 双主题目录
 
 v0.3 起，主题分为两套独立目录：
-- **画图模式** → `assets/themes-diagram/`（8 个）— 单图 / site 使用
+- **画图模式** → `assets/themes-diagram/`（12 个）— 单图 / site 使用
 - **PPT 模式** → `assets/themes-ppt/`（36 个）— PPT 演讲稿使用
 
 两套主题互不干扰，T 键只在当前模式的主题集内循环。
 
 ---
 
-## 一、画图模式主题（8 个 themes-diagram）
+## 一、画图模式主题（12 个 themes-diagram）
 
 运行 `/ai-draw <画图需求>` 时，从下表按用户语气选 3 个推荐，第一个标 ⭐。
 
 | 用户语气 / 关键词（中 + EN） | ① ⭐ | ② | ③ |
 |---|---|---|---|
-| 技术分享 / 内部分享 / 架构 / 微服务 / tech share / engineering | tech-dark | blueprint | cyberpunk-neon |
+| 技术分享 / 内部分享 / 架构 / 微服务 / tech share / engineering | tech-dark | linear-mode | blueprint |
+| Linear 风 / 现代产品 / 系统架构 / 文档 / 紫蓝暗色 | linear-mode | tech-dark | blueprint |
 | 蓝图 / 工程图 / blueprint / CI/CD / pipeline | blueprint | tech-dark | minimal-light |
-| 客户汇报 / 商务 / 对外 / formal / 董事会 / executive | business-clean | minimal-light | academic-paper |
-| 小红书 / 分享卡片 / xhs / 卡片风 / soft / 温暖 | xhs-soft | hand-drawn | minimal-light |
+| 客户汇报 / 商务 / 对外 / formal / 董事会 / executive | business-clean | saas-modern | minimal-light |
+| SaaS / 产品页 / 营销信息图 / 平台介绍 / GPT image 风 / 商务渐变 | saas-modern | glassmorphism | business-clean |
+| iOS / Apple 风 / 毛玻璃 / 苹果发布会 / glass / 高端发布 | glassmorphism | saas-modern | xhs-soft |
+| 小红书 / 分享卡片 / xhs / 卡片风 / soft / 温暖 | xhs-soft | saas-modern | hand-drawn |
 | cyber / 赛博 / 霓虹 / futuristic / 产品发布 / launch | cyberpunk-neon | tech-dark | blueprint |
+| 创业路演 / 敢说敢做 / brutalism / 硬核 / 创业大赛 / pitch loud | neo-brutalism | cyberpunk-neon | tech-dark |
 | 极简 / minimal / 白底 / 性冷淡 / clean | minimal-light | academic-paper | business-clean |
 | 学术 / 论文 / 报告 / academic / paper / conference | academic-paper | minimal-light | business-clean |
 | 草稿 / 手绘 / sketch / 白板 / wireframe / brainstorm | hand-drawn | minimal-light | xhs-soft |
@@ -34,6 +38,10 @@ v0.3 起，主题分为两套独立目录：
 - **minimal-light** — 极简白纸，纯白 + 黑线，无强调色无阴影
 - **academic-paper** — 学术论文，象牙白 + Source Serif + 灰线条
 - **hand-drawn** — 手绘草图，米黄 + Caveat 字体 + rough.js 抖动笔触
+- **saas-modern** — 现代 SaaS 产品页，浅色 + 蓝/紫/橙渐变 accent + 大圆角 + 柔和阴影，GPT Image 2.0 风
+- **glassmorphism** — Apple 毛玻璃，紫粉橙径向渐变背景 + 半透明卡片 + backdrop-filter blur，iOS / 苹果发布会风
+- **linear-mode** — Linear app 风，近黑底 + 电光靛蓝 accent + Inter 字体，现代产品 / 系统架构 / 文档冷静专业
+- **neo-brutalism** — 厚黑描边 + 硬偏移阴影（4px 4px 0 #000）+ 三原色 + Archivo Black，创业路演 / 敢说敢做
 
 ### 兼容性提示矩阵（软警告，不阻断）
 
@@ -46,6 +54,10 @@ v0.3 起，主题分为两套独立目录：
 | tech-dark | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | blueprint | ✅ | ⚠️ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | business-clean | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| saas-modern | ⭐ | ✅ | ⭐ | ✅ | ✅ | ⚠️ | ⚠️ |
+| glassmorphism | ⭐ | ✅ | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
+| linear-mode | ⭐ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| neo-brutalism | ✅ | ⚠️ | ⭐ | ✅ | ⚠️ | ⚠️ | ⚠️ |
 | xhs-soft | ⚠️ | ✅ | ✅ | ⚠️ | ✅ | ⚠️ | ⚠️ |
 | cyberpunk-neon | ✅ | ✅ | ✅ | ✅ | ⚠️ | ⚠️ | ⚠️ |
 | minimal-light | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
@@ -66,6 +78,10 @@ v0.3 起，主题分为两套独立目录：
 | minimal-light | minimal-light, minimal, 极简, 白底 |
 | academic-paper | academic-paper, academic, 学术, 论文 |
 | hand-drawn | hand-drawn, sketch, 手绘 |
+| saas-modern | saas-modern, saas, SaaS, 产品页, 信息图, 商务渐变, GPT image |
+| glassmorphism | glassmorphism, glass, 毛玻璃, iOS, Apple, 苹果 |
+| linear-mode | linear-mode, linear, Linear |
+| neo-brutalism | neo-brutalism, brutalism, brutal, 暴力美学, 厚描边 |
 
 ---
 

@@ -1,0 +1,57 @@
+/* Frosted-glass aesthetic — gradient bg + translucent surfaces + heavy soft shadow.
+   Apple-style product page / iOS-feel diagrams. Sister theme to saas-modern. */
+:root {
+  --bg: #f1f5fd;
+  --bg-2: rgba(255, 255, 255, 0.55);
+  --bg-3: rgba(255, 255, 255, 0.75);
+  --text-1: #1e1b4b;
+  --text-2: #4338ca;
+  --text-3: #6366f1;
+  --accent: #6366f1;
+  --accent-2: #ec4899;
+  --border: rgba(255, 255, 255, 0.6);
+  --grid: rgba(99, 102, 241, 0.06);
+  --sem-frontend: #6366f1;
+  --sem-backend: #8b5cf6;
+  --sem-db: #ec4899;
+  --sem-cloud: #f97316;
+  --sem-security: #ef4444;
+  --sem-bus: #06b6d4;
+  --sem-generic: #64748b;
+  --font-display: 'SF Pro Display', 'PingFang SC', 'Inter', system-ui, sans-serif;
+  --font-body: 'SF Pro Text', 'PingFang SC', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --radius: 14px;
+  --radius-lg: 24px;
+  --stroke: 1.5px;
+  --shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
+  --node-fill: rgba(255, 255, 255, 0.70);
+  --node-stroke: var(--accent);
+  --edge-stroke: var(--accent);
+  --community-0: #6366f1;
+  --community-1: #ec4899;
+  --community-2: #f97316;
+  --community-3: #06b6d4;
+  --community-4: #8b5cf6;
+  --community-5: #14b8a6;
+  --community-6: #f59e0b;
+  --community-7: #ef4444;
+  --mermaid-flavor: 'neutral';
+}
+
+/* Glass effect on the wrapper: blur + saturation behind the diagram.
+   Theme-scoped (loaded after base.css) so other themes are unaffected. */
+html, body {
+  background:
+    radial-gradient(circle at 12% 18%, rgba(199, 210, 254, 0.85) 0%, transparent 45%),
+    radial-gradient(circle at 88% 78%, rgba(251, 207, 232, 0.75) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(254, 215, 170, 0.55) 0%, transparent 55%),
+    var(--bg);
+  background-attachment: fixed;
+}
+.diagram-wrapper {
+  background: rgba(255, 255, 255, 0.40);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+}

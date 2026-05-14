@@ -17,7 +17,7 @@ Ambiguous request? `/ai-draw` will ask once which mode you want — never silent
 
 ## 🎤 PPT mode — what it makes
 
-- **36 PPT themes** organized by audience: business / tech sharing / 小红书 / academic / cyber / minimal / designer
+- **36 PPT themes** organized by audience (business / tech sharing / 小红书 / academic / cyber / minimal / designer) — full list in [Themes](#themes) below
 - **31 single-page slide layouts**: cover, bullets, two/three-column, kpi-grid, code, terminal, image-grid, comparison, pros-cons, big-quote, table, gantt, roadmap, timeline, mindmap, flow-diagram, arch-diagram, charts (bar/line/pie/radar), process-steps, …
 - **15 full-deck templates** (drop-in starting points): `tech-sharing`, `product-launch`, `weekly-report`, `pitch-deck`, `course-module`, `xhs-post`, `xhs-pastel-card`, `xhs-white-editorial`, `presenter-mode-reveal` (with 逐字稿), `graphify-dark-graph`, `knowledge-arch-blueprint`, `hermes-cyber-terminal`, `obsidian-claude-gradient`, `testing-safety-alert`, `dir-key-nav-minimal`
 - **27 CSS animations + 20 canvas FX**: `data-anim="fade-up"`, `data-fx="knowledge-graph"`, etc.
@@ -27,9 +27,52 @@ Ambiguous request? `/ai-draw` will ask once which mode you want — never silent
 ## 🖼️ 画图 mode — what it makes
 
 - **7 diagram types**: architecture / knowledge graph / flowchart / sequence / mindmap / class / ER
-- **8 curated diagram themes**: tech-dark, blueprint, business-clean, xhs-soft, cyberpunk-neon, minimal-light, academic-paper, hand-drawn
+- **12 curated diagram themes** — covering tech / business / SaaS / iOS-glass / Linear-mode / brutalism / xhs / cyberpunk / minimal / academic / hand-drawn (full table in [Themes](#themes) below)
 - **Multi-page site mode** (`--mode site <markdown.md>`): turn a doc into a hyperlinked architecture site — main page + drill-down subpages with click-through `↗` components, breadcrumbs, cross-page theme sync
 - **Mixed mode**: any of the 7 diagram types can be embedded as a slide layout inside PPT mode (best-effort theme inheritance)
+
+---
+
+## Themes
+
+Two parallel catalogs, kept separate so PPT decorative themes don't pollute diagram color semantics.
+
+### 画图模式 (12 themes-diagram)
+
+All previews below render the same `diagrams/architecture/examples/three-tier-ecommerce.html` so you can compare them side-by-side. Regenerate with `./scripts/render-previews.sh`.
+
+| Theme | Preview | 一句话定位 |
+|---|---|---|
+| `tech-dark` | <img src="docs/theme-previews/tech-dark.png" width="320"> | 暗色技术风，slate-950 + 青/紫/翠 语义色，JetBrains Mono |
+| `blueprint` | <img src="docs/theme-previews/blueprint.png" width="320"> | 蓝图工程风，深蓝 + 白色细线 + 密网格 |
+| `business-clean` | <img src="docs/theme-previews/business-clean.png" width="320"> | 商务正式，米白 + 沉稳蓝/绿，Inter |
+| `saas-modern` | <img src="docs/theme-previews/saas-modern.png" width="320"> | 现代 SaaS 产品页，浅色 + 蓝/紫/橙渐变 + 大圆角 — **GPT Image 2.0 风** |
+| `glassmorphism` | <img src="docs/theme-previews/glassmorphism.png" width="320"> | Apple 毛玻璃，紫粉橙径向渐变背景 + 半透明卡片 + `backdrop-filter` blur — **iOS / 苹果发布会风** |
+| `linear-mode` | <img src="docs/theme-previews/linear-mode.png" width="320"> | Linear app 风，近黑底 + 电光靛蓝 accent + Inter — **现代产品 / 系统架构** |
+| `neo-brutalism` | <img src="docs/theme-previews/neo-brutalism.png" width="320"> | 厚黑描边 + 硬偏移阴影（`4px 4px 0 #000`）+ 三原色 + Archivo Black — **创业路演 / 敢说敢做** |
+| `xhs-soft` | <img src="docs/theme-previews/xhs-soft.png" width="320"> | 小红书柔色卡片，奶白 + 粉橙 + 大圆角 |
+| `cyberpunk-neon` | <img src="docs/theme-previews/cyberpunk-neon.png" width="320"> | 赛博朋克霓虹，纯黑 + 品红/青/黄发光 |
+| `minimal-light` | <img src="docs/theme-previews/minimal-light.png" width="320"> | 极简白纸，纯白 + 黑线，无强调色无阴影 |
+| `academic-paper` | <img src="docs/theme-previews/academic-paper.png" width="320"> | 学术论文，象牙白 + Source Serif + 灰线条 |
+| `hand-drawn` | <img src="docs/theme-previews/hand-drawn.png" width="320"> | 手绘草图，米黄 + Caveat 字体 + rough.js 抖动笔触 |
+
+### PPT 模式 (36 themes-ppt)
+
+按观众 / 场景分组（每组首项为默认 ⭐）：
+
+| 分组 | ⭐ 默认 | 其他成员 |
+|---|---|---|
+| 商务 / 投资人 / 路演 | `pitch-deck-vc` | `corporate-clean` · `swiss-grid` · `editorial-serif` · `minimal-white` |
+| 技术 / 工程 / 分享 | `tokyo-night` | `dracula` · `catppuccin-mocha` · `catppuccin-latte` · `terminal-green` · `blueprint` · `nord` · `gruvbox-dark` · `solarized-light` · `rose-pine` |
+| 小红书 / 卡片 / 营销 | `xiaohongshu-white` | `soft-pastel` · `magazine-bold` · `rainbow-gradient` · `aurora` · `sunset-warm` · `arctic-cool` |
+| 学术 / 报告 / 论文 | `academic-paper` | `editorial-serif` · `minimal-white` · `engineering-whiteprint` · `news-broadcast` |
+| 赛博 / 强烈 / 发布会 | `cyberpunk-neon` | `vaporwave` · `y2k-chrome` · `neo-brutalism` · `retro-tv` |
+| 极简 / 克制 | `minimal-white` | `swiss-grid` · `japanese-minimal` · `sharp-mono` |
+| 设计师 / 创意 | `bauhaus` | `memphis-pop` · `midcentury` · `glassmorphism` |
+
+Press `T` to cycle 3 recommended themes (`data-themes` attr); `Shift+T` to cycle all 12 / 36. Full recommendation rules, compatibility matrix, and override aliases live in [`references/themes.md`](references/themes.md).
+
+Need a theme that's not here? Open an issue with a reference image — `saas-modern` / `glassmorphism` / `linear-mode` / `neo-brutalism` (May 2026) were all added this way.
 
 ---
 

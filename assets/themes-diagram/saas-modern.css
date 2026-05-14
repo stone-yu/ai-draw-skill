@@ -1,0 +1,41 @@
+/* Modern SaaS product infographic — light bg, big rounded cards,
+   blue / purple / orange gradient accents, soft shadows.
+   Matches the "GPT Image 2.0 product-page" look. */
+:root {
+  --bg: #f7f9fc;
+  --bg-2: #ffffff;
+  --bg-3: #eef3ff;
+  --text-1: #0f172a;
+  --text-2: #475569;
+  --text-3: #94a3b8;
+  --accent: #3b5cff;
+  --accent-2: #8b5cf6;
+  --border: #e2e8f0;
+  --grid: #eef2f7;
+  --sem-frontend: #3b5cff;
+  --sem-backend: #8b5cf6;
+  --sem-db: #ec4899;
+  --sem-cloud: #f97316;
+  --sem-security: #ef4444;
+  --sem-bus: #06b6d4;
+  --sem-generic: #94a3b8;
+  --font-display: 'PingFang SC', 'Noto Sans CJK SC', 'Inter', system-ui, sans-serif;
+  --font-body: 'PingFang SC', 'Noto Sans CJK SC', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --stroke: 1.5px;
+  --shadow: 0 4px 16px rgba(59, 92, 255, 0.10);
+  --node-fill: #ffffff;
+  --node-stroke: var(--accent);
+  --edge-stroke: var(--accent-2);
+  --community-0: #3b5cff;
+  --community-1: #8b5cf6;
+  --community-2: #f97316;
+  --community-3: #ec4899;
+  --community-4: #06b6d4;
+  --community-5: #22c55e;
+  --community-6: #f59e0b;
+  --community-7: #ef4444;
+  --mermaid-flavor: 'neutral';
+}

@@ -143,6 +143,8 @@ The legend MUST be **outside** all boundary boxes (region cluster, security grou
 
 You do NOT need to know the user's theme — all colors come from CSS variables. The SAME SVG works for tech-dark / blueprint / xhs-soft / etc. Just stick to `var(--sem-*)`, `var(--bg-*)`, `var(--text-*)`.
 
+**Exception**: when the chosen theme is `saas-modern`, the default `rect + text` pattern reads "too spartan" — load `saas-modern-preset.md` from this directory for the richer "GPT Image / SaaS product page" component patterns (icon badges, multi-color sub-cards, pill headers, decorative title, gradient CTAs). See §12 below.
+
 ## 10. Reference examples
 
 See `examples/` for 2-3 worked architecture diagrams in this directory.
@@ -183,3 +185,33 @@ When generating a page that belongs to a site (`/ai-draw --mode site`), some com
 3. The `↗` indicator must use `var(--accent)` so it adapts to every theme.
 4. Do NOT add `onclick` JS — the SVG native `<a>` element handles navigation in all modern browsers.
 5. Hover state is automatic: browsers add `cursor: pointer` to `<a>` content.
+
+## 12. saas-modern visual richness preset
+
+When `data-themes` includes `saas-modern` as primary (or the user mentioned "SaaS / 产品页 / 营销信息图 / GPT image"), §1-7's default `rect + text` pattern reads as too spartan. Load and apply the richer component patterns from **`saas-modern-preset.md`** in this directory.
+
+### Key principles (full details in preset file)
+
+1. **Pastel palette table** — 8 (deep, pastel) color pairs; rotate through ≥ 4 for sibling items
+2. **Icon badges** replace plain bullets — 32×32 pastel rounded-rect + emoji on every list item
+3. **Section header pills** — filled rounded pills instead of plain text headings
+4. **Decorative title** — title text flanked by left/right gradient lines + dots
+5. **Big rounded section cards** (`rx=22`) with pastel fill — group content within a column
+6. **Multi-color sub-cards** — peer entities in a row each get a different color
+7. **Cross-column arrows with pill labels** — gradient stroke + small pill above + descriptor below
+8. **Dashed-border callout** for definitions/rules; **gradient CTA box** for emphasis
+9. **Bottom summary band** (optional) — full-width gradient bar with the punchline
+10. **Required `<defs>`** — saas-modern needs a specific gradient + filter set; preset file lists them
+
+### Anti-patterns (must avoid)
+
+- ❌ Single-color throughout (defeats "multi-color SaaS" feel)
+- ❌ `<circle r=6>` bullets (every list item needs an emoji badge)
+- ❌ All sub-cards identical color (peers must visually differentiate)
+- ❌ Mixing saas-modern preset with tech-dark/blueprint/etc. — preset is saas-modern-only
+
+### Partial application
+
+For `business-clean` theme: apply only icon badges (§2) and header pills (§3) from the preset, not the gradients/CTAs. For `class` / `er` diagram types: do NOT apply this preset (too structured for badges).
+
+See `saas-modern-preset.md` for code snippets and the full pattern library.
