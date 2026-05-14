@@ -8,8 +8,8 @@ A cross-platform agent skill (Claude Code / Copilot CLI / Gemini CLI / Codex —
 
 | Mode | Purpose | Triggered by |
 |---|---|---|
-| 🎤 **PPT 演讲稿** | Multi-slide HTML presentations with full speaker mode | "演讲 / 分享 / PPT / deck / 周报 / 课件 / 小红书图文 / 做一份 PPT" or `--mode ppt` |
-| 🖼️ **画图** | Single-page or multi-page architecture diagrams | "画 / 画图 / 架构图 / 流程图 / 时序图 ..." or `--mode single` / `--mode site` |
+| 🎤 **PPT模式** | Multi-slide HTML presentations with full speaker mode | "演讲 / 分享 / PPT / deck / 周报 / 课件 / 小红书图文 / 做一份 PPT" or `--mode ppt` |
+| 🖼️ **画图模式** | Single-page or multi-page architecture diagrams | "画 / 画图 / 架构图 / 流程图 / 时序图 ..." or `--mode single` / `--mode site` |
 
 Ambiguous request? `/ai-draw` will ask once which mode you want — never silently guesses.
 
