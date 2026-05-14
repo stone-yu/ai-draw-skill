@@ -1,69 +1,71 @@
-# INTERACTION.md — `/ai-draw` user interaction SOP
+# INTERACTION.md — `/ai-draw` 对话 SOP
 
-This file documents the conversational flow that `SKILL.md` follows. SKILL.md keeps the high-level outline; load this file when you need the full template wording.
+本文件记录 `SKILL.md` 遵循的完整对话流程。SKILL.md 保存高层概要；需要完整措辞时加载本文件。
 
-## Standard new-diagram flow
+---
 
-### Step 1 — Acknowledge + identify (no question yet)
+## 一、画图模式（Standard new-diagram flow）
 
-State what you parsed in **one short paragraph**:
+### Step 1 — Acknowledge + identify（不提问，先陈述解析结果）
+
+用一段简短的话说明解析结果：
 
 ```
 识别为「<diagram-type>」。
-{{TYPE_REASON}} <! e.g. "命中关键词「时序」+「调用链」" or "未命中类型关键词，按通用画法走 flowchart" -->
+{{TYPE_REASON}}  <!-- e.g. "命中关键词「时序」+「调用链」" 或 "未命中类型关键词，按通用画法走 flowchart" -->
 ```
 
-### Step 2 — Theme recommendation (only if user did NOT specify)
+### Step 2 — 主题推荐（用户未指定主题时）
 
-Offer exactly 3 themes from `references/themes.md`, the first marked ⭐:
+从 `references/themes.md`（画图 8 主题目录）中推荐 3 个，第一个标 ⭐：
 
 ```
 {{TONE_LABEL}}语气，推荐 3 个主题：
-   ① <theme-name> ⭐    — <one-liner from references/themes.md>
+   ① <theme-name> ⭐    — <one-liner from references/themes.md §Diagram>
    ② <theme-name>       — <one-liner>
    ③ <theme-name>       — <one-liner>
 ```
 
-Then immediately the next question (don't wait for them to answer theme separately):
+紧接着追加下一问（不要等用户单独回答主题再问模式）：
 
-### Step 3 — Mode confirm (only if not derivable)
+### Step 3 — 单图 vs site 确认（不可直接推导时）
 
-Append in the SAME message:
+在**同一条消息**中追加：
 
 ```
-生成「单图」还是「PPT deck」？{{MODE_HINT}}
-   ⓐ 单图  ⓑ PPT deck
+生成「单图」还是「多页站」？{{MODE_HINT}}
+   ⓐ 单图  ⓑ 多页架构站（site）
 ```
 
-`MODE_HINT`:
-- `(多图建议 deck)` if request has multiple diagrams
-- `("做 PPT" 推 deck)` if user used PPT keywords
-- nothing otherwise
+`MODE_HINT`：
+- `(信息量多，建议 site)` — 若请求中有 ≥ 4 子系统
+- `(含 .md 文件，建议 site)` — 若请求含 .md 路径
+- 无额外提示时留空
 
-### Step 4 — Wait for user
+### Step 4 — 等待用户
 
-Acceptable user inputs:
-- `① ⓐ` (theme + mode)
+可接受的输入形式：
+- `① ⓐ`（主题 + 模式）
 - `1 a`
-- `tech-dark deck`
+- `tech-dark 单图`
 - `第一个 单图`
-- Just `①` → assume single image (most common); confirm: "默认单图，要 deck 加一句 deck"
+- 只回 `①` → 默认单图；确认："默认单图，要多页站加一句 site"
 
-### Step 5 — Generate
+### Step 5 — 生成
 
-1. Run `./scripts/new.sh <safe-name>-<theme>` (creates `./ai-draw-out/<dir>/`)
-2. Pick the right `diagrams/<type>/template.html` (or `ppt/deck-template.html` for deck mode)
-3. Read `diagrams/<type>/INSTRUCTIONS.md`
-4. Fill in placeholders with content derived from the user's request
-5. Write `index.html` and `README.md`
-6. Update `./ai-draw-out/.ai-draw-state.json`
-7. **Auto-open the generated file** (default behavior):
+1. 运行 `./scripts/new.sh <safe-name>-<theme>`（创建 `./ai-draw-out/<dir>/`）
+2. 选取对应的 `diagrams/<type>/template.html`
+3. 读取 `diagrams/<type>/INSTRUCTIONS.md`
+4. 用需求内容填充 placeholder
+5. 写入 `index.html` 和 `README.md`
+6. 更新 `./ai-draw-out/.ai-draw-state.json`（type: "single"）
+7. **自动打开**（默认行为）：
    ```bash
    ./scripts/open.sh <dir>/index.html
    ```
-   Skip when `--no-open` flag is present OR environment var `AI_DRAW_NO_OPEN=1` is set.
+   `--no-open` 或环境变量 `AI_DRAW_NO_OPEN=1` 时跳过。
 
-### Step 6 — Confirm with helpful next steps
+### Step 6 — 确认 + 小贴士
 
 ```
 ✓ ./ai-draw-out/<dir>/
@@ -74,18 +76,20 @@ Acceptable user inputs:
 小贴士：
 · T 键   在 <theme1>/<theme2>/<theme3> 之间循环
 · F 键   全屏
-· S 键   演讲者模式 (deck only)
+· S 键   演讲者模式（PPT 模式专用）
 · 点击右上 ⋯ → 导出 PNG/PDF
 · 不喜欢？/ai-draw redo --style <theme-name>
-· 加一张？/ai-draw add <新图描述>
+· 加图层？/ai-draw add <新图描述>
 · 下次不想自动打开？加 --no-open
 ```
 
-If `--no-open` was passed (or `AI_DRAW_NO_OPEN=1`), replace `已在浏览器中打开` with the explicit open command: `open ai-draw-out/<dir>/index.html`.
+若 `--no-open`：把"已在浏览器中打开"替换为 `open ai-draw-out/<dir>/index.html`。
 
-## Disambiguation flow
+---
 
-If the user's request matches **multiple diagram types** per `references/diagram-types.md`, ask first (before theme):
+## 二、画图模式 — 歧义问答（Disambiguation flow）
+
+若用户请求命中**多个图类型**（按 `references/diagram-types.md`），先问类型，再问主题：
 
 ```
 这个有两种常见画法：
@@ -95,101 +99,257 @@ If the user's request matches **multiple diagram types** per `references/diagram
 （选完后我会推 3 个主题）
 ```
 
-Wait for the answer, then resume from Step 2.
+等回答后，从 Step 2 继续。
 
-## Compatibility warning flow
+---
 
-If the user's chosen theme × type is in the ⚠️ cell of the compatibility matrix, ask once:
+## 三、画图模式 — 兼容性警告（Compatibility warning flow）
+
+用户选的主题 × 图类型命中 `references/themes.md` 兼容矩阵 ⚠️ 格时，警告一次：
 
 ```
 你选了 <theme> × <type>。提醒一下：<theme> 跟 <type> 的<reason>不太搭。
 要不要换成 <alt1> / <alt2>？或者你坚持就这样？
 ```
 
-If they say "就这样" / "yes" / silence ≥ 1 turn → proceed. Don't repeat the warning.
+用户说"就这样" / "yes" / 沉默 ≥ 1 轮 → 继续生成。不重复警告。
 
-## `add` flow
+---
+
+## 四、画图模式 — `add` flow
 
 ```
 👤 /ai-draw add 数据库 ER 图
 
-1. Read .ai-draw-state.json → find lastUpdated entry
-2. If type === "single":
-     ask: "最近的产出是单图。要 ① 升级为 deck 再加 / ② 新建一份 deck？"
-3. If type === "deck":
-     - Generate new diagram slide (per ppt/INSTRUCTIONS.md §1)
-     - Insert before closing slide (or at end if no closing)
-     - Update agenda <ol> if exists
-     - Update state.slides[]
-     - **Auto-open the deck at the new slide** (unless --no-open):
-         `./scripts/open.sh "<path>/index.html#/<new-slide-num>"`
-     - Confirm: "✓ 已加为第 N 张，已自动跳转打开"
+1. 读 .ai-draw-state.json → 找 lastUpdated 条目
+2. 如果 type === "single":
+     问："最近产出是单图。要 ① 升级为 PPT 再加 / ② 新建一份 PPT？"
+3. 如果 type === "ppt":
+     → 进入「PPT add flow」（见第七节）
+4. 如果 type === "site":
+     → 进入「site add flow」（见第十节）
 ```
 
-## `redo` flow
+---
+
+## 五、画图模式 — `redo` flow
 
 ```
 👤 /ai-draw redo --style minimal-light
 
-1. Read .ai-draw-state.json → find lastUpdated entry
-2. Open its index.html
-3. Find <link id="theme-link" href="...themes/<old>.css"> and replace with new theme
-4. Update data-themes attr on <html> if user passed all 3 (e.g. --themes tech-dark,minimal-light,blueprint)
-5. Save
-6. **Auto-open** (unless --no-open): `./scripts/open.sh <path>/index.html`
-7. Confirm: "✓ <name> 主题已切换为 minimal-light，已重新打开"
+1. 读 .ai-draw-state.json → 找 lastUpdated 条目
+2. 打开其 index.html
+3. 找 <link id="theme-link" href="...themes-diagram/<old>.css"> 替换为新主题
+   （PPT 产出则替换 themes-ppt/<old>.css → themes-ppt/<new>.css）
+4. 更新 <html data-themes> 属性（若用户传了 --themes 三连）
+5. 保存
+6. **自动打开**（除非 --no-open）: ./scripts/open.sh <path>/index.html
+7. 确认: "✓ <name> 主题已切换为 minimal-light，已重新打开"
 
-NEVER regenerate the diagram content — only the theme link is touched.
+绝不重新生成图内容 — 只改 theme link。
 ```
-
-## `export png` flow
-
-```
-1. Read .ai-draw-state.json → lastUpdated entry
-2. Run: ./scripts/render.sh <path-to-index.html> <slide-count>
-3. Auto-open the PNG output dir (unless --no-open): ./scripts/open.sh <path>/png
-4. Show user the output dir
-```
-
-## `list` flow
-
-Read `./ai-draw-out/.ai-draw-state.json`, list each entry as:
-```
-<name>     <type>    <theme>    <created-date>    <slide-count or pages-count>
-```
-
-For `type:"single"` show 1 page; for `type:"deck"` show slide count; for `type:"site"` show `<N> pages` derived from `tree.length`.
 
 ---
 
-## `site` flow (v0.2)
+## 六、`export png` flow
 
-When the user runs `/ai-draw --mode site <markdown.md>` OR mentions a `.md` path with words like "多页 / drill down / 多页架构":
+```
+1. 读 .ai-draw-state.json → lastUpdated 条目
+2. 运行: ./scripts/render.sh <path-to-index.html> <slide-count>
+3. 自动打开 PNG 输出目录（除非 --no-open）: ./scripts/open.sh <path>/png
+4. 告知用户输出目录路径
+```
 
-**Don't follow the standard new-diagram flow** — site mode has its own controller algorithm.
+---
 
-### Step 1 — Validate input
+## 七、PPT 模式 — PPT flow（3-问开场）
 
-- Check the markdown file exists. If not, list `.md` files in cwd and ask which one
-- If the file is empty or has no headings at all, fall back to single mode: tell the user "文档没有标题层级，已退化为单图" and continue as a normal single architecture diagram
+**进入条件**：SKILL.md Step 0 路由到 PPT 模式。
 
-### Step 2 — Theme recommendation (same as standard flow)
+### Step P1 — 3-问开场（必须执行）
 
-Use `references/themes.md` to recommend 3 themes based on the markdown's tone (read the first paragraph and any "## Overview" section). Skip if `--style <theme>` is given.
+在生成任何 slide 前，先问清楚三件事。如果用户已给出丰富内容，可改为"推荐默认值 + 确认"形式。
 
-### Step 3 — Hand off to `site/INSTRUCTIONS.md`
+开场示例：
 
-Read `site/INSTRUCTIONS.md` and follow its 9-step controller algorithm. The hand-off is total — the standard "fill template → write file → done" flow does NOT apply to site mode.
+> 我可以给你做这份 PPT！先确认三件事：
+> 1. **内容 / 页数 / 观众**：大概讲什么，几页，谁来看（工程师 / 高管 / 小红书读者 / 学生 / VC / 内部分享）？
+> 2. **风格 / 主题**：我根据你的观众推荐 3 个主题（见下），也可以说 "就第一个"。
+> 3. **起手模板**：用我现成的全 deck 模板打底，还是从头搭？
 
-### Step 4 — Confirm
+**主题推荐规则（从 36 themes-ppt 中选 3）**
 
-After the controller finishes, report:
+按观众 + 语气推荐，第一个标 ⭐：
+
+| 观众 / 场景 | ① ⭐ | ② | ③ |
+|---|---|---|---|
+| 商务 / 投资人 / 路演 | `pitch-deck-vc` | `corporate-clean` | `swiss-grid` |
+| 技术分享 / 工程 | `tokyo-night` | `dracula` | `catppuccin-mocha` |
+| 基础设施 / 架构 | `terminal-green` | `blueprint` | `nord` |
+| 小红书图文 / 卡片 | `xiaohongshu-white` | `soft-pastel` | `rainbow-gradient` |
+| 学术 / 报告 / 论文 | `academic-paper` | `editorial-serif` | `minimal-white` |
+| 产品发布 / 赛博 | `cyberpunk-neon` | `vaporwave` | `y2k-chrome` |
+| 通用 / 无明显偏好 | `minimal-white` | `corporate-clean` | `tokyo-night` |
+| 演讲 / 讲稿 / 逐字稿 | `tokyo-night`（+ presenter-mode-reveal 模板）| `minimal-white` | `corporate-clean` |
+
+**起手模板推荐规则（从 `ppt/full-decks/` 中选 1-2 个）**
+
+自信推荐，不要盲目询问：
+
+| 用户描述 | 推荐模板 |
+|---|---|
+| 产品发布 / 产品功能 | `product-launch` |
+| 技术分享 / 工程分享 | `tech-sharing` |
+| 周报 / 进度汇报 | `weekly-report` |
+| 融资路演 / pitch | `pitch-deck` |
+| 课程 / 培训 / 课件 | `course-module` |
+| 小红书图文（横版） | `xhs-white-editorial` 或 `xhs-pastel-card` |
+| 小红书图文（竖版） | `xhs-post` |
+| 演讲 + 逐字稿 | `presenter-mode-reveal` |
+| 知识图谱 / 图谱分享 | `graphify-dark-graph` |
+| 架构蓝图 | `knowledge-arch-blueprint` |
+| 测试 / 安全 / 告警 | `testing-safety-alert` |
+| 极简导航目录 | `dir-key-nav-minimal` |
+| 酷炫技术 / cyber | `hermes-cyber-terminal` 或 `obsidian-claude-gradient` |
+| 从头搭（无明显场景） | 不用全 deck 模板，按 `assets/layouts/` 逐 slide 组合 |
+
+### Step P2 — 脚手架
+
+收到 3 问的答案后：
+
+```bash
+./scripts/new.sh <safe-name>-<theme>   # 创建 ./ai-draw-out/<dir>/
+```
+
+如果选了全 deck 模板：将 `ppt/full-decks/<name>/` 整个复制到输出目录，然后定制内容。  
+如果从头搭：创建空 index.html，从 `assets/layouts/` 中选取所需布局模板逐 slide 组合。
+
+### Step P3 — 写 slide
+
+- 每个 slide 对应 `<section class="slide">` 块，layout 从 `assets/layouts/` 中复制对应 HTML 骨架
+- 用真实内容替换 demo 数据
+- 如有演讲 / 讲稿需求，写 `<aside class="notes">` 逐字稿（见 `ppt/INSTRUCTIONS.md` §演讲稿规则）
+- 如某 slide 需要嵌入图（架构图、流程图等），见「混合 slide flow」
+
+### Step P4 — 写入 + 打开
+
+1. 写入 `index.html`（含所有 slide）和 `README.md`
+2. 更新 `.ai-draw-state.json`（type: "ppt"，记录 fullDeckTemplate / audience / slides[]）
+3. **自动打开**（除非 `--no-open`）：
+   ```bash
+   ./scripts/open.sh <dir>/index.html
+   ```
+
+### Step P5 — 确认 + 小贴士
+
+```
+✓ ./ai-draw-out/<dir>/
+  ├ index.html       已在浏览器中打开（<N> slides，主题：<theme>）
+  └ README.md
+
+小贴士：
+· ← → / Space        翻页
+· T 键               主题切换（在 <theme1>/<theme2>/<theme3> 间循环）
+· S 键               演讲者模式（弹出 CURRENT / NEXT / SCRIPT / TIMER 四卡）
+· N 键               快速 notes 抽屉
+· O 键               幻灯片总览网格
+· F 键               全屏
+· 点击右上 ⋯          导出 PNG/PDF
+· 换主题？            /ai-draw redo --style <theme-name>
+· 加一页？            /ai-draw add <新 slide 描述>
+```
+
+---
+
+## 八、PPT 模式 — PPT add flow
+
+```
+👤 /ai-draw add --to <ppt-name> <slide 描述>
+
+1. 读 .ai-draw-state.json → 找目标 PPT（by name 或 lastUpdated）
+2. 确认 type === "ppt"
+3. 根据 slide 描述选取最合适的 layout（从 assets/layouts/ 31 个中选）
+4. 在目标 index.html 的最后一个 </section> 前插入新的 <section class="slide">
+   （若有 thanks / closing slide，插在它之前）
+5. 若存在 toc slide，在其 <ol>/<ul> 中追加新条目
+6. 更新 state.slides[]
+7. 保存
+8. **自动打开到新 slide**（除非 --no-open）:
+   ./scripts/open.sh "<path>/index.html#/<new-slide-num>"
+9. 确认: "✓ 已加为第 N 页，布局：<layout-name>，已自动跳转打开"
+```
+
+---
+
+## 九、PPT 模式 — PPT redo flow
+
+`/ai-draw redo --style <theme>` 对 PPT 产出的操作：
+
+```
+1. 读 state.decks[0]，确认 type === "ppt"
+2. 将 index.html 中 <link id="theme-link" href="...themes-ppt/<old>.css">
+   替换为 href="...themes-ppt/<new>.css"
+3. 若用户传了 --themes 三连，更新 data-themes 属性
+4. 更新 state 的 theme 字段
+5. 自动打开 index.html（主题变更已写入文件，T 键下次会用新顺序）
+6. 确认: "✓ <name> PPT 主题已切换为 <theme>，已重新打开"
+
+绝不重写 slide 内容。
+```
+
+---
+
+## 十、PPT 模式 — 混合 slide flow（PPT 中嵌入图）
+
+当某个 slide 需要展示架构图、流程图等时：
+
+1. slide 使用 `assets/layouts/arch-diagram.html` 或 `assets/layouts/flow-diagram.html` 骨架
+2. 在该 slide 上加 `data-diagram-type="<type>"` 属性
+3. 读取对应的 `diagrams/<type>/INSTRUCTIONS.md`，生成 SVG / 内联图内容
+4. 颜色优先使用 PPT 主题已有的 token：`var(--accent)` / `var(--bg)` / `var(--bg-soft)` / `var(--text-1)` / `var(--text-2)`
+5. **不要**依赖 `--sem-frontend` / `--sem-backend` / `--sem-db` 等画图专属 token（PPT 主题不定义这些）。需要语义色时用固定值或退化到单一 accent 色
+6. 在 `<aside class="notes">` 中补充该图的讲解要点
+
+示例骨架：
+
+```html
+<section class="slide layout-arch-diagram" data-diagram-type="architecture">
+  <h2>系统整体架构</h2>
+  <div class="diagram-container">
+    <!-- 内联 SVG，颜色用 var(--accent) / var(--bg) / var(--text-1) -->
+    <svg viewBox="0 0 800 500">...</svg>
+  </div>
+  <aside class="notes">这一页介绍……（150-300 字逐字稿）</aside>
+</section>
+```
+
+---
+
+## 十一、site flow（画图模式 v0.2+）
+
+进入条件：用户运行 `/ai-draw --mode site <markdown.md>` 或命中站点触发信号。
+
+**不走标准画图流程** — site 有独立的控制器算法。
+
+### Step S1 — 验证输入
+
+- 检查 markdown 文件是否存在；不存在则列出 cwd 的 `.md` 文件并询问
+- 文件为空或无标题层级 → 退化为单图模式："文档没有标题层级，已退化为单图"
+
+### Step S2 — 主题推荐（同标准画图流程 Step 2）
+
+读 markdown 前几段 + "## Overview" 等节来判断语气。`--style <theme>` 时跳过。
+
+### Step S3 — 交棒 `site/INSTRUCTIONS.md`
+
+读取 `site/INSTRUCTIONS.md`，执行其 9 步控制器算法（解析 markdown → 建页面树 → 生成 index.html → 分发最多 8 个并行子 agent → 写 state → 打开）。
+
+### Step S4 — 确认
 
 ```
 ✓ ./ai-draw-out/<name>-<theme>/
   ├ index.html                  已在浏览器中打开
   ├ pages/<N>.html              N 个子页
-  ├ pages/<...>/<...>.html      （如果有深度 ≥ 2 的页）
   └ README.md
 
 小贴士：
@@ -200,31 +360,36 @@ After the controller finishes, report:
 · 全部导 PNG？/ai-draw export png
 ```
 
-## `site add` flow
+---
+
+## 十二、site add flow
 
 ```
 👤 /ai-draw add --to 电商系统总览-tech-dark --under user-service AuthModule
 
-1. Read state, find target site by name
-2. Find <parent-slug> in tree (here: "user-service")
-3. Compute new slug: "user-service/auth-module" (kebab-case)
-4. Compute output path: pages/user-service/auth-module.html
-5. Dispatch a single subagent (using site/subagent-prompt.md) to generate that page
-6. Update parent page's index.html or pages/user-service.html — add a drillable
-   component pointing to the new subpage (using §11 of architecture INSTRUCTIONS)
-7. Update parent's children[] and add new entry to tree[]
-8. Auto-open the new page (unless --no-open):
+1. 读 state，找目标 site（by name）
+2. 在 tree 中找 <parent-slug>（此处：user-service）
+3. 计算新 slug: "user-service/auth-module"（kebab-case）
+4. 计算输出路径: pages/user-service/auth-module.html
+5. 分发单个 subagent（使用 site/subagent-prompt.md）生成该子页
+6. 在父页 HTML 中添加可下钻组件（依 architecture INSTRUCTIONS §11）
+7. 更新父页的 children[] 和 tree[] 新条目
+8. 自动打开新子页（除非 --no-open）:
    ./scripts/open.sh "<path>/pages/user-service/auth-module.html"
-9. Confirm: "✓ 已加为 user-service/auth-module，已自动打开"
+9. 确认: "✓ 已加为 user-service/auth-module，已自动打开"
 ```
 
-## `site redo` flow
+---
 
-`/ai-draw redo --style <theme>` against a site:
+## 十三、`list` flow
 
-1. Read state.decks[0]; confirm type === "site"
-2. For each entry in tree[], sed its `<link id="theme-link" href="...">` to the new theme
-3. Update `data-themes` attribute if user provided `--themes` triple
-4. Update state's `theme` field
-5. Auto-open `index.html` (theme is also persisted in localStorage so subsequent navigation keeps it)
-6. Confirm: "✓ N pages 已切换为 <theme>"
+读 `./ai-draw-out/.ai-draw-state.json`，以表格格式列出每个条目：
+
+```
+<name>     <type>    <theme>    <created-date>    <slide/page 数>
+```
+
+- `type:"single"` → 1 页
+- `type:"ppt"` → slide 数（取 state.slides.length）
+- `type:"deck-legacy"` → slide 数（旧格式）
+- `type:"site"` → `<N> pages`（取 tree.length）

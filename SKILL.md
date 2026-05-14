@@ -1,106 +1,129 @@
 ---
 name: ai-draw
-description: 单一 Skill 整合 fireworks-tech-graph / architecture-diagram-generator / html-ppt-skill 三个项目的画图能力。`/ai-draw <需求>` 一句话生成"自带主题 + 可选 PPT 模式"的可分享 HTML。支持 7 种画图类型（架构图 / 知识图谱 / 流程图 / 时序图 / 思维导图 / 类图 / ER 图）× 8 个精选主题。Trigger keywords (中+EN)：画 / 画图 / 画一个 / 给我画 / 帮我画 / draw / diagram / chart / 架构图 / 流程图 / 时序图 / 知识图谱 / 思维导图 / 类图 / ER 图 / 做一份 PPT / 做一份 deck / 做一份分享稿 / make a slide deck.
+description: 单一 Skill 整合 PPT 演讲稿生成（36 主题 / 31 布局 / 27 动画 / 20 特效 / 15 全 deck 模板）与画图能力（7 种类型 × 8 主题）。两个平等的顶级模式：`--mode ppt` 输出可分享的演讲 HTML；`--mode single` / `--mode site` 输出技术图。`/ai-draw <需求>` 自动识别意图，模糊时询问。Trigger keywords (中+EN)：画 / 画图 / 画一个 / 给我画 / 帮我画 / draw / diagram / chart / 架构图 / 流程图 / 时序图 / 知识图谱 / 思维导图 / 类图 / ER 图 / 演讲 / 分享 / 分享稿 / 讲稿 / 逐字稿 / PPT / deck / slides / keynote / 幻灯片 / pitch / 周报 / 课程 / 课件 / 小红书图文 / talk / presentation.
 trigger: /ai-draw
 ---
 
 # /ai-draw
 
-`/ai-draw <需求>` — 一句话生成自带主题 + 可选 PPT 模式的可分享 HTML 画图。
+`/ai-draw <需求>` — 两个平等的顶级模式：**PPT 演讲稿** 或 **画图**。一句话自动路由，模糊时询问。
 
 ## Subcommands
 
 | Command | Action |
 |---|---|
-| `/ai-draw <需求>` | 新建：单图或 deck |
-| `/ai-draw --mode site <markdown.md>` | 从 markdown 文档生成多页架构站（主页 + 下钻子页） |
-| `/ai-draw redo --style <theme>` | 仅修改最近产出的 theme-link（单图 / deck / site 都支持） |
-| `/ai-draw add <需求>` | 追加新 slide 到最近的 deck |
-| `/ai-draw add <需求> --to <name>` | 显式指定 deck |
-| `/ai-draw add --to <site> --under <parent-slug> <component>` | 在已有 site 的指定父页下加一个新子页 |
-| `/ai-draw export png` | 调用 scripts/render.sh 生成 PNG（site 模式下逐页渲染） |
+| `/ai-draw <需求>` | 新建：自动路由到 PPT 或画图 |
+| `/ai-draw --mode ppt <需求>` | 强制 PPT 演讲稿模式 |
+| `/ai-draw --mode single <需求>` | 强制画图（单图）模式 |
+| `/ai-draw --mode site <markdown.md>` | 画图模式的多页架构站（主页 + 下钻子页） |
+| `/ai-draw --mode deck <需求>` | **已退役**，等同于 `--mode ppt`（向后兼容，会提示升级） |
+| `/ai-draw redo --style <theme>` | 仅切换最近产出的主题（PPT / 单图 / site 均支持） |
+| `/ai-draw add <需求>` | PPT：追加新 slide；site：在最近 site 追加子页 |
+| `/ai-draw add <需求> --to <name>` | 显式指定目标 PPT 或 site |
+| `/ai-draw add --to <site> --under <parent-slug> <component>` | 在指定父页下加一个新子页 |
+| `/ai-draw export png` | 调用 `scripts/render.sh` 生成 PNG（site 模式下逐页渲染） |
 | `/ai-draw list` | 列出 `./ai-draw-out/` 下所有产出 |
 
 ### Flags
 
 | Flag | Default | Action |
 |---|---|---|
-| `--style <theme>` | auto-recommend | Lock theme, skip recommendation |
-| `--type <kind>` | auto-detect | Lock diagram type, skip disambiguation |
-| `--mode single` / `--mode deck` / `--mode site` | auto | Skip mode confirmation |
-| `--no-chrome` | off | (deck only) skip Agenda + Closing slides |
-| `--no-notes` | off | Skip writing `<aside class="notes">` |
-| `--no-open` | off | Skip auto-opening the generated file in browser |
-| `--max-depth <N>` | 3 | (site only) max markdown heading depth to split into pages |
-| `--slug-style <kebab\|pinyin>` | kebab | (site only) slug generation strategy for filenames |
-| `--to <name>` | most-recent deck/site | (add only) target a specific deck or site |
-| `--under <parent-slug>` | — | (site add only) which parent page to drill under |
+| `--mode ppt` | — | 强制 PPT 演讲稿模式（覆盖关键词检测） |
+| `--mode single` | — | 强制单图画图模式 |
+| `--mode site` | — | 强制多页站画图模式 |
+| `--mode deck` | — | **退役别名**，重定向到 `--mode ppt`；会输出一条友好提示 |
+| `--style <theme>` | 自动推荐 | 锁定主题，跳过推荐 |
+| `--type <kind>` | 自动识别 | 画图模式：锁定图类型，跳过歧义问答 |
+| `--full-deck <name>` | 按观众推荐 | PPT 模式：直接选用指定全 deck 模板 |
+| `--audience <kind>` | 从需求推断 | PPT 模式：`engineers`/`execs`/`xhs`/`students`/`vc`/`internal` |
+| `--no-chrome` | off | PPT 模式：跳过 Agenda + Closing slides |
+| `--no-notes` | off | 跳过写 `<aside class="notes">` |
+| `--no-open` | off | 跳过生成后自动在浏览器打开 |
+| `--max-depth <N>` | 3 | site 模式：markdown 标题最大下钻深度 |
+| `--slug-style <kebab\|pinyin>` | kebab | site 模式：文件名 slug 生成策略 |
+| `--to <name>` | 最近的 PPT/site | add 命令：指定目标 |
+| `--under <parent-slug>` | — | site add：指定父页 |
+
+---
 
 ## What you must do when invoked
 
-### Step 1 — Parse the user's request
+### Step 0 — Mode detection (PPT vs Diagram)
 
-Read it for:
-- **Diagram type** (use `references/diagram-types.md` to match keywords)
-- **Number of diagrams** (1 vs many → influences single vs deck)
-- **Explicit theme keyword** (`references/themes.md` "Explicit override keywords" section)
-- **Explicit deck keyword** ("PPT", "deck", "分享稿", "演讲")
-- **Site mode trigger** (3 layers, in priority order):
-  1. **Explicit**: `--mode site` flag is present
-  2. **Strong signal**: a `.md` file path mentioned + words like "多页 / drill down / 多页架构 / 多页文档站"
-  3. **Suggest, don't auto-trigger**: when the user gives any of these "rich-input" patterns, ASK them once whether to go site mode (don't silently switch):
-     - ≥ 2 file paths in the request (especially if any are `.md`)
-     - ≥ 4 distinct sub-systems / components / modules enumerated in the request
-     - The phrasing implies a "documentation site" rather than a single diagram (e.g. "整理一份架构文档", "做一个架构 wiki")
+**This step runs before everything else.**
 
-  Phrase the suggestion as:
-  > "你这个输入信息量挺多，要不要走 `--mode site` 出一份多页架构站？子页之间能点击下钻、面包屑导航。也可以坚持单图。"
+#### PPT 模式关键词（任意命中 → PPT 路由）
 
-  Don't repeat the suggestion if the user says no.
+演讲 / 分享 / 分享稿 / 讲稿 / 逐字稿 / PPT / deck / slides / keynote / 幻灯片 / pitch / 周报 / 课程 / 课件 / xhs 图文 / 小红书图文 / talk / presentation / pitch-deck / product-launch / 做一份 / 做一个 PPT / make a slide deck
 
-  When site mode IS chosen (any of the 3 layers), **stop the normal flow and read `site/INSTRUCTIONS.md` instead** — site mode has its own algorithm (markdown parsing → subagent fan-out per page).
-- **Subcommand** (add / redo / export / list — see table above)
+#### 画图模式关键词（任意命中 → 画图路由）
 
-### Step 2 — If multiple diagram types match → disambiguate
+画 / 画图 / 画一张 / 画一个 / 给我画 / 帮我画 / draw / diagram / chart / 架构图 / 流程图 / 时序图 / 知识图谱 / 思维导图 / 类图 / ER 图
 
-Ask the user per `INTERACTION.md` "Disambiguation flow". Wait for the answer before continuing.
+#### 歧义处理（两组都命中，或两组都未命中）
 
-### Step 3 — Theme recommendation
+问一次，不要自行决策：
 
-Unless the user already locked a theme via keyword or `--style`:
+> "你想要 ① 一份 **PPT 演讲稿**（多 slide，可全屏演示）② 一张 / 几张**图**（架构图、流程图等）？"
 
-1. Look up the user's tone in `references/themes.md`
-2. Offer 3 themes (one ⭐) per `INTERACTION.md` Step 2
+等用户回答后继续。**绝不在未确认时静默切换模式。**
 
-### Step 4 — Mode confirmation (single vs deck)
+#### 显式 flag 优先
 
-Unless already derivable:
+`--mode ppt` / `--mode single` / `--mode site` 直接覆盖关键词检测，无需询问。  
+`--mode deck` 视同 `--mode ppt`，并在确认消息中提示："deck 模式已升级为 PPT 模式，功能更完整。"
 
-- Multiple diagrams in request → default deck, just say "→ deck（多图）" and proceed
-- Explicit "PPT/deck" keyword → default deck, proceed
-- Otherwise ask per `INTERACTION.md` Step 3
+---
 
-### Step 5 — Generate
+### Step 0b — Subcommand shortcuts
 
-1. Read the right `diagrams/<type>/INSTRUCTIONS.md` (only the type the user picked)
-2. For deck mode also read `ppt/INSTRUCTIONS.md`
-3. Run `./scripts/new.sh <safe-name>-<theme>` to scaffold `./ai-draw-out/<dir>/`
-4. Fill in template placeholders following INSTRUCTIONS.md
-5. Write `<dir>/index.html` and `<dir>/README.md` (use `ppt/README-template.md` as base, replace `{{...}}`)
-6. Update `./ai-draw-out/.ai-draw-state.json` (see schema below)
-7. **Auto-open the generated file in the user's default browser** (unless `--no-open` was given):
-   ```bash
-   ./scripts/open.sh <dir>/index.html
-   ```
-   The script handles macOS / Linux / WSL / Windows transparently. If `AI_DRAW_NO_OPEN=1` is set in the environment or `--no-open` was passed, skip this step.
+如果是 `redo` / `add` / `export` / `list`，跳转到对应的 Subcommand details，不走 Step 0 的意图识别。
 
-### Step 6 — Confirm
+---
 
-Tell the user the output path + 5 helpful tips per `INTERACTION.md` Step 6. Mention that the file has already been opened (or note that it was skipped if `--no-open`).
+### PPT 路由 → `ppt/INSTRUCTIONS.md`
 
-## Compatibility warnings
+确认为 PPT 模式后，读取 `ppt/INSTRUCTIONS.md`，执行完整 PPT 流程（3-问开场 + 脚手架 + 写 slide + 打开）。
 
-If chosen theme × type lands in ⚠️ of `references/themes.md` matrix, mention it ONCE before generating. Don't repeat.
+#### PPT 路由内的 site 检测
+
+PPT 模式**不触发** site 模式。site 仅属于画图路由。
+
+---
+
+### 画图路由 → `INTERACTION.md` + `diagrams/<type>/INSTRUCTIONS.md`
+
+确认为画图模式后，按 `INTERACTION.md` 的 "Standard new-diagram flow" 执行：
+
+1. **Step 1 of INTERACTION.md** — 解析图类型 + site 模式检测
+2. **Step 2** — 主题推荐（从 8 themes-diagram）
+3. **Step 3** — 单图 vs site 确认
+4. **Step 4** — 等待用户
+5. **Step 5** — 生成（读对应 `diagrams/<type>/INSTRUCTIONS.md`）
+6. **Step 6** — 确认
+
+#### 画图路由内的 site 模式触发（三层优先级）
+
+1. **显式**：`--mode site` flag 存在
+2. **强信号**：提到 `.md` 文件路径 + "多页 / drill down / 多页架构站 / 多页文档站"
+3. **建议，不自动触发**：用户给出下列"富输入"模式时，询问一次是否走 site 模式：
+   - 请求中包含 ≥ 2 个文件路径（尤其含 `.md`）
+   - 请求中列举了 ≥ 4 个独立子系统 / 组件 / 模块
+   - 措辞隐含"文档站"而非单图（如"整理一份架构文档"、"做一个架构 wiki"）
+
+   建议措辞：
+   > "你这个输入信息量挺多，要不要走 `--mode site` 出一份多页架构站？子页之间能点击下钻、面包屑导航。也可以坚持单图。"
+
+   用户说不 → 不重复建议。  
+   site 模式确认后，**读 `site/INSTRUCTIONS.md`** 执行其 9 步控制器算法。
+
+---
+
+## Compatibility warnings (画图模式专用)
+
+如果用户选定的主题 × 图类型落在 `references/themes.md` 兼容矩阵的 ⚠️ 格，提一次警告。不重复。PPT 模式无需此检查。
+
+---
 
 ## State schema (`./ai-draw-out/.ai-draw-state.json`)
 
@@ -108,51 +131,66 @@ If chosen theme × type lands in ⚠️ of `references/themes.md` matrix, mentio
 {
   "lastUpdated": "ISO-8601",
   "decks": [
-    // type: "single"
+    // type: "single" — 画图模式单图
     { "name": "...", "path": "...", "type": "single", "theme": "...",
       "themeRecommendations": ["...","...","..."],
       "diagramType": "architecture",
       "createdAt": "...", "createdFrom": "..." },
 
-    // type: "deck"
-    { "name": "...", "path": "...", "type": "deck", "theme": "...",
+    // type: "ppt" — PPT 模式（v0.3 新增）
+    { "name": "...", "path": "...", "type": "ppt", "theme": "...",
       "themeRecommendations": ["...","...","..."],
+      "fullDeckTemplate": "tech-sharing",
+      "audience": "engineers",
       "slides": [
-        { "layout": "title", "id": "title" },
-        { "layout": "agenda", "id": "agenda" },
-        { "layout": "diagram", "diagramType": "architecture", "id": "arch-1" },
-        { "layout": "closing", "id": "closing" }
+        { "layout": "cover", "id": "cover" },
+        { "layout": "toc", "id": "toc" },
+        { "layout": "bullets", "id": "slide-2" },
+        { "layout": "arch-diagram", "diagramType": "architecture", "id": "arch-1" },
+        { "layout": "thanks", "id": "thanks" }
       ],
       "createdAt": "...", "createdFrom": "..." },
 
-    // type: "site" — new in v0.2
+    // type: "deck-legacy" — v0.1 旧 deck（只读，不再新建）
+    { "name": "...", "path": "...", "type": "deck-legacy", "theme": "...",
+      "themeRecommendations": ["...","...","..."],
+      "slides": [
+        { "layout": "title", "id": "title" },
+        { "layout": "diagram", "diagramType": "architecture", "id": "arch-1" }
+      ],
+      "createdAt": "...", "createdFrom": "..." },
+
+    // type: "site" — 画图模式多页站（v0.2+）
     { "name": "...", "path": "...", "type": "site", "theme": "...",
       "themeRecommendations": ["...","...","..."],
       "sourceMarkdown": "docs/system.md",
       "tree": [
         { "slug": "index", "title": "...", "path": "index.html",
-          "children": ["user-service", "order-service"] },
+          "children": ["user-service"] },
         { "slug": "user-service", "title": "...", "path": "pages/user-service.html",
-          "parent": "index", "children": ["user-service/auth-module"] },
-        { "slug": "user-service/auth-module", "title": "...", "path": "pages/user-service/auth-module.html",
-          "parent": "user-service", "children": [] }
+          "parent": "index", "children": [] }
       ],
       "createdAt": "...", "createdFrom": "..." }
   ]
 }
 ```
 
-The `decks[]` array stores all output kinds (single / deck / site) — kept as one list for simplicity. Order is **most-recent first**. `add` / `redo` / `export` operations look at `decks[0]` unless `--to <name>` is given.
+`decks[]` 存所有输出（single / ppt / deck-legacy / site）。顺序：**最新在前**。`add` / `redo` / `export` 操作默认操作 `decks[0]`，除非 `--to <name>` 指定。
+
+---
 
 ## Subcommand details
 
 ### `redo`
 
-Per `INTERACTION.md` "redo flow". Just `sed`-style replace on the `theme-link` href; never regenerate content. **Auto-open the updated file** (`./scripts/open.sh <path>/index.html`) unless `--no-open`.
+按 `INTERACTION.md` "redo flow"。仅 sed 替换 `<link id="theme-link">` 的 href，不重新生成内容。  
+- 画图模式产出 → 换 `assets/themes-diagram/<theme>.css`  
+- PPT 模式产出 → 换 `assets/themes-ppt/<theme>.css`  
+**自动打开**更新后的文件（除非 `--no-open`）。
 
 ### `add`
 
-Per `INTERACTION.md` "add flow". Reads state, opens deck index.html, splices in new `<section class="slide">` before closing. **Auto-open the deck at the newly-added slide** via the `#/N` hash: `./scripts/open.sh "<path>/index.html#/<new-slide-num>"` unless `--no-open`.
+按 `INTERACTION.md` "add flow" 或 "PPT add flow"。读取 state，在目标 index.html 中写入新 `<section class="slide">`，自动跳转打开（`./scripts/open.sh "<path>/index.html#/<N>"`）。
 
 ### `export png`
 
@@ -160,55 +198,67 @@ Per `INTERACTION.md` "add flow". Reads state, opens deck index.html, splices in 
 ./scripts/render.sh <state.decks[0].path>/index.html <slide-count>
 ```
 
-For **site mode**, loop over every entry in `state.decks[0].tree[]` and render each page individually:
-
-```bash
-for page in state.decks[0].tree[]:
-  ./scripts/render.sh <site>/<page.path> 1 <site>/png
-  mv <site>/png/single.png <site>/png/<flatten-slash(page.slug)>.png
-```
-
-**Auto-open the PNG output directory** afterward (unless `--no-open`):
-```bash
-./scripts/open.sh <state.decks[0].path>/png
-```
-
-### `--mode site` (new in v0.2)
-
-When the user passes `--mode site <markdown.md>` OR uses one of the site trigger keywords above, **stop following these steps and read `site/INSTRUCTIONS.md`** — site mode has its own multi-step controller flow (parse markdown → build page tree → generate index.html → dispatch up to 8 parallel subagents for subpages → write state → open).
-
-The `add --to <site> --under <parent-slug>` subcommand also dispatches to `site/INSTRUCTIONS.md`.
+site 模式下逐页循环渲染。自动打开 PNG 目录（除非 `--no-open`）。
 
 ### `list`
 
-Read state, format as table with name / type / theme / created / slides.
+读 state，格式化为表格：`name / type / theme / created / slide-count 或 page-count`。
+
+---
 
 ## Files in this skill
 
-- `SKILL.md` — this file
-- `INTERACTION.md` — full conversational SOP (load when generating)
-- `references/themes.md` — theme decision + override keywords + compatibility matrix
-- `references/diagram-types.md` — diagram-type intent recognition
-- `diagrams/<type>/INSTRUCTIONS.md` — per-type rules (load only the one you need)
-- `diagrams/<type>/template.html` — per-type starting template
-- `diagrams/<type>/examples/*.html` — reference outputs
-- `ppt/{deck-template.html, INSTRUCTIONS.md, README-template.md}` — deck wrapper
-- `site/{INSTRUCTIONS.md, subagent-prompt.md, index-template.html, subpage-template.html}` — multi-page site mode (v0.2)
-- `assets/{base.css, themes/, runtime.js, exporter.js, presenter.js}` — runtime served via jsdelivr
-- `scripts/{new.sh, open.sh, render.sh, check-themes.sh, render-all.sh}` — bash helpers
+- `SKILL.md` — 本文件（模式路由器）
+- `INTERACTION.md` — 完整对话 SOP（PPT 流 + 画图流 + site 流）
+- `ppt/INSTRUCTIONS.md` — PPT 模式完整创作指南
+- `references/themes.md` — 双主题目录（8 themes-diagram + 36 themes-ppt）+ 兼容矩阵
+- `references/diagram-types.md` — 图类型意图识别
+- `diagrams/<type>/INSTRUCTIONS.md` — 各图类型规则（按需加载）
+- `diagrams/<type>/template.html` — 各图类型起始模板
+- `diagrams/<type>/examples/*.html` — 参考输出
+- `ppt/full-decks/<name>/` — 15 个完整 deck 模板（PPT 模式使用）
+- `site/{INSTRUCTIONS.md, subagent-prompt.md, index-template.html, subpage-template.html}` — 多页站（画图模式 v0.2+）
+- `assets/themes-diagram/` — 8 个画图主题 CSS
+- `assets/themes-ppt/` — 36 个 PPT 主题 CSS
+- `assets/layouts/` — 31 个单页布局模板（PPT 模式 slide 素材库）
+- `assets/animations.css` — 27 个 CSS 入场动画
+- `assets/fx/` — 20 个 canvas FX 模块
+- `assets/fx-runtime.js` — FX 自动初始化
+- `assets/runtime.js` — 画图模式运行时（single + site，含 site-id 同步）
+- `assets/runtime-ppt.js` — PPT 模式运行时（含演讲者模式 / 总览 / notes）
+- `assets/exporter.js` — PNG/PDF/剪贴板导出工具栏（两种模式共用）
+- `assets/base.css` — token 基础层
+- `scripts/{new.sh, open.sh, render.sh, check-themes.sh, render-all.sh}` — bash 辅助脚本
+
+> `assets/presenter.js` — 已废弃（PPT 模式演讲者功能已内置于 runtime-ppt.js），保留仅供参考。  
+> `ppt/deck-template.html` — 已删除（v0.3 移除旧 deck 壳）。
+
+---
 
 ## Asset URLs
 
-The Skill repo is `stone-yu/ai-draw-skill`. Generated HTML references assets via jsdelivr at the repo's current git tag:
+Skill 仓库为 `stone-yu/ai-draw-skill`。生成的 HTML 通过 jsDelivr 引用资产：
 
 ```html
-https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@v0.1.0/assets/...
+<!-- 画图模式 -->
+<link rel="stylesheet" id="theme-link" href="https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@v0.3.0/assets/themes-diagram/tech-dark.css">
+<script src="https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@v0.3.0/assets/runtime.js"></script>
+
+<!-- PPT 模式 -->
+<link rel="stylesheet" id="theme-link" href="https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@v0.3.0/assets/themes-ppt/tokyo-night.css">
+<script src="https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@v0.3.0/assets/runtime-ppt.js"></script>
+
+<!-- 共用 -->
+<script src="https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@v0.3.0/assets/exporter.js"></script>
 ```
 
-`scripts/new.sh` reads the current git tag (or falls back to `main`) and substitutes it into the template.
+`scripts/new.sh` 读当前 git tag（或 fallback 到 `main`），自动替换模板中的 URL。
+
+---
 
 ## Honesty rules
 
-- Never fabricate that an output exists — always confirm by reading the file you wrote
-- Never report "added a slide" without having written the new `<section>` to disk
-- If `redo` finds the theme-link line is already the requested theme, say so and skip the write
+- 绝不伪造产出存在 — 总是通过读取已写入的文件来确认
+- 绝不声称"已加一张 slide"而未将 `<section>` 实际写入磁盘
+- `redo` 发现 theme-link 已是目标主题 → 告知并跳过写入
+- **绝不在未确认时静默切换 PPT / 画图模式 — 歧义时只问一次**
