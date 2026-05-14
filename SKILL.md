@@ -45,7 +45,20 @@ Read it for:
 - **Number of diagrams** (1 vs many → influences single vs deck)
 - **Explicit theme keyword** (`references/themes.md` "Explicit override keywords" section)
 - **Explicit deck keyword** ("PPT", "deck", "分享稿", "演讲")
-- **Site mode trigger**: `--mode site` flag, OR a `.md` file path mentioned + words like "多页 / drill down / 多页架构 / 多页文档站". When site mode is detected, **stop the normal flow and read `site/INSTRUCTIONS.md` instead** — site mode has its own algorithm (markdown parsing → subagent fan-out per page).
+- **Site mode trigger** (3 layers, in priority order):
+  1. **Explicit**: `--mode site` flag is present
+  2. **Strong signal**: a `.md` file path mentioned + words like "多页 / drill down / 多页架构 / 多页文档站"
+  3. **Suggest, don't auto-trigger**: when the user gives any of these "rich-input" patterns, ASK them once whether to go site mode (don't silently switch):
+     - ≥ 2 file paths in the request (especially if any are `.md`)
+     - ≥ 4 distinct sub-systems / components / modules enumerated in the request
+     - The phrasing implies a "documentation site" rather than a single diagram (e.g. "整理一份架构文档", "做一个架构 wiki")
+
+  Phrase the suggestion as:
+  > "你这个输入信息量挺多，要不要走 `--mode site` 出一份多页架构站？子页之间能点击下钻、面包屑导航。也可以坚持单图。"
+
+  Don't repeat the suggestion if the user says no.
+
+  When site mode IS chosen (any of the 3 layers), **stop the normal flow and read `site/INSTRUCTIONS.md` instead** — site mode has its own algorithm (markdown parsing → subagent fan-out per page).
 - **Subcommand** (add / redo / export / list — see table above)
 
 ### Step 2 — If multiple diagram types match → disambiguate

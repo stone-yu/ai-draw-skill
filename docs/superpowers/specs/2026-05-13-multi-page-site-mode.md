@@ -10,6 +10,23 @@
 
 `/ai-draw --mode site <markdown.md>` 把一份带标题层级的 markdown 转成"主页 + 下钻子页"的多页架构站。每个标题一页，组件可点跳转，面包屑回溯，全部架构图，主题跨页同步。
 
+## 0.1 跟"Claude 在原 architecture-diagram skill 里临场拆多页"的关系
+
+需要明确：**原 architecture-diagram 的 SKILL.md 声明是单文件**（"Always produce a single self-contained `.html` file"），但是 Claude 在跑这个 skill 时，**遇到丰富输入（多份文档 / 多个相互关联子系统）会自己改写约束、生成多文件**。这是 Claude 的灵活性，不是 skill 的契约。
+
+我们的 site mode 不是"补 architecture-diagram 缺的能力"，而是**把这种临场行为结构化**：
+
+| 维度 | architecture-diagram + Claude 临场 | ai-draw `--mode site` |
+|---|---|---|
+| 触发 | 输入"看起来很复杂"时 Claude 自行决定 | 显式 `--mode site` flag 或关键词 |
+| 文件结构 | 每次不一样 | 固定：`index.html` + `pages/<slug>.html` 递归 |
+| 导航 | Claude 自己想（可能没有） | 强制：`<a xlink:href>` + `↗` + 面包屑 |
+| 主题切换 | 子页可能不同步 | localStorage `data-site-id` 跨页同步 |
+| 状态追踪 | 无 | `.ai-draw-state.json` 含 `tree` |
+| 后续操作 | 没有 `add` / `redo` 接口 | `add --to <site> --under <parent>` 等 |
+
+简言之：site mode 的差异化价值是**可重复 / 可契约 / 可二次操作**，不是"独家能力"。
+
 ## 1. 输入
 
 - **必填**：`<markdown-path>`（相对或绝对）
