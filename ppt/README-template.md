@@ -17,7 +17,7 @@ open index.html
 | ← → / Space / PgUp / PgDn | Navigate slides |
 | Home / End | First / last slide |
 | `T` | Cycle 3 recommended themes ({{THEMES_CSV}}) |
-| `Shift+T` | Cycle all 8 themes |
+| `Shift+T` | Cycle all 36 PPT themes |
 | `F` | Fullscreen |
 | `S` | **Open speaker window** (4-card layout: current preview / next preview / script / timer) |
 | `O` | Slide overview grid |
@@ -31,10 +31,10 @@ open index.html
 Edit `index.html` and change the `id="theme-link"` href:
 
 ```html
-<link rel="stylesheet" id="theme-link" href="https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@v0.1.0/assets/themes-diagram/blueprint.css">
+<link rel="stylesheet" id="theme-link" href="https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@v0.3.0/assets/themes-ppt/tokyo-night.css">
 ```
 
-Available themes: `tech-dark`, `blueprint`, `business-clean`, `xhs-soft`, `cyberpunk-neon`, `minimal-light`, `academic-paper`, `hand-drawn`.
+PPT themes (36 total): `pitch-deck-vc`, `corporate-clean`, `swiss-grid`, `tokyo-night`, `dracula`, `catppuccin-mocha`, `terminal-green`, `blueprint`, `nord`, `gruvbox-dark`, `xiaohongshu-white`, `soft-pastel`, `magazine-bold`, `rainbow-gradient`, `aurora`, `academic-paper`, `editorial-serif`, `minimal-white`, `cyberpunk-neon`, `vaporwave`, `y2k-chrome`, `neo-brutalism`, `bauhaus`, `memphis-pop`, `glassmorphism`, `arctic-cool`, `sunset-warm`, `catppuccin-latte`, `engineering-whiteprint`, `news-broadcast`, `japanese-minimal`, `sharp-mono`, `solarized-light`, `rose-pine`, `midcentury`, `retro-tv` — see `references/themes.md` for descriptions.
 
 ## Add another slide
 
@@ -42,10 +42,10 @@ Available themes: `tech-dark`, `blueprint`, `business-clean`, `xhs-soft`, `cyber
 /ai-draw add <description>
 ```
 
-By default this appends to **this deck** (it's the most recently created). To target a different deck:
+By default this appends to **this PPT** (the most recently created). To target a different one:
 
 ```bash
-/ai-draw add <description> --to <deck-name>
+/ai-draw add <description> --to <ppt-name>
 ```
 
 ## Export to PNG (per slide)
@@ -58,5 +58,6 @@ The `⋯` button in-browser exports the **current** slide. To batch-export all s
 
 ## Files
 
-- `index.html` — the deck (open this)
+- `index.html` — the PPT (open this)
 - `README.md` — this file
+- `style.css` — present if generated from a `ppt/full-decks/<name>/` template (scoped CSS for that deck's look)
