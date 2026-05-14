@@ -41,6 +41,8 @@ Two parallel catalogs, kept separate so PPT decorative themes don't pollute diag
 
 All previews below render the same canonical example — `diagrams/architecture/examples/ai-app-stack-showcase.html` — a 3-column / multi-card "Modern AI App Stack" diagram (Data → Model → Pipeline) with icon badges, multi-color sub-cards, pill section headers, cross-column gradient arrows, and a bottom summary band. Designed to stress-test every theme's full token surface. Regenerate with `./scripts/render-previews.sh`.
 
+> **Adding a new theme?** Follow the checklist in [`docs/theme-previews/README.md`](docs/theme-previews/README.md) — Step 7 (update this README table with a new row + preview thumbnail) is the easiest to forget.
+
 The simpler `saas-platform-showcase.html` (6-layer vertical SaaS) is also available as a reference example in `diagrams/architecture/examples/`.
 
 | Theme | Preview | 一句话定位 |
