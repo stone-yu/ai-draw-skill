@@ -192,7 +192,7 @@ PPT 模式有两个 slide 来源，可混用：
 
 ## § 5 动画使用
 
-### CSS 入场动画（27 个，`assets/animations.css`）
+### CSS 入场动画（27 个，`assets/animations/animations.css`）
 
 在任意元素上加 `data-anim="<name>"`：
 
@@ -316,12 +316,47 @@ ppt/
 
 ```
 assets/
-├── themes-ppt/<name>.css     — 36 个 PPT 主题
-├── layouts/<name>.html       — 31 个单页布局模板
-├── animations.css            — 27 个 CSS 入场动画
-├── fx/<name>.js              — 20 个 canvas FX 模块
-├── fx-runtime.js             — FX 自动初始化
-├── runtime-ppt.js            — PPT 运行时（翻页 / 演讲者 / 总览 / notes）
-├── exporter.js               — PNG/PDF/剪贴板导出工具栏
-└── base.css                  — token 基础层（由主题 CSS 覆盖）
+├── themes-ppt/<name>.css            — 36 个 PPT 主题
+├── layouts/<name>.html              — 31 个单页布局模板
+├── animations/animations.css        — 27 个 CSS 入场动画
+├── animations/fx/<name>.js          — 20 个 canvas FX 模块
+├── animations/fx-runtime.js         — FX 自动初始化
+├── runtime-ppt.js                   — PPT 运行时（翻页 / 演讲者 / 总览 / notes）
+├── exporter.js                      — PNG/PDF/剪贴板导出工具栏
+├── fonts.css                        — 共享 Web 字体 @import（必须最先加载）
+└── base-ppt.css                     — PPT 模式 token + slide chrome（绝对定位 / opacity 切换）
 ```
+
+⚠️ **PPT 模式 vs 画图模式 base.css 不通用！**
+- PPT 输出**必须**用 `assets/base-ppt.css`（slide 用绝对定位 + opacity 切换的演示模型）
+- 画图输出用 `assets/base.css`（一个 .slide / 单图模型）
+- 两套 base.css 定义的 CSS 变量不同（`--surface`/`--grad` 在 base-ppt 里；`--sem-*`/`--node-fill` 在 base 里）
+- 错混会导致：slide 不正确堆叠、字体回退、`--surface` 等变量找不到、整体视觉崩溃
+
+### PPT 输出 HTML 的 `<head>` 必须按以下顺序加载
+
+```html
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>...</title>
+  <link rel="stylesheet" href="<assets-prefix>/fonts.css">
+  <link rel="stylesheet" href="<assets-prefix>/base-ppt.css">
+  <link rel="stylesheet" id="theme-link" href="<assets-prefix>/themes-ppt/<theme>.css">
+  <link rel="stylesheet" href="<assets-prefix>/animations/animations.css">
+  <link rel="stylesheet" href="style.css">  <!-- 全 deck 模板的 scoped CSS -->
+  <!-- 可选 inline <style> 做 deck 级最终微调 -->
+</head>
+<body class="tpl-<full-deck-name>">
+  <div class="deck">
+    <section class="slide">...</section>
+    ...
+  </div>
+  <script src="<assets-prefix>/animations/fx-runtime.js"></script>
+  <script src="<assets-prefix>/runtime-ppt.js"></script>
+  <script src="<assets-prefix>/exporter.js"></script>
+</body>
+```
+
+`<assets-prefix>` 替换：
+- 全 deck 模板源码内：`../../../assets`（仓库内相对路径）
+- 用户产出（`./ai-draw-out/<name>/`）：`https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@v0.3.0/assets`
