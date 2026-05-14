@@ -94,13 +94,52 @@ Need a theme that's not here? Open an issue with a reference image — `saas-mod
 
 ## Install
 
-This is a Claude Skill. Drop the repo into a location Claude Code discovers (typically `~/.claude/skills/ai-draw/`):
+ai-draw is **runtime-agnostic** — designed primarily for Claude Code but works on any agent platform with file-IO + shell. Pick your runtime below.
+
+### Claude Code (primary, fully tested)
 
 ```bash
 git clone https://github.com/stone-yu/ai-draw-skill.git ~/.claude/skills/ai-draw
 ```
 
-Restart Claude Code. The `/ai-draw` command should now be available.
+Restart Claude Code. `/ai-draw` is now available.
+
+### GitHub Copilot CLI (best-effort)
+
+```bash
+git clone https://github.com/stone-yu/ai-draw-skill.git ~/.copilot/skills/ai-draw
+```
+
+See [`references/copilot-tools.md`](references/copilot-tools.md) for tool-name mapping.
+
+### Google Gemini CLI (best-effort)
+
+```bash
+git clone https://github.com/stone-yu/ai-draw-skill.git <gemini-skills-dir>/ai-draw
+```
+
+`GEMINI.md` at the repo root auto-loads at session start.
+
+### OpenAI Codex / GPT agents (manual install)
+
+No native Skill loader. Concatenate `SKILL.md` into your agent's system prompt at session start. See [`references/codex-tools.md`](references/codex-tools.md) for tool-name mapping + the two integration patterns.
+
+---
+
+## Compatibility matrix
+
+| Platform | Status | Tool adapter |
+|---|---|---|
+| **Claude Code** | ✅ Primary, fully tested | n/a — native |
+| **Anthropic Claude API** (Agent SDK / Managed Skills) | ✅ Compatible by design | n/a — native |
+| **GitHub Copilot CLI** | ⚠️ Best-effort, untested end-to-end | [`references/copilot-tools.md`](references/copilot-tools.md) |
+| **Google Gemini CLI** | ⚠️ Best-effort, untested end-to-end | [`GEMINI.md`](GEMINI.md) (auto-loaded) |
+| **OpenAI Codex / GPT** (function-calling) | ⚠️ Best-effort, manual setup | [`references/codex-tools.md`](references/codex-tools.md) |
+| **Cursor / Cline / Aider / others** | ❓ Likely workable | Paste `SKILL.md` into persistent context |
+
+**What "best-effort" means**: the skill's INSTRUCTIONS use generic verbs ("read the file" / "run the script"), so any agent with file-IO + shell tools should drive the workflow. Specific platform integrations haven't been exhaustively tested — if a step misbehaves, the issue is almost always in the platform's tool primitives, not in the skill. Please [open an issue](https://github.com/stone-yu/ai-draw-skill/issues) so the adapter docs can be tightened.
+
+**Generated outputs are 100% portable** — pure static HTML + CSS + SVG, no platform lock-in. Anyone with a modern browser can open and re-theme them via the `T` key, regardless of which agent generated the file.
 
 ---
 

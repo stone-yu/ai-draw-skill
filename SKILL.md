@@ -46,6 +46,27 @@ trigger: /ai-draw
 
 ---
 
+## Platform support
+
+ai-draw is tool-agnostic at the instruction layer (uses generic verbs like "read the file" / "run the script", not platform-specific tool names). It runs on any agent runtime that provides:
+
+1. File read / write / edit on local disk
+2. Shell command execution (to run `scripts/new.sh` / `scripts/open.sh`)
+3. Some way to load SKILL.md content into agent context
+
+| Platform | Status | Notes |
+|---|---|---|
+| **Claude Code** | ✅ Primary, fully tested | `/ai-draw <需求>` works via the Skill tool. Default install path: `~/.claude/skills/ai-draw/`. |
+| **Anthropic Claude API** (Agent SDK / Managed Skills) | ✅ Compatible by design | Load SKILL.md via the managed-skill API. Same tools. |
+| **GitHub Copilot CLI** | ⚠️ Best-effort, untested | See [`references/copilot-tools.md`](references/copilot-tools.md) for tool-name mapping. |
+| **Google Gemini CLI** | ⚠️ Best-effort, untested | [`GEMINI.md`](GEMINI.md) auto-loads at session start with tool mapping + invocation guide. |
+| **OpenAI Codex / GPT function-calling** | ⚠️ Best-effort, manual install | No native Skill loader — concat SKILL.md into system prompt. See [`references/codex-tools.md`](references/codex-tools.md). |
+| **Cursor / Cline / Aider / others** | ❓ Likely workable | If the host has file-IO + shell, paste SKILL.md content into the agent's persistent context and ai-draw should drive itself. |
+
+Bug reports / platform-specific quirks: https://github.com/stone-yu/ai-draw-skill/issues
+
+---
+
 ## What you must do when invoked
 
 ### Step 0 — Mode detection (PPT vs Diagram)
