@@ -24,7 +24,7 @@ Ambiguous request? `/ai-draw` will ask once which mode you want — never silent
 - **Speaker mode (`S` key)**: popup window with 4 magnetic cards — current slide preview / next preview / 逐字稿 / timer
 - **3-question opening**: content+audience / theme / starting template — same as html-ppt upstream
 
-## 🖼️ 画图 mode — what it makes
+## 🖼️ draw(画图） mode — what it makes
 
 - **7 diagram types**: architecture / knowledge graph / flowchart / sequence / mindmap / class / ER
 - **12 curated diagram themes** — covering tech / business / SaaS / iOS-glass / Linear-mode / brutalism / xhs / cyberpunk / minimal / academic / hand-drawn (full table in [Themes](#themes) below)
@@ -33,11 +33,11 @@ Ambiguous request? `/ai-draw` will ask once which mode you want — never silent
 
 ---
 
-## Themes
+## Themes（多主题支持）
 
 Two parallel catalogs, kept separate so PPT decorative themes don't pollute diagram color semantics.
 
-### 画图模式 (12 themes-diagram)
+### draw(画图） 模式 (12 themes-diagram)
 
 All previews below render the same canonical example — `diagrams/architecture/examples/ai-app-stack-showcase.html` — a 3-column / multi-card "Modern AI App Stack" diagram (Data → Model → Pipeline) with icon badges, multi-color sub-cards, pill section headers, cross-column gradient arrows, and a bottom summary band. Designed to stress-test every theme's full token surface. Regenerate with `./scripts/render-previews.sh`.
 
@@ -45,7 +45,7 @@ All previews below render the same canonical example — `diagrams/architecture/
 
 The simpler `saas-platform-showcase.html` (6-layer vertical SaaS) is also available as a reference example in `diagrams/architecture/examples/`.
 
-| Theme | Preview | 一句话定位 |
+| Theme | Preview | Description |
 |---|---|---|
 | `tech-dark` | <img src="docs/theme-previews/tech-dark.png" width="320"> | 暗色技术风，slate-950 + 青/紫/翠 语义色，JetBrains Mono |
 | `blueprint` | <img src="docs/theme-previews/blueprint.png" width="320"> | 蓝图工程风，深蓝 + 白色细线 + 密网格 |
@@ -64,7 +64,7 @@ The simpler `saas-platform-showcase.html` (6-layer vertical SaaS) is also availa
 
 按观众 / 场景分组（每组首项为默认 ⭐）：
 
-| 分组 | ⭐ 默认 | 其他成员 |
+| Grouping | ⭐ Default theme（默认主题） | Other themes 其他主题 |
 |---|---|---|
 | 商务 / 投资人 / 路演 | `pitch-deck-vc` | `corporate-clean` · `swiss-grid` · `editorial-serif` · `minimal-white` |
 | 技术 / 工程 / 分享 | `tokyo-night` | `dracula` · `catppuccin-mocha` · `catppuccin-latte` · `terminal-green` · `blueprint` · `nord` · `gruvbox-dark` · `solarized-light` · `rose-pine` |
