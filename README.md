@@ -1,6 +1,6 @@
 # ai-draw-skill
 
-A single Claude Skill with **two equal top-level modes** — pick whichever fits your need:
+A cross-platform agent skill (Claude Code / Copilot CLI / Gemini CLI / Codex — see [Compatibility](#compatibility-matrix)) with **two equal top-level modes** — pick whichever fits your need:
 
 ```
 /ai-draw <需求>
