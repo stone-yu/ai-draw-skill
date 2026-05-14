@@ -39,7 +39,7 @@ Two parallel catalogs, kept separate so PPT decorative themes don't pollute diag
 
 ### 画图模式 (12 themes-diagram)
 
-All previews below render the same `diagrams/architecture/examples/three-tier-ecommerce.html` so you can compare them side-by-side. Regenerate with `./scripts/render-previews.sh`.
+All previews below render the same canonical example — `diagrams/architecture/examples/saas-platform-showcase.html` — a 6-layer / 17-component SaaS architecture exercising all 7 semantic colors (frontend / backend / db / cloud / security / bus / generic) so you can compare themes side-by-side. Regenerate with `./scripts/render-previews.sh`.
 
 | Theme | Preview | 一句话定位 |
 |---|---|---|

@@ -10,7 +10,7 @@
 
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-EXAMPLE="$ROOT/diagrams/architecture/examples/three-tier-ecommerce.html"
+EXAMPLE="$ROOT/diagrams/architecture/examples/saas-platform-showcase.html"
 EX_DIR="$(dirname "$EXAMPLE")"
 OUT_DIR="$ROOT/docs/theme-previews"
 THEMES=(tech-dark blueprint business-clean saas-modern glassmorphism linear-mode neo-brutalism xhs-soft cyberpunk-neon minimal-light academic-paper hand-drawn)
