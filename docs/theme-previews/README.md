@@ -156,4 +156,6 @@ docs/theme-previews/
 └── xhs-soft.png
 ```
 
-All PNGs are ~150-300KB at 1600×1000. Total ~2.9MB — acceptable for a `docs/` directory.
+All PNGs are **3200×2000** (rendered at 2x device-scale-factor for Retina-sharp display) at ~250KB-900KB each. Total ~6.8MB — still acceptable for a `docs/` directory, and the trade-off is worth it: at 1x density the previews looked soft when clicked-through to full size.
+
+If you want to revert to 1x for size savings, remove `--force-device-scale-factor=2` from `scripts/render.sh`.

@@ -31,11 +31,13 @@ ABS_INPUT="$(cd "$(dirname "$INPUT")" && pwd)/$(basename "$INPUT")"
 
 if [ "$COUNT" -le 1 ]; then
   "$CHROME" --headless --no-sandbox --hide-scrollbars --window-size=1600,1000 \
+    --force-device-scale-factor=2 \
     --screenshot="$OUT_DIR/single.png" "file://$ABS_INPUT"
   echo "→ $OUT_DIR/single.png"
 else
   for i in $(seq 1 "$COUNT"); do
     "$CHROME" --headless --no-sandbox --hide-scrollbars --window-size=1600,1000 \
+      --force-device-scale-factor=2 \
       --screenshot="$OUT_DIR/slide-$i.png" "file://$ABS_INPUT#/$i"
     echo "→ $OUT_DIR/slide-$i.png"
   done
