@@ -1,6 +1,6 @@
 ---
 name: ai-draw
-description: 单一 Skill 整合 graphify / architecture-diagram / html-ppt 三个项目的画图能力。`/ai-draw <需求>` 一句话生成"自带主题 + 可选 PPT 模式"的可分享 HTML。支持 7 种画图类型（架构图 / 知识图谱 / 流程图 / 时序图 / 思维导图 / 类图 / ER 图）× 8 个精选主题。Trigger keywords (中+EN)：画 / 画图 / 画一个 / 给我画 / 帮我画 / draw / diagram / chart / 架构图 / 流程图 / 时序图 / 知识图谱 / 思维导图 / 类图 / ER 图 / 做一份 PPT / 做一份 deck / 做一份分享稿 / make a slide deck.
+description: 单一 Skill 整合 fireworks-tech-graph / architecture-diagram-generator / html-ppt-skill 三个项目的画图能力。`/ai-draw <需求>` 一句话生成"自带主题 + 可选 PPT 模式"的可分享 HTML。支持 7 种画图类型（架构图 / 知识图谱 / 流程图 / 时序图 / 思维导图 / 类图 / ER 图）× 8 个精选主题。Trigger keywords (中+EN)：画 / 画图 / 画一个 / 给我画 / 帮我画 / draw / diagram / chart / 架构图 / 流程图 / 时序图 / 知识图谱 / 思维导图 / 类图 / ER 图 / 做一份 PPT / 做一份 deck / 做一份分享稿 / make a slide deck.
 trigger: /ai-draw
 ---
 

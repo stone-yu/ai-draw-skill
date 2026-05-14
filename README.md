@@ -93,11 +93,11 @@ Add `.ai-draw-out/` to your `.gitignore` (we don't write any git config — this
 
 ai-draw is built by absorbing ideas from:
 
-- [graphify](https://github.com/yizhiyanhua-ai/fireworks-tech-graph) — knowledge graph viz inspiration (D3 force-directed)
+- [fireworks-tech-graph](https://github.com/yizhiyanhua-ai/fireworks-tech-graph) — knowledge graph viz inspiration (D3 force-directed); ships a Python `graphifyy` package as its CLI tool
 - [architecture-diagram-generator](https://github.com/Cocoon-AI/architecture-diagram-generator) — SVG arch diagram template + dark color system + export toolbar
 - [html-ppt-skill](https://github.com/lewislulu/html-ppt-skill) — slide runtime, presenter window, speaker-notes convention
 
-If you need a feature ai-draw doesn't have (e.g. graphify's full Python extraction pipeline, or html-ppt's 36-theme catalog), use the upstream project directly.
+If you need a feature ai-draw doesn't have (e.g. fireworks-tech-graph's full Python extraction pipeline via `graphifyy`, or html-ppt's 36-theme catalog), use the upstream project directly.
 
 ## License
 

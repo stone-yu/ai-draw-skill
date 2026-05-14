@@ -41,7 +41,7 @@ window.KG_DATA = { "nodes": [...], "edges": [...] };
 |---|---|
 | 1 – 19 | Fine, but the user might want a flowchart instead — confirm |
 | 20 – 300 | Sweet spot |
-| > 300 | Stop and say: "300+ nodes is past what this template handles. Run the original `graphifyy` Python tool to extract `graph.json`, then reuse our renderer by replacing the `KG_DATA` block with that JSON's `{nodes, links}` (rename `links` → `edges`)." |
+| > 300 | Stop and say: "300+ nodes is past what this template handles. Run the `graphifyy` Python tool from [fireworks-tech-graph](https://github.com/yizhiyanhua-ai/fireworks-tech-graph) to extract `graph.json`, then reuse our renderer by replacing the `KG_DATA` block with that JSON's `{nodes, links}` (rename `links` → `edges`)." |
 
 ## 4. v0.1 limitations (do NOT add these features yet)
 
