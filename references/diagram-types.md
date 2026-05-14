@@ -1,6 +1,6 @@
 # references/diagram-types.md — diagram-type intent recognition
 
-When the user runs `/ai-draw <需求>`, you (Claude) decide which `diagrams/<type>/` to dispatch into. Use the keyword tables below.
+When the user runs `/ai-draw <需求>`, you (the agent) decide which `diagrams/<type>/` to dispatch into. Use the keyword tables below.
 
 ## Type → keyword table
 

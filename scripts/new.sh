@@ -6,8 +6,8 @@
 #
 # Effect:
 #   - mkdir ./ai-draw-out/<name>/
-#   - touch ./ai-draw-out/<name>/{index.html,README.md}  (empty stubs; Claude fills them)
-#   - print a JSON summary the caller (Claude) can parse:
+#   - touch ./ai-draw-out/<name>/{index.html,README.md}  (empty stubs; the agent fills them)
+#   - print a JSON summary the caller (any agent) can parse:
 #       {"path": "./ai-draw-out/<name>", "tag": "<git-tag-or-main>"}
 
 set -euo pipefail
