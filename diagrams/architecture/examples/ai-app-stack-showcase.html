@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-themes="saas-modern,tech-dark,blueprint">
+<head>
+  <meta charset="utf-8">
+  <title>Modern AI App Stack · Data → Model → Pipeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/base.css">
+  <link rel="stylesheet" id="theme-link" href="../../../assets/themes-diagram/saas-modern.css">
+  <style>
+    .container{max-width:1520px;margin:0 auto;padding:24px}
+    .diagram-wrapper{padding:32px;border-radius:var(--radius-lg)}
+  </style>
+</head>
+<body data-mode="single">
+  <div id="report-container" class="container">
+    <div class="diagram-wrapper">
+      <svg viewBox="0 0 1480 1040" style="width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="var(--grid)" stroke-width="0.5"/>
+          </pattern>
+          <marker id="arrow-accent" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+            <polygon points="0 0, 10 4, 0 8" fill="var(--accent)"/>
+          </marker>
+          <marker id="arrow-accent-2" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+            <polygon points="0 0, 10 4, 0 8" fill="var(--accent-2)"/>
+          </marker>
+          <marker id="arrow-dark" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+            <polygon points="0 0, 10 4, 0 8" fill="var(--text-2)"/>
+          </marker>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#grid)" opacity="0.4"/>
+
+        <!-- ========================= TITLE BAR ========================= -->
+        <circle cx="490" cy="46" r="4" fill="var(--accent)"/>
+        <line x1="500" y1="46" x2="600" y2="46" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+        <text x="740" y="56" fill="var(--text-1)" font-size="28" font-weight="800"
+              text-anchor="middle" letter-spacing="-0.01em">Modern AI App Stack</text>
+        <line x1="880" y1="46" x2="980" y2="46" stroke="var(--accent-2)" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="990" cy="46" r="4" fill="var(--accent-2)"/>
+        <rect x="710" y="70" width="60" height="3" rx="1.5" fill="var(--accent)"/>
+        <text x="740" y="92" fill="var(--text-2)" font-size="13" text-anchor="middle">Data → Model → Pipeline · 6-piece blueprint</text>
+
+        <!-- ========================= COL 1: DATA INPUTS ========================= -->
+        <rect x="60" y="110" width="240" height="40" rx="20" fill="var(--accent)"/>
+        <text x="180" y="135" fill="var(--bg)" font-size="15" font-weight="700" text-anchor="middle">Data Inputs</text>
+
+        <!-- 8 input items, each with a distinct sem-* color -->
+        <!-- Item 1 — frontend 📋 OLTP -->
+        <rect x="60" y="170" width="240" height="58" rx="14" fill="var(--bg-2)" stroke="var(--border)" stroke-width="1"/>
+        <rect x="74" y="183" width="32" height="32" rx="10" fill="var(--sem-frontend)" fill-opacity="0.30"/>
+        <text x="90" y="206" font-size="18" text-anchor="middle">📋</text>
+        <text x="120" y="200" fill="var(--text-1)" font-size="13" font-weight="600">业务数据库</text>
+        <text x="120" y="218" fill="var(--text-2)" font-size="10">OLTP · 主库 / 副本</text>
+
+        <!-- Item 2 — backend 💬 对话日志 -->
+        <rect x="60" y="238" width="240" height="58" rx="14" fill="var(--bg-2)" stroke="var(--border)" stroke-width="1"/>
+        <rect x="74" y="251" width="32" height="32" rx="10" fill="var(--sem-backend)" fill-opacity="0.30"/>
+        <text x="90" y="274" font-size="18" text-anchor="middle">💬</text>
+        <text x="120" y="268" fill="var(--text-1)" font-size="13" font-weight="600">用户对话日志</text>
+        <text x="120" y="286" fill="var(--text-2)" font-size="10">chat · support · feedback</text>
+
+        <!-- Item 3 — db 🔍 行为流 -->
+        <rect x="60" y="306" width="240" height="58" rx="14" fill="var(--bg-2)" stroke="var(--border)" stroke-width="1"/>
+        <rect x="74" y="319" width="32" height="32" rx="10" fill="var(--sem-db)" fill-opacity="0.30"/>
+        <text x="90" y="342" font-size="18" text-anchor="middle">🔍</text>
+        <text x="120" y="336" fill="var(--text-1)" font-size="13" font-weight="600">搜索 / 点击流</text>
+        <text x="120" y="354" fill="var(--text-2)" font-size="10">event tracking</text>
+
+        <!-- Item 4 — cloud 🔄 实时事件 -->
+        <rect x="60" y="374" width="240" height="58" rx="14" fill="var(--bg-2)" stroke="var(--border)" stroke-width="1"/>
+        <rect x="74" y="387" width="32" height="32" rx="10" fill="var(--sem-cloud)" fill-opacity="0.30"/>
+        <text x="90" y="410" font-size="18" text-anchor="middle">🔄</text>
+        <text x="120" y="404" fill="var(--text-1)" font-size="13" font-weight="600">实时事件 / Kafka</text>
+        <text x="120" y="422" fill="var(--text-2)" font-size="10">streaming · CDC</text>
+
+        <!-- Item 5 — bus 🎙️ 多模态 -->
+        <rect x="60" y="442" width="240" height="58" rx="14" fill="var(--bg-2)" stroke="var(--border)" stroke-width="1"/>
+        <rect x="74" y="455" width="32" height="32" rx="10" fill="var(--sem-bus)" fill-opacity="0.30"/>
+        <text x="90" y="478" font-size="18" text-anchor="middle">🎙️</text>
+        <text x="120" y="472" fill="var(--text-1)" font-size="13" font-weight="600">多模态语料</text>
+        <text x="120" y="490" fill="var(--text-2)" font-size="10">audio · video · image</text>
+
+        <!-- Item 6 — security 💡 知识 / FAQ -->
+        <rect x="60" y="510" width="240" height="58" rx="14" fill="var(--bg-2)" stroke="var(--border)" stroke-width="1"/>
+        <rect x="74" y="523" width="32" height="32" rx="10" fill="var(--sem-security)" fill-opacity="0.30"/>
+        <text x="90" y="546" font-size="18" text-anchor="middle">💡</text>
+        <text x="120" y="540" fill="var(--text-1)" font-size="13" font-weight="600">知识 / FAQ 库</text>
+        <text x="120" y="558" fill="var(--text-2)" font-size="10">curated · structured</text>
+
+        <!-- Dashed separator -->
+        <line x1="100" y1="595" x2="260" y2="595" stroke="var(--text-3)" stroke-width="1.5" stroke-dasharray="3,4"/>
+
+        <!-- Item 7 — frontend 📐 数据规范 -->
+        <rect x="60" y="615" width="240" height="58" rx="14" fill="var(--bg-2)" stroke="var(--border)" stroke-width="1"/>
+        <rect x="74" y="628" width="32" height="32" rx="10" fill="var(--accent)" fill-opacity="0.25"/>
+        <text x="90" y="651" font-size="18" text-anchor="middle">📐</text>
+        <text x="120" y="645" fill="var(--text-1)" font-size="13" font-weight="600">数据契约 / Schema</text>
+        <text x="120" y="663" fill="var(--text-2)" font-size="10">governance · versioning</text>
+
+        <!-- Item 8 — security 🔐 隐私 -->
+        <rect x="60" y="683" width="240" height="58" rx="14" fill="var(--bg-2)" stroke="var(--border)" stroke-width="1"/>
+        <rect x="74" y="696" width="32" height="32" rx="10" fill="var(--sem-security)" fill-opacity="0.30"/>
+        <text x="90" y="719" font-size="18" text-anchor="middle">🔐</text>
+        <text x="120" y="713" fill="var(--text-1)" font-size="13" font-weight="600">PII 脱敏 / 加密</text>
+        <text x="120" y="731" fill="var(--text-2)" font-size="10">privacy · compliance</text>
+
+        <!-- ========================= COL 2 TOP: MODEL LAYER ========================= -->
+        <rect x="350" y="100" width="700" height="440" rx="22" fill="var(--bg-2)" stroke="var(--border)" stroke-width="1.5"/>
+
+        <rect x="370" y="120" width="270" height="44" rx="22" fill="var(--accent)"/>
+        <text x="390" y="148" font-size="20" text-anchor="middle">🧠</text>
+        <text x="412" y="148" fill="var(--bg)" font-size="16" font-weight="700">Model Layer · 模型层</text>
+
+        <!-- 3 numbered list items -->
+        <circle cx="386" cy="194" r="13" fill="var(--accent)"/>
+        <text x="386" y="199" fill="var(--bg)" font-size="13" font-weight="700" text-anchor="middle">1</text>
+        <text x="410" y="199" fill="var(--text-1)" font-size="14">路由：按场景选模型（强 / 快 / 廉），全链路记录 <tspan font-family="JetBrains Mono" fill="var(--accent)" font-weight="600">model_id</tspan></text>
+
+        <circle cx="386" cy="228" r="13" fill="var(--accent)"/>
+        <text x="386" y="233" fill="var(--bg)" font-size="13" font-weight="700" text-anchor="middle">2</text>
+        <text x="410" y="233" fill="var(--text-1)" font-size="14">缓存：高频 prompt + tool 结果，命中率 &gt; 30%</text>
+
+        <circle cx="386" cy="262" r="13" fill="var(--accent)"/>
+        <text x="386" y="267" fill="var(--bg)" font-size="13" font-weight="700" text-anchor="middle">3</text>
+        <text x="410" y="267" fill="var(--text-1)" font-size="14">评估：每次调用记录 latency / cost / quality</text>
+
+        <!-- 4 sub-cards (each different sem-* color) -->
+        <rect x="370" y="296" width="156" height="78" rx="14" fill="var(--bg-2)" stroke="var(--sem-frontend)" stroke-width="1.5"/>
+        <rect x="386" y="312" width="36" height="36" rx="10" fill="var(--sem-frontend)" fill-opacity="0.30"/>
+        <text x="404" y="338" font-size="20" text-anchor="middle">🤖</text>
+        <text x="431" y="335" fill="var(--text-1)" font-size="13" font-weight="700">GPT-4o</text>
+        <text x="431" y="354" fill="var(--text-2)" font-size="10">OpenAI · 强推理</text>
+
+        <rect x="536" y="296" width="156" height="78" rx="14" fill="var(--bg-2)" stroke="var(--sem-backend)" stroke-width="1.5"/>
+        <rect x="552" y="312" width="36" height="36" rx="10" fill="var(--sem-backend)" fill-opacity="0.30"/>
+        <text x="570" y="338" font-size="20" text-anchor="middle">🧠</text>
+        <text x="597" y="335" fill="var(--text-1)" font-size="13" font-weight="700">Claude 4</text>
+        <text x="597" y="354" fill="var(--text-2)" font-size="10">Anthropic · 长上下文</text>
+
+        <rect x="702" y="296" width="156" height="78" rx="14" fill="var(--bg-2)" stroke="var(--sem-db)" stroke-width="1.5"/>
+        <rect x="718" y="312" width="36" height="36" rx="10" fill="var(--sem-db)" fill-opacity="0.30"/>
+        <text x="736" y="338" font-size="20" text-anchor="middle">🦙</text>
+        <text x="763" y="335" fill="var(--text-1)" font-size="13" font-weight="700">Llama 3.3</text>
+        <text x="763" y="354" fill="var(--text-2)" font-size="10">Open-weight · 自部署</text>
+
+        <rect x="868" y="296" width="162" height="78" rx="14" fill="var(--bg-2)" stroke="var(--sem-cloud)" stroke-width="1.5"/>
+        <rect x="884" y="312" width="36" height="36" rx="10" fill="var(--sem-cloud)" fill-opacity="0.30"/>
+        <text x="902" y="338" font-size="20" text-anchor="middle">💎</text>
+        <text x="929" y="335" fill="var(--text-1)" font-size="13" font-weight="700">Gemini 2</text>
+        <text x="929" y="354" fill="var(--text-2)" font-size="10">Google · 多模态</text>
+
+        <!-- Governance callout (dashed) -->
+        <rect x="370" y="394" width="660" height="130" rx="16" fill="var(--bg-2)" stroke="var(--accent-2)" stroke-width="1.5" stroke-dasharray="6,4"/>
+        <rect x="388" y="412" width="40" height="40" rx="12" fill="var(--accent-2)" fill-opacity="0.25"/>
+        <text x="408" y="441" font-size="22" text-anchor="middle">🚀</text>
+        <text x="442" y="434" fill="var(--accent-2)" font-size="15" font-weight="700">模型治理：</text>
+        <text x="546" y="434" fill="var(--text-1)" font-size="14">自动 fallback · 速率限制 · 预算上限</text>
+        <text x="442" y="459" fill="var(--text-2)" font-size="13">关键策略：弱化单点依赖，多供应商动态权重</text>
+        <text x="442" y="482" fill="var(--text-2)" font-size="13">维护节奏：每周评估模型 cost / quality，按 SLO 调权</text>
+        <text x="442" y="505" fill="var(--text-2)" font-size="13">边界：覆盖在线推理调用，不覆盖离线训练 / fine-tune</text>
+
+        <!-- ========================= COL 2 BOTTOM: AI INFRASTRUCTURE ========================= -->
+        <rect x="350" y="580" width="700" height="350" rx="22" fill="var(--bg-2)" stroke="var(--border)" stroke-width="1.5"/>
+
+        <rect x="370" y="600" width="270" height="44" rx="22" fill="var(--accent-2)"/>
+        <text x="392" y="628" font-size="20" text-anchor="middle">🛠️</text>
+        <text x="414" y="628" fill="var(--bg)" font-size="16" font-weight="700">AI Infrastructure</text>
+
+        <!-- Bullets -->
+        <circle cx="386" cy="678" r="6" fill="var(--accent-2)"/>
+        <text x="404" y="683" fill="var(--text-1)" font-size="14" font-weight="700">Vector DB <tspan fill="var(--text-2)" font-weight="400">· 向量检索 + 混合搜索 (BM25 + dense)</tspan></text>
+        <text x="404" y="704" fill="var(--text-2)" font-size="13">  pgvector / Qdrant / Weaviate · ANN 查询 &lt; 50ms</text>
+
+        <circle cx="386" cy="734" r="6" fill="var(--accent-2)"/>
+        <text x="404" y="739" fill="var(--text-1)" font-size="14" font-weight="700">Telemetry <tspan fill="var(--text-2)" font-weight="400">· 调用链 / cost / 评估</tspan></text>
+        <text x="404" y="760" fill="var(--text-2)" font-size="13">  OpenTelemetry · 每次调用全链路记账</text>
+
+        <circle cx="386" cy="790" r="6" fill="var(--accent-2)"/>
+        <text x="404" y="795" fill="var(--text-1)" font-size="14" font-weight="700">Tool Registry <tspan fill="var(--text-2)" font-weight="400">· MCP server 注册 + 权限</tspan></text>
+
+        <!-- Gradient CTA (uses accent solid fill) -->
+        <rect x="370" y="830" width="660" height="80" rx="16" fill="var(--accent)"/>
+        <rect x="390" y="850" width="44" height="44" rx="13" fill="var(--bg)" fill-opacity="0.30"/>
+        <text x="412" y="881" font-size="22" text-anchor="middle">⚡</text>
+        <text x="450" y="868" fill="var(--bg)" font-size="15" font-weight="700">API 入口：</text>
+        <text x="535" y="868" fill="var(--bg)" font-size="16" font-weight="800" font-family="JetBrains Mono">ai.platform/v1</text>
+        <text x="450" y="892" fill="var(--bg)" fill-opacity="0.92" font-size="12" font-family="JetBrains Mono">chat · embed · search · agent · eval · tools</text>
+
+        <!-- ========================= COL 3: PIPELINE (6 steps + completion) ========================= -->
+        <rect x="1100" y="110" width="320" height="40" rx="20" fill="var(--accent-2)"/>
+        <text x="1260" y="135" fill="var(--bg)" font-size="15" font-weight="700" text-anchor="middle">Inference Pipeline</text>
+
+        <!-- Step 1: Query Input -->
+        <rect x="1100" y="170" width="320" height="68" rx="16" fill="var(--bg-2)" stroke="var(--sem-frontend)" stroke-width="1.5"/>
+        <rect x="1118" y="186" width="40" height="40" rx="12" fill="var(--sem-frontend)" fill-opacity="0.30"/>
+        <text x="1138" y="215" font-size="22" text-anchor="middle">📥</text>
+        <text x="1170" y="205" fill="var(--text-1)" font-size="16" font-weight="700">Query Input</text>
+        <text x="1170" y="223" fill="var(--text-2)" font-size="11">user prompt · context · session</text>
+
+        <line x1="1260" y1="240" x2="1260" y2="260" stroke="var(--text-2)" stroke-width="1.5" marker-end="url(#arrow-dark)"/>
+
+        <!-- Step 2: Safety -->
+        <rect x="1100" y="262" width="320" height="68" rx="16" fill="var(--bg-2)" stroke="var(--sem-security)" stroke-width="1.5"/>
+        <rect x="1118" y="278" width="40" height="40" rx="12" fill="var(--sem-security)" fill-opacity="0.30"/>
+        <text x="1138" y="307" font-size="22" text-anchor="middle">🛡️</text>
+        <text x="1170" y="297" fill="var(--text-1)" font-size="16" font-weight="700">Safety / Moderation</text>
+        <text x="1170" y="315" fill="var(--text-2)" font-size="11">PII scrub · jailbreak filter · toxicity</text>
+
+        <line x1="1260" y1="332" x2="1260" y2="352" stroke="var(--text-2)" stroke-width="1.5" marker-end="url(#arrow-dark)"/>
+
+        <!-- Step 3: RAG -->
+        <rect x="1100" y="354" width="320" height="68" rx="16" fill="var(--bg-2)" stroke="var(--sem-db)" stroke-width="1.5"/>
+        <rect x="1118" y="370" width="40" height="40" rx="12" fill="var(--sem-db)" fill-opacity="0.30"/>
+        <text x="1138" y="399" font-size="22" text-anchor="middle">🔍</text>
+        <text x="1170" y="389" fill="var(--text-1)" font-size="16" font-weight="700">RAG Retrieval</text>
+        <text x="1170" y="407" fill="var(--text-2)" font-size="11">embed · vector search · top-k chunks</text>
+
+        <line x1="1260" y1="424" x2="1260" y2="444" stroke="var(--text-2)" stroke-width="1.5" marker-end="url(#arrow-dark)"/>
+
+        <!-- Step 4: Re-rank -->
+        <rect x="1100" y="446" width="320" height="68" rx="16" fill="var(--bg-2)" stroke="var(--sem-cloud)" stroke-width="1.5"/>
+        <rect x="1118" y="462" width="40" height="40" rx="12" fill="var(--sem-cloud)" fill-opacity="0.30"/>
+        <text x="1138" y="491" font-size="22" text-anchor="middle">🎯</text>
+        <text x="1170" y="481" fill="var(--text-1)" font-size="16" font-weight="700">Re-rank / Hybrid</text>
+        <text x="1170" y="499" fill="var(--text-2)" font-size="11">cross-encoder · diversity · recency</text>
+
+        <line x1="1260" y1="516" x2="1260" y2="536" stroke="var(--text-2)" stroke-width="1.5" marker-end="url(#arrow-dark)"/>
+
+        <!-- Step 5: LLM -->
+        <rect x="1100" y="538" width="320" height="68" rx="16" fill="var(--bg-2)" stroke="var(--sem-backend)" stroke-width="1.5"/>
+        <rect x="1118" y="554" width="40" height="40" rx="12" fill="var(--sem-backend)" fill-opacity="0.30"/>
+        <text x="1138" y="583" font-size="22" text-anchor="middle">🤖</text>
+        <text x="1170" y="573" fill="var(--text-1)" font-size="16" font-weight="700">LLM Inference</text>
+        <text x="1170" y="591" fill="var(--text-2)" font-size="11">streaming · tool-call · structured-out</text>
+
+        <line x1="1260" y1="608" x2="1260" y2="628" stroke="var(--text-2)" stroke-width="1.5" marker-end="url(#arrow-dark)"/>
+
+        <!-- Step 6: Eval -->
+        <rect x="1100" y="630" width="320" height="68" rx="16" fill="var(--bg-2)" stroke="var(--sem-bus)" stroke-width="1.5"/>
+        <rect x="1118" y="646" width="40" height="40" rx="12" fill="var(--sem-bus)" fill-opacity="0.30"/>
+        <text x="1138" y="675" font-size="22" text-anchor="middle">🧪</text>
+        <text x="1170" y="665" fill="var(--text-1)" font-size="16" font-weight="700">Eval / Guard</text>
+        <text x="1170" y="683" fill="var(--text-2)" font-size="11">grounding · hallucination · cost gate</text>
+
+        <line x1="1260" y1="700" x2="1260" y2="720" stroke="var(--text-2)" stroke-width="1.5" marker-end="url(#arrow-dark)"/>
+
+        <!-- Step 7: Response (success) -->
+        <rect x="1140" y="722" width="240" height="50" rx="14" fill="var(--bg-2)" stroke="var(--accent)" stroke-width="1.5"/>
+        <text x="1163" y="752" font-size="18" fill="var(--accent)" font-weight="800">✓</text>
+        <text x="1180" y="752" fill="var(--text-1)" font-size="15" font-weight="700">Response · Streamed</text>
+
+        <!-- ========================= CROSS-COLUMN ARROWS ========================= -->
+        <!-- Mid → Right TOP: 模型调用 -->
+        <line x1="1055" y1="200" x2="1095" y2="200" stroke="var(--accent)" stroke-width="3" marker-end="url(#arrow-accent)" stroke-linecap="round"/>
+        <rect x="1055" y="155" width="50" height="22" rx="11" fill="var(--accent)"/>
+        <text x="1080" y="171" fill="var(--bg)" font-size="11" font-weight="700" text-anchor="middle">调用</text>
+        <text x="1080" y="225" fill="var(--accent)" font-size="11" font-weight="700" text-anchor="middle">Model → Pipeline</text>
+
+        <!-- Right → Mid TOP: 反馈 -->
+        <line x1="1095" y1="296" x2="1055" y2="296" stroke="var(--accent-2)" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arrow-accent-2)" stroke-linecap="round"/>
+        <rect x="1055" y="266" width="64" height="22" rx="11" fill="var(--accent-2)"/>
+        <text x="1087" y="282" fill="var(--bg)" font-size="11" font-weight="700" text-anchor="middle">反馈 / 评分</text>
+        <text x="1087" y="320" fill="var(--accent-2)" font-size="11" font-weight="700" text-anchor="middle">Eval signal</text>
+
+        <!-- Mid → Right BOTTOM: API -->
+        <line x1="1055" y1="572" x2="1095" y2="572" stroke="var(--accent-2)" stroke-width="3" marker-end="url(#arrow-accent-2)" stroke-linecap="round"/>
+        <rect x="1055" y="527" width="50" height="22" rx="11" fill="var(--accent-2)"/>
+        <text x="1080" y="543" fill="var(--bg)" font-size="11" font-weight="700" text-anchor="middle">API</text>
+        <text x="1080" y="597" fill="var(--accent-2)" font-size="11" font-weight="700" text-anchor="middle">Infra → Pipeline</text>
+
+        <!-- Right → Mid BOTTOM: Telemetry -->
+        <line x1="1095" y1="664" x2="1055" y2="664" stroke="var(--accent-2)" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arrow-accent-2)" stroke-linecap="round"/>
+        <rect x="1055" y="634" width="64" height="22" rx="11" fill="var(--accent-2)"/>
+        <text x="1087" y="650" fill="var(--bg)" font-size="11" font-weight="700" text-anchor="middle">Telemetry</text>
+        <text x="1087" y="688" fill="var(--accent-2)" font-size="11" font-weight="700" text-anchor="middle">cost · latency</text>
+
+        <!-- Col1 → Col2 connector (subtle) -->
+        <path d="M 305 460 C 325 460, 335 320, 350 320" fill="none" stroke="var(--text-3)" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <polygon points="350,320 343,316 343,324" fill="var(--text-3)"/>
+
+        <path d="M 305 712 C 325 712, 335 760, 350 760" fill="none" stroke="var(--text-3)" stroke-width="1.5" stroke-dasharray="4,4"/>
+        <polygon points="350,760 343,756 343,764" fill="var(--text-3)"/>
+
+        <!-- ========================= BOTTOM SUMMARY BAND ========================= -->
+        <rect x="60" y="970" width="1360" height="50" rx="14" fill="var(--accent)"/>
+        <text x="80" y="1002" fill="var(--bg)" font-size="13" font-weight="700">3 piece blueprint</text>
+        <text x="200" y="1002" fill="var(--bg)" fill-opacity="0.92" font-size="13">Data → 知识 / 上下文</text>
+        <text x="420" y="1002" fill="var(--bg)" fill-opacity="0.55" font-size="13">|</text>
+        <text x="440" y="1002" fill="var(--bg)" fill-opacity="0.92" font-size="13">Model → 推理 / 决策</text>
+        <text x="660" y="1002" fill="var(--bg)" fill-opacity="0.55" font-size="13">|</text>
+        <text x="680" y="1002" fill="var(--bg)" fill-opacity="0.92" font-size="13">Pipeline → 评估 / 反馈循环</text>
+        <text x="970" y="1002" fill="var(--bg)" fill-opacity="0.55" font-size="13">|</text>
+        <text x="990" y="1002" fill="var(--bg)" fill-opacity="0.92" font-size="13">Eval everything · cost-aware routing · model fallback</text>
+
+      </svg>
+    </div>
+
+    <footer style="margin-top:24px;color:var(--text-3);font-size:11px;text-align:center;">
+      Generated by <a href="https://github.com/stone-yu/ai-draw-skill" style="color:var(--text-2);">ai-draw</a>
+      · Press <kbd>T</kbd> to cycle theme · <kbd>F</kbd> fullscreen · <kbd>⋯</kbd> to export
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+  <script src="../../../assets/runtime.js"></script>
+  <script src="../../../assets/exporter.js"></script>
+</body>
+</html>

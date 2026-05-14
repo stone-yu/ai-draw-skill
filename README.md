@@ -39,7 +39,9 @@ Two parallel catalogs, kept separate so PPT decorative themes don't pollute diag
 
 ### 画图模式 (12 themes-diagram)
 
-All previews below render the same canonical example — `diagrams/architecture/examples/saas-platform-showcase.html` — a 6-layer / 17-component SaaS architecture exercising all 7 semantic colors (frontend / backend / db / cloud / security / bus / generic) so you can compare themes side-by-side. Regenerate with `./scripts/render-previews.sh`.
+All previews below render the same canonical example — `diagrams/architecture/examples/ai-app-stack-showcase.html` — a 3-column / multi-card "Modern AI App Stack" diagram (Data → Model → Pipeline) with icon badges, multi-color sub-cards, pill section headers, cross-column gradient arrows, and a bottom summary band. Designed to stress-test every theme's full token surface. Regenerate with `./scripts/render-previews.sh`.
+
+The simpler `saas-platform-showcase.html` (6-layer vertical SaaS) is also available as a reference example in `diagrams/architecture/examples/`.
 
 | Theme | Preview | 一句话定位 |
 |---|---|---|
