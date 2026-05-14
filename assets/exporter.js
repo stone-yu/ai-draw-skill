@@ -46,11 +46,21 @@
     const target = document.getElementById('report-container') || document.body;
     const r = target.getBoundingClientRect();
     const pad = 32;
+    // Trim off the footer (keyboard hints + attribution are for screen viewing only,
+    // not part of the exported diagram). Also honor any element with .no-export.
+    let trimBottom = 0;
+    const skipBottom = target.querySelectorAll('footer, .no-export');
+    skipBottom.forEach(el => {
+      const er = el.getBoundingClientRect();
+      // include its margin-top (typical 24px), capped so we don't over-trim
+      const marginTop = Math.min(parseFloat(getComputedStyle(el).marginTop) || 0, 48);
+      trimBottom += er.height + marginTop;
+    });
     return {
       x: Math.max(0, r.left + window.scrollX - pad),
       y: Math.max(0, r.top  + window.scrollY - pad),
-      width:  r.width  + pad * 2,
-      height: r.height + pad * 2,
+      width:  r.width + pad * 2,
+      height: Math.max(0, r.height - trimBottom) + pad * 2,
     };
   }
 
@@ -60,7 +70,11 @@
     return window.html2canvas(document.body, {
       scale: 2,
       x: rect.x, y: rect.y, width: rect.width, height: rect.height,
-      ignoreElements: el => el.classList?.contains('toolbar'),
+      // Skip the floating toolbar AND the page footer / opt-out class.
+      ignoreElements: el =>
+        el.classList?.contains('toolbar') ||
+        el.tagName === 'FOOTER' ||
+        el.classList?.contains('no-export'),
       backgroundColor: getComputedStyle(document.body).backgroundColor,
     });
   }
