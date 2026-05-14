@@ -35,8 +35,11 @@
   const siteId = docEl.dataset.siteId || null;
   const siteStoreKey = siteId ? 'ai-draw-site-theme:' + siteId : null;
 
-  let currentTheme = (document.getElementById('theme-link')?.href.match(/themes\/([^.]+)\.css/) || [])[1]
-                  || recommended[0] || 'tech-dark';
+  // Theme link path looks like: .../assets/themes-diagram/tech-dark.css OR .../assets/themes-ppt/tokyo-night.css
+  // Capture both catalog (diagram|ppt) and theme name.
+  const themeMatch = document.getElementById('theme-link')?.href.match(/themes-(diagram|ppt)\/([^/.]+)\.css/);
+  const themeCatalog = themeMatch ? themeMatch[1] : 'diagram';  // default to diagram for v0.1/v0.2 compat
+  let currentTheme = (themeMatch && themeMatch[2]) || recommended[0] || 'tech-dark';
 
   // On load, if this page belongs to a site and another page already chose a theme,
   // adopt that theme so the user's choice persists across navigation.
@@ -51,10 +54,13 @@
   }
 
   function applyTheme(name) {
-    if (!ALL_THEMES.includes(name)) return;
+    // ALL_THEMES is the diagram catalog (8). PPT mode pages cycle through themes-ppt/
+    // and we don't validate against a hardcoded list — task 52 will introduce a fuller mechanism.
+    if (themeCatalog === 'diagram' && !ALL_THEMES.includes(name)) return;
     const link = document.getElementById('theme-link');
     if (!link) return;
-    const base = link.href.replace(/themes\/[^.]+\.css.*$/, 'themes/');
+    // Preserve the catalog (themes-diagram/ or themes-ppt/) when swapping the theme name
+    const base = link.href.replace(/themes-(diagram|ppt)\/[^/.]+\.css.*$/, 'themes-' + themeCatalog + '/');
     link.href = base + name + '.css';
     currentTheme = name;
     docEl.dataset.theme = name;

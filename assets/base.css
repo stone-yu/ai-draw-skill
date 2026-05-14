@@ -1,5 +1,5 @@
 /* assets/base.css — CSS token system. All visual properties resolve through these vars.
-   Theme files in assets/themes/ override these values; nothing else should. */
+   Theme files in assets/themes-diagram/ override these values; nothing else should. */
 
 :root {
   /* Backgrounds */

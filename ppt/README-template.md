@@ -31,7 +31,7 @@ open index.html
 Edit `index.html` and change the `id="theme-link"` href:
 
 ```html
-<link rel="stylesheet" id="theme-link" href="https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@v0.1.0/assets/themes/blueprint.css">
+<link rel="stylesheet" id="theme-link" href="https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@v0.1.0/assets/themes-diagram/blueprint.css">
 ```
 
 Available themes: `tech-dark`, `blueprint`, `business-clean`, `xhs-soft`, `cyberpunk-neon`, `minimal-light`, `academic-paper`, `hand-drawn`.

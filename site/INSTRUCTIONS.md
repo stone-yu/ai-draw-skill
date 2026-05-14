@@ -221,7 +221,7 @@ After each batch of subagents completes:
 <head>
   <meta charset="utf-8">
   <title>[STUB] <PAGE_TITLE></title>
-  <link rel="stylesheet" href="<ASSET_PREFIX>/assets/themes/<THEME>.css" id="theme-link">
+  <link rel="stylesheet" href="<ASSET_PREFIX>/assets/themes-diagram/<THEME>.css" id="theme-link">
 </head>
 <body style="padding:40px;font-family:monospace;">
   <h1 style="color:var(--text-1);">[生成失败] <PAGE_TITLE></h1>
