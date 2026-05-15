@@ -4,7 +4,7 @@
 
 [English](#english) | 中文（当前）
 
-跨平台 Agent Skill（Claude Code / Copilot CLI / Gemini CLI / Codex），无需提示词，直接描述文字、文章全文、链接地址、图片、pdf等任意需求格式，即可生成html格式渲染图或PPT，多种主题可选择，效果惊艳，切HTML方便修改和调整，效果示例可参考下方各个主题对应的示例图。**两大模式**，按需选择：
+跨平台 Agent Skill（Claude Code / Copilot CLI / Gemini CLI / Codex 等），无需提示词，直接描述文字、文章全文、链接地址、图片、pdf等任意需求格式，即可生成html格式渲染图或PPT，多种主题可选择，效果惊艳，且HTML方便修改和调整，效果示例可参考下方各个主题对应的示例图。**两大模式**，按需选择：
 
 
 | 模式 | 用途 | 触发关键词 |
