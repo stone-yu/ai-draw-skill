@@ -276,7 +276,7 @@ MIT.
 
 [中文](#top) | English (current)
 
-A cross-platform Agent Skill (Claude Code / Copilot CLI / Gemini CLI / Codex) with **two equal top-level modes** — pick whichever fits your need:
+A cross-platform Agent Skill (Claude Code / Copilot CLI / Gemini CLI / Codex). No prompting required — just describe your request in any format (text, article, URL, image, PDF, etc.) and get a rendered HTML diagram or HTML presentation, with multiple themes to choose from. **Two modes**, pick whichever fits your need:
 
 ```
 /ai-draw <your request (text | image | article | URL | PDF, etc.)>
@@ -308,10 +308,10 @@ Ambiguous request? `/ai-draw` asks once which mode you want — never silently g
 → Asks (1) audience + slide count, (2) recommends 3 PPT themes, (3) recommends `product-launch` full-deck template. Scaffolds the deck with speaker notes, auto-opens.
 
 ```
-/ai-draw --mode site docs/system-overview.md
+/ai-draw docs/system-overview.md
 ```
 
-→ Reads Markdown heading tree, generates `index.html` (top-level architecture) + one subpage per H2 (recursively for deeper headings). Components are linked with `↗`; breadcrumb on every subpage; theme syncs across all pages via localStorage.
+→ Reads Markdown headings and content summary, generates `index.html` (top-level architecture) + one subpage per H2 (recursively for deeper headings). Components are linked with `↗`; breadcrumb on every subpage; theme syncs across all pages via localStorage.
 
 **Forcing a mode:**
 
@@ -321,7 +321,7 @@ Ambiguous request? `/ai-draw` asks once which mode you want — never silently g
 /ai-draw --mode site docs/<file>.md
 ```
 
-> Don't want to remember flags? Just use `/ai-draw <request>` — the skill will recommend a mode and ask you to confirm.
+> Don't want to remember flags? Just use `/ai-draw <request>` — the skill will recommend a mode and automatically generate the HTML diagram or HTML presentation.
 
 ---
 
