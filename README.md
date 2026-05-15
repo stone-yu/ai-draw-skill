@@ -4,24 +4,27 @@
 
 [English](#english) | 中文（当前）
 
-跨平台 Agent Skill（Claude Code / Copilot CLI / Gemini CLI / Codex），**两大顶级模式**，按需选择：
+跨平台 Agent Skill（Claude Code / Copilot CLI / Gemini CLI / Codex），无需提示词，直接描述文字、文章全文、链接地址、图片、pdf等任意需求格式，即可生成html格式渲染图或PPT，多种主题可选择，效果惊艳，可参考下方各个主题示例图。**两大模式**，按需选择：
 
-```
-/ai-draw <需求（文字 | 图片 | 文章 | 链接 | PDF 等）>
-```
 
 | 模式 | 用途 | 触发关键词 |
 |---|---|---|
 | ▤ **PPT模式** | 多页 HTML 演讲稿，含演讲者模式 | 演讲 / 分享 / PPT / deck / 周报 / 课件 / 小红书图文 / `--mode ppt` |
 | ◈ **画图模式** | 单页或多页架构图 / 流程图等 | 画 / 画图 / 架构图 / 流程图 / 时序图 / `--mode single` / `--mode site` |
 
-请求模糊时，`/ai-draw` 只会问一次你想用哪种模式，不会静默猜测。
+请求模糊时，`/ai-draw` 会询问你想用哪种模式，不会静默猜测。
 
 ---
 
 ## 快速开始
 
 **无需提示词——直接描述需求即可。**
+
+```
+/ai-draw <需求（文字 | 图片 | 文章 | 链接 | PDF 等）>
+```
+
+**使用示例**
 
 ```
 /ai-draw 帮我画一个三层电商架构（接入层/服务层/数据层），内部技术分享用
@@ -36,10 +39,10 @@
 → 询问（1）受众 + 页数，（2）推荐 3 种 PPT 主题，（3）推荐 `product-launch` 全套模板，生成演讲稿并写入逐字稿，自动打开。
 
 ```
-/ai-draw --mode site docs/system-overview.md
+/ai-draw docs/system-overview.md
 ```
 
-→ 读取 Markdown 标题树，生成 `index.html`（顶层架构）+ 每个 H2 对应一个子页，组件可点击 `↗` 钻取，所有页面主题通过 localStorage 同步。
+→ 读取 Markdown 标题树和内容概括，生成 `index.html`（顶层架构）+ 每个 H2 对应一个子页，组件可点击 `↗` 钻取，所有页面主题通过 localStorage 同步。
 
 **强制指定模式：**
 
@@ -49,7 +52,7 @@
 /ai-draw --mode site docs/<file>.md
 ```
 
-> 不想记命令参数？直接 `/ai-draw <需求>` 即可，skill 会根据需求推荐模式并询问确认。
+> 不想记命令参数？直接 `/ai-draw <需求>` 即可，skill 会根据需求推荐模式自动生成HTML图片或HTML PPT。
 
 ---
 
