@@ -67,17 +67,30 @@
    </footer>
    ```
 
-   **b. 4 个脚本（在 `</body>` 之前，按下列顺序）** — 缺一个右上角 `⋯ → 🖼️ PNG / 📋 Copy / 📄 PDF` 工具栏会报 `html2canvas not loaded`：
+   **b. CSS + 脚本（全 CDN 引用，**不要**用 `../../assets/` 相对路径——用户产物在任意 cwd，相对路径会 404）**：
+
    ```html
+   <!-- in <head> -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@main/assets/base.css">
+   <link rel="stylesheet" id="theme-link" href="https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@main/assets/themes-diagram/<theme>.css">
+
+   <!-- before </body>, in this order — exporter.js depends on first two CDN scripts -->
    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"
            integrity="sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H" crossorigin="anonymous"></script>
    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"
            integrity="sha384-en/ztfPSRkGfME4KIm05joYXynqzUgbsG5nMrj/xEFAHXkeZfO3yMK8QQ+mP7p1/" crossorigin="anonymous"></script>
-   <script src="../../assets/runtime.js"></script>     <!-- T/F 键 + theme cycle + mermaid bridge -->
-   <script src="../../assets/exporter.js"></script>    <!-- ⋯ 工具栏（PNG/PDF/Copy） -->
+   <script src="https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@main/assets/runtime.js"></script>      <!-- T/F 键 + theme cycle + mermaid bridge -->
+   <script src="https://cdn.jsdelivr.net/gh/stone-yu/ai-draw-skill@main/assets/exporter.js"></script>     <!-- ⋯ 工具栏（PNG/PDF/Copy） -->
    ```
 
-   PPT 模式：`runtime.js` 换 `runtime-ppt.js`；footer 文案里 `<kbd>T</kbd>` 之外可加 `<kbd>S</kbd>` 演讲者模式。
+   PPT 模式差异：
+   - `themes-diagram/<theme>.css` → `themes-ppt/<theme>.css`
+   - `base.css` → `base-ppt.css`
+   - `runtime.js` → `runtime-ppt.js`
+   - 全 deck 模板还需 `assets/fonts.css` + `assets/animations/animations.css`（也走同样的 CDN 前缀）
+   - footer 可加 `<kbd>S</kbd>` 演讲者模式提示
+
+   **历史警示**：之前模板用 `../../assets/X` 相对路径——只在产物在 skill 仓库内才解析正确，用户在 `~/Downloads/` 等任意 cwd 生成的 HTML 会 404 base.css，导致样式部分丢失。2026-05-15 起所有模板已切 CDN。
 6. 写入 `index.html` 和 `README.md`
 7. 更新 `./ai-draw-out/.ai-draw-state.json`（type: "single"）
 8. **自动打开**（默认行为）：
