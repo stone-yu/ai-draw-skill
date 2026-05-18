@@ -7,6 +7,16 @@
 # Note: examples reference assets via ../../../assets/, so the swapped HTML
 # must be rendered IN the example's original directory (not in test-output/)
 # for relative paths to resolve. The work file is then cleaned up after.
+#
+# Known limitation — markmap (mindmap diagrams) in headless Chrome:
+#   Some theme×mindmap combos render an empty SVG even at 15s virtual-time-
+#   budget. The same HTML opens correctly in a real browser. This appears
+#   to be a Chrome-headless + D3 transition + CSS-token interaction quirk,
+#   not a real bug. backend-evolution.png will be ~50KB (empty) for some
+#   themes and ~200-470KB (full) for others. Don't treat partial mindmap
+#   failures as a release blocker — verify mindmaps manually in a real
+#   browser instead. Architecture / flowchart / sequence / class / ER /
+#   knowledge-graph all render reliably in headless.
 
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
