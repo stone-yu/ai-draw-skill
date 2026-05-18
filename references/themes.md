@@ -14,10 +14,10 @@ v0.3 起，主题分为两套独立目录：
 
 | 用户语气 / 关键词（中 + EN） | ① ⭐ | ② | ③ |
 |---|---|---|---|
-| 技术分享 / 内部分享 / 架构 / 微服务 / tech share / engineering | tech-dark | linear-mode | blueprint |
-| Linear 风 / 现代产品 / 系统架构 / 文档 / 紫蓝暗色 | linear-mode | tech-dark | blueprint |
+| 技术分享 / 内部分享 / 架构 / 微服务 / tech share / engineering | glassmorphism | tech-dark | blueprint |
+| Linear 风 / 现代产品 / 系统架构 / 文档 / 紫蓝暗色 | saas-modern | tech-dark | linear-mode |
 | 蓝图 / 工程图 / blueprint / CI/CD / pipeline | blueprint | tech-dark | minimal-light |
-| 客户汇报 / 商务 / 对外 / formal / 董事会 / executive | business-clean | saas-modern | glassmorphism |
+| 客户汇报 / 商务 / 对外 / formal / 董事会 / executive | business-clean | glassmorphism | saas-modern |
 | SaaS / 产品页 / 营销信息图 / 平台介绍 / GPT image 风 / 商务渐变 | saas-modern | glassmorphism | business-clean |
 | iOS / Apple 风 / 毛玻璃 / 苹果发布会 / glass / 高端发布 | glassmorphism | saas-modern | xhs-soft |
 | 小红书 / 分享卡片 / xhs / 卡片风 / soft / 温暖 | xhs-soft | saas-modern | hand-drawn |
@@ -26,7 +26,7 @@ v0.3 起，主题分为两套独立目录：
 | 极简 / minimal / 白底 / 性冷淡 / clean | minimal-light | academic-paper | business-clean |
 | 学术 / 论文 / 报告 / academic / paper / conference | academic-paper | minimal-light | business-clean |
 | 草稿 / 手绘 / sketch / 白板 / wireframe / brainstorm | hand-drawn | minimal-light | xhs-soft |
-| **其他 / 无明显匹配（fallback）** | tech-dark | glassmorphism | saas-modern |
+| **其他 / 无明显匹配（fallback）** | glassmorphism | glassmorphism | tech-dark |
 
 ### 画图主题一句话描述
 
