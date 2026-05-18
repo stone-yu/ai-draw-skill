@@ -4,6 +4,10 @@
 
 [English](#english) | 中文（当前）
 
+<a href="https://github.com/stone-yu/ai-draw-skill">
+  <img src="docs/star-banner.png" alt="If you like this project, please give it a star! 如果你喜欢这个项目，请给我们一个 Star" width="100%">
+</a>
+
 跨平台 Agent Skill（Claude Code / Copilot CLI / Gemini CLI / Codex 等），无需提示词，直接描述文字、文章全文、链接地址、图片、pdf等任意需求格式，即可生成html格式渲染图或PPT，多种主题可选择，效果惊艳，且HTML方便修改和调整，效果示例可参考下方各个主题对应的示例图。**两大模式**，按需选择：
 
 
