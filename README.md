@@ -198,6 +198,7 @@ git clone https://github.com/stone-yu/ai-draw-skill.git <gemini-skills-dir>/ai-d
 | `/ai-draw add --to <site> --under <parent> <component>` | 追加钻取子页 |
 | `/ai-draw export png` | 将最近生成物渲染为 PNG |
 | `/ai-draw list` | 显示 `./ai-draw-out/` 中所有生成物 |
+| `/ai-draw list-themes [--mode diagram\|ppt] [--json]` | 列出全部可用主题及描述 |
 
 **默认自动打开。** 每次生成、`add`、`redo` 都会通过 `scripts/open.sh` 在默认浏览器中打开文件。禁用：单次加 `--no-open`，或设置环境变量 `AI_DRAW_NO_OPEN=1`。
 
@@ -495,6 +496,7 @@ No native Skill loader. Concatenate `SKILL.md` into your agent's system prompt a
 | `/ai-draw add --to <site> --under <parent> <component>` | Append drill-down subpage |
 | `/ai-draw export png` | Render most-recent output to PNG (per-page for sites) |
 | `/ai-draw list` | Show all outputs in `./ai-draw-out/` |
+| `/ai-draw list-themes [--mode diagram\|ppt] [--json]` | List all available themes with descriptions |
 
 **Auto-open by default.** Every generation, `add`, and `redo` opens the result in your default browser via `scripts/open.sh`. To disable: `--no-open` per command, or `AI_DRAW_NO_OPEN=1` in your environment.
 
