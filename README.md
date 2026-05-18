@@ -246,6 +246,17 @@ ai-draw-out/
 ```bash
 ./scripts/check-themes.sh    # 确认每个画图主题都覆盖了所有 base.css token
 ./scripts/render-all.sh      # 渲染所有示例 × 所有主题到 test-output/
+./scripts/list-themes.sh     # 列出全部主题 + 一句话描述
+```
+
+### 列出主题
+
+```bash
+./scripts/list-themes.sh                  # 全部（12 画图 + 36 PPT）
+./scripts/list-themes.sh --mode diagram   # 只看 12 个画图主题
+./scripts/list-themes.sh --mode ppt       # 只看 36 个 PPT 主题
+./scripts/list-themes.sh --json           # 机器可读 JSON
+./scripts/list-themes.sh --mode ppt | grep -i pitch   # 搜索
 ```
 
 ### Git pre-push 钩子（可选）
@@ -532,6 +543,17 @@ Add `.ai-draw-out/` to your `.gitignore` — we don't write any git config for y
 ```bash
 ./scripts/check-themes.sh    # confirm every diagram theme overrides every base.css token
 ./scripts/render-all.sh      # render every example × every theme to test-output/
+./scripts/list-themes.sh     # list all available themes with one-line descriptions
+```
+
+### Listing themes
+
+```bash
+./scripts/list-themes.sh                  # all (12 diagram + 36 PPT)
+./scripts/list-themes.sh --mode diagram   # only the 12 diagram themes
+./scripts/list-themes.sh --mode ppt       # only the 36 PPT themes
+./scripts/list-themes.sh --json           # machine-readable JSON
+./scripts/list-themes.sh --mode ppt | grep -i pitch   # search
 ```
 
 ### Optional git pre-push hook
