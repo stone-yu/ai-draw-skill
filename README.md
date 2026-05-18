@@ -244,6 +244,22 @@ ai-draw-out/
 ./scripts/render-all.sh      # 渲染所有示例 × 所有主题到 test-output/
 ```
 
+### Git pre-push 钩子（可选）
+
+一行命令把上面两个检查接到 `git push` 上：
+
+```bash
+bash scripts/install-hooks.sh
+```
+
+启用后每次 push：
+- **总是**跑 `check-themes.sh`（约 1 秒，token 不完整就拦下）
+- 当 commit 改了 `diagrams/*/template.html`、`assets/themes-diagram/*`、`base.css`、`runtime.js`、`exporter.js` 或 render 脚本，**且 push 到 main 时**，自动跑 `render-all.sh`（约 15-25 分钟），质量门：每个非 mindmap 示例必须 ≥70% 主题渲出非空 PNG，否则阻断
+
+紧急情况绕过：`git push --no-verify`。
+
+卸载：`git config --unset core.hooksPath`。
+
 ---
 
 ## 相关项目
@@ -513,6 +529,22 @@ Add `.ai-draw-out/` to your `.gitignore` — we don't write any git config for y
 ./scripts/check-themes.sh    # confirm every diagram theme overrides every base.css token
 ./scripts/render-all.sh      # render every example × every theme to test-output/
 ```
+
+### Optional git pre-push hook
+
+Wire both checks into `git push` with one command:
+
+```bash
+bash scripts/install-hooks.sh
+```
+
+After install, every push:
+- **Always** runs `check-themes.sh` (~1s, blocks if any theme misses a token).
+- When the commit touches `diagrams/*/template.html`, `assets/themes-diagram/*`, `base.css`, `runtime.js`, `exporter.js`, or render scripts, **AND you're pushing to main**, auto-runs `render-all.sh` (~15-25 min) with a quality gate: each non-mindmap example must have ≥70% of themes rendering a non-empty PNG, else the push is blocked.
+
+Emergency bypass: `git push --no-verify`.
+
+Uninstall: `git config --unset core.hooksPath`.
 
 ---
 

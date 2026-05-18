@@ -1,0 +1,141 @@
+#!/usr/bin/env bash
+# scripts/git-hooks/pre-push — quality gate for ai-draw before pushing.
+#
+# Install (one-time, per clone): bash scripts/install-hooks.sh
+# Bypass (per-push, when you know what you're doing): git push --no-verify
+#
+# Behavior:
+#   1. ALWAYS run check-themes.sh (~1s) — block push if any theme is missing
+#      a required CSS token. This catches the "added a theme but forgot to
+#      override --shadow / --grid / etc." class of bug instantly.
+#
+#   2. If commits being pushed modify TEMPLATES / THEMES / RENDER SCRIPTS,
+#      AND pushing to main, run render-all.sh (~15-25 min). Quality gate:
+#      each non-mindmap example must have >70% of theme renders ≥80KB
+#      (empty PNGs are ~50KB title+footer only).
+#
+#   3. If templates changed but not pushing to main: warn + skip render-all.
+#      Encourages running it manually before merging the feature branch.
+#
+# Mindmap (backend-evolution.html) is exempt from the render-all gate
+# because of a documented Chrome-headless flakiness — see render-all.sh
+# header. Mindmap regressions need manual eyeball verification in a real
+# browser.
+
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+remote="${1:-origin}"
+remote_url="${2:-}"
+
+# ─────────────────────────────────────────────────────────────
+# 1. Theme token coverage check (always, blocking, ~1s)
+# ─────────────────────────────────────────────────────────────
+echo "🎨 pre-push: validating theme token coverage..."
+if ! bash "$ROOT/scripts/check-themes.sh" >/dev/null 2>&1; then
+  echo ""
+  bash "$ROOT/scripts/check-themes.sh"   # re-run to surface errors
+  echo ""
+  echo "❌ Theme validation failed — fix above before pushing."
+  echo "   Bypass (not recommended): git push --no-verify"
+  exit 1
+fi
+echo "✅ All themes pass token check"
+
+# ─────────────────────────────────────────────────────────────
+# 2. Detect what changed in commits being pushed
+# ─────────────────────────────────────────────────────────────
+ZERO="0000000000000000000000000000000000000000"
+changed_files=""
+pushing_to_main=0
+
+while read local_ref local_sha remote_ref remote_sha; do
+  if [ "$local_sha" = "$ZERO" ]; then continue; fi  # branch deletion
+  case "$remote_ref" in
+    refs/heads/main|refs/heads/master) pushing_to_main=1 ;;
+  esac
+  if [ "$remote_sha" = "$ZERO" ]; then
+    # New branch — diff against repo's main if reachable, else just list new commits
+    base=$(git merge-base "$local_sha" origin/main 2>/dev/null || echo "")
+    range="${base:+$base..}$local_sha"
+  else
+    range="$remote_sha..$local_sha"
+  fi
+  files=$(git diff --name-only $range 2>/dev/null || true)
+  changed_files="$changed_files
+$files"
+done
+
+# Render-relevant changes: templates, themes, base.css/runtime/exporter, render scripts
+templates_changed=0
+if echo "$changed_files" | grep -qE "(diagrams/[^/]+/template\.html|diagrams/[^/]+/examples/|assets/themes-diagram/|assets/base\.css|assets/runtime\.js|assets/exporter\.js|scripts/render)"; then
+  templates_changed=1
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 3. render-all on main pushes that touched render-relevant files
+# ─────────────────────────────────────────────────────────────
+if [ "$templates_changed" = "0" ]; then
+  exit 0   # nothing render-relevant changed; we're done
+fi
+
+if [ "$pushing_to_main" = "0" ]; then
+  echo ""
+  echo "⚠️  Templates / themes / render scripts changed but not pushing to main."
+  echo "   Skipping render-all (would be ~15-25 min). Run manually before merge:"
+  echo "       bash scripts/render-all.sh"
+  exit 0
+fi
+
+echo ""
+echo "🎨 Templates / themes changed AND pushing to main."
+echo "   Running render-all.sh (10 examples × 12 themes = 120 renders, ~15-25 min)."
+echo "   Bypass: git push --no-verify"
+echo ""
+
+rm -rf "$ROOT/test-output"
+if ! bash "$ROOT/scripts/render-all.sh" 2>&1 | tail -20; then
+  echo ""
+  echo "❌ render-all.sh exited non-zero."
+  echo "   Bypass: git push --no-verify"
+  exit 1
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 4. Quality gate: empty-PNG percentage per example
+# ─────────────────────────────────────────────────────────────
+THRESHOLD_KB=80          # PNGs smaller than this are "empty" (title+footer only)
+MAX_EMPTY_PCT=30         # block if more than 30% themes empty for one example
+MINDMAP_EXEMPT="backend-evolution"
+
+cd "$ROOT/test-output"
+failures=0
+for dir in */; do
+  name="${dir%/}"
+  if [ "$name" = "$MINDMAP_EXEMPT" ]; then continue; fi
+
+  total=0; empty=0
+  for png in "$dir"*.png; do
+    [ -f "$png" ] || continue
+    total=$((total + 1))
+    size_kb=$(($(stat -f %z "$png" 2>/dev/null || stat -c %s "$png") / 1024))
+    if [ "$size_kb" -lt "$THRESHOLD_KB" ]; then empty=$((empty + 1)); fi
+  done
+
+  if [ "$total" -eq 0 ]; then continue; fi
+  pct=$((empty * 100 / total))
+  if [ "$pct" -gt "$MAX_EMPTY_PCT" ]; then
+    echo "❌ $name: $empty/$total themes rendered empty (${pct}%, >${MAX_EMPTY_PCT}% threshold)"
+    failures=$((failures + 1))
+  fi
+done
+
+if [ "$failures" -gt 0 ]; then
+  echo ""
+  echo "❌ Push blocked: $failures example(s) regressed."
+  echo "   Inspect test-output/<name>/<theme>.png to debug."
+  echo "   If renders look fine in real browser (mindmap quirks etc), bypass: git push --no-verify"
+  exit 1
+fi
+
+echo "✅ All non-mindmap examples render properly across themes — proceeding with push"
+exit 0
