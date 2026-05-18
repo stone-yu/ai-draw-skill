@@ -26,7 +26,7 @@ v0.3 起，主题分为两套独立目录：
 | 极简 / minimal / 白底 / 性冷淡 / clean | minimal-light | academic-paper | business-clean |
 | 学术 / 论文 / 报告 / academic / paper / conference | academic-paper | minimal-light | business-clean |
 | 草稿 / 手绘 / sketch / 白板 / wireframe / brainstorm | hand-drawn | minimal-light | xhs-soft |
-| **其他 / 无明显匹配（fallback）** | glassmorphism | glassmorphism | tech-dark |
+| **其他 / 无明显匹配（fallback）** | glassmorphism | saas-modern | tech-dark |
 
 ### 画图主题一句话描述
 
